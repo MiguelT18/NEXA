@@ -1,1 +1,1 @@
-# Archivo de la estrategia del bot
+# Archivo de la estrategia del bo
