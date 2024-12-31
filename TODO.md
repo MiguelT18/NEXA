@@ -14,6 +14,11 @@
 
 ## Tareas completadas:
 - [✔] Organizar la estructura de la aplicación
+- [✔] Crear la base de datos
+- [✔] Conexion con la base de datos
+- [✔] Registrar datos del usuario
+- [✔] Iniciar sesión en la aplicación
+- [✔] Crear la vista de iniciar sesión
 
 
 
