@@ -120,7 +120,7 @@ h6 {
   transition: all 0.5s;
   z-index: 997;
   transition: all 0.5s;
-  background: rgba(1, 4, 136, 0.9);
+  background: rgba(20, 144, 111, 0.9);
 }
 
 #header.header-transparent {
@@ -128,7 +128,7 @@ h6 {
 }
 
 #header.header-scrolled {
-  background: rgba(1, 4, 136, 0.9);
+  background: rgba(11, 142, 92, 0.9);
   height: 60px;
 }
 
@@ -419,7 +419,7 @@ h6 {
 
 #hero:before {
   content: "";
-  background: rgba(2, 5, 161, 0.91);
+  background: rgba(42, 192, 120, 0.91);
   position: absolute;
   bottom: 0;
   top: 0;
@@ -1491,7 +1491,7 @@ section {
 # Footer
 --------------------------------------------------------------*/
 #footer {
-  background: #010351;
+  background: #17a367;
   padding: 0 0 30px 0;
   color: #fff;
   font-size: 14px;
@@ -1503,7 +1503,7 @@ section {
 
 #footer .footer-top .footer-info {
   margin-bottom: 15px;
-  background: #010246;
+  background: #17a367;
   color: #fff;
   border-top: 4px solid #1acc8d;
   text-align: center;
