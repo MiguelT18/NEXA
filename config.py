@@ -4,7 +4,7 @@ DEBUG = True
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # Configuración de MySQL
-SQLALCHEMY_DATABASE_URI = 'mysql://root:Univalle@localhost/dbbot'
+SQLALCHEMY_DATABASE_URI = 'mysql://root:2025@192.168.59.26/dbbot'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 DATABASE_CONNECT_OPTIONS = {}
 
