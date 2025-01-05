@@ -1,6 +1,9 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file
 from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+from flask_migrate import Migrate
 import pickle
 import pandas as pd
 import MySQLdb.cursors
@@ -11,9 +14,6 @@ import random
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
-from flask_migrate import Migrate
 import pymysql
 import secrets
 from datetime import datetime
