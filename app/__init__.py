@@ -1,13 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file
-from flask_mysqldb import MySQL
-import pickle
 import pandas as pd
-import MySQLdb.cursors
-import bcrypt
-import string
-import re
-import random
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -16,13 +9,6 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 import pymysql
 import secrets
-from datetime import datetime
-import seaborn as sns
-import matplotlib.pyplot as plt
-from io import BytesIO
-import base64
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -140,6 +126,6 @@ def contact_information():
 def index():
     return render_template('index.html')
 
-from app.mod_auth import auth_blueprint
+from app.mod_auth.controllers import auth_blueprint
 
 app.register_blueprint(auth_blueprint, url_prefix='/auth')

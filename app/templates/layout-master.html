@@ -230,7 +230,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="/profile_view">
+              <a class="dropdown-item d-flex align-items-center" href="{{ url_for('profile_view') }}">
                 <i class="bx bx-user"></i>
                 <span>My Profile</span>
               </a>
@@ -240,7 +240,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="/profile_view">
+              <a class="dropdown-item d-flex align-items-center" href="{{ url_for('contact_view') }}">
                 <i class="bx bx-cog"></i>
                 <span>Account Settings</span>
               </a>
@@ -250,7 +250,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="/faq_view">
+              <a class="dropdown-item d-flex align-items-center" href="{{ url_for('faq_view') }}">
                 <i class="bx bx-help-circle"></i>
                 <span>Need Help?</span>
               </a>
@@ -326,7 +326,7 @@
             </a>
           </li>
           <li>
-            <a href="/list_users">
+            <a href="{{ url_for('auth.list_users') }}">
               <i class="bx bxs-check-circle"></i><span>List Data</span>
             </a>
           </li>
@@ -414,7 +414,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" id="confirmLogoutButton">Cerrar Sesión</button>
+          <button type="button" class="btn btn-primary" id="confirmLogoutButton" data-logout-url="{{ url_for('auth.logout') }}">Cerrar Sesión</button>
         </div>
       </div>
     </div>
@@ -426,7 +426,8 @@
     }
 
     document.getElementById('confirmLogoutButton').addEventListener('click', function() {
-      window.location.href = "/logout"; // Redirige a la ruta de cierre de sesión
+      var logoutUrl = this.getAttribute('data-logout-url'); // Obtiene la URL desde el atributo de datos
+      window.location.href = logoutUrl; // Redirige a la ruta de cierre de sesión
     });
   </script>
 
