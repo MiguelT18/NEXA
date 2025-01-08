@@ -1,6 +1,7 @@
 import Image from "next/image";
 import HeroImg from "../../public/images/hero-image-01.jpg";
 import * as Icons from "@/icons/index";
+import Link from "next/link";
 
 const iconMap = {
   "robot-wink": Icons.RobotWinkIcon,
@@ -64,7 +65,7 @@ export default function Home() {
           </div>
         </div>
 
-        <Image src={HeroImg} alt="Hero Image" priority={true} />
+        <Image src={HeroImg} alt="Hero Image" priority />
       </section>
 
       <section>
@@ -131,9 +132,9 @@ export default function Home() {
           mercado sintético.
         </p>
 
-        <div>
-          <button>Crear una cuenta</button>
-          <button>Iniciar sesión</button>
+        <div className="[&>a]:inline-block [&>a]:p-4 [&>a]:rounded-lg [&>a]:border">
+          <Link href="/register">Crear una cuenta</Link>
+          <Link href="/login">Iniciar sesión</Link>
         </div>
       </section>
     </main>
