@@ -1,9 +1,18 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# BACKEND
+venv/
+__pycache__/
+.env
+*.pyc
+*.pyo
+*.pyd
 
+# FRONTEND
 # dependencies
 /node_modules
+package-lock.json
 /.pnp
 .pnp.*
+yarn.lock
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
@@ -32,6 +41,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.env.local
 
 # vercel
 .vercel
@@ -39,3 +49,32 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Logs
+*.log
+
+# Temporal files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# IDE and editor files
+.vscode/
+.idea/
+*.iml
+*.sublime-workspace
+*.sublime-project
+
+# Database files
+*.sqlite3
+*.db
+
+# Modelos de lenguaje o entrenamiento
+*.model
+*.h5
+*.pickle
+
+*.code-workspace
+Thumbs.db
