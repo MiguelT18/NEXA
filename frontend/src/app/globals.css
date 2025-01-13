@@ -3,19 +3,29 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    background-color: #09090b;
-    color: #fff;
-  }
+.text-gradient-light {
+  background: linear-gradient(
+    30deg,
+    rgba(23, 163, 75, 1) 0%,
+    rgba(32, 98, 142, 1) 100%
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-@media (prefers-color-scheme: light) {
-  html {
-    background-color: #fff;
-    color: #000;
-  }
+.text-gradient-dark {
+  background: linear-gradient(
+    30deg,
+    rgba(32, 98, 142, 1) 10%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+p {
+  line-height: 30px;
 }

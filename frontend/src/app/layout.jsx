@@ -1,16 +1,7 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import "@fontsource/roboto";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Navbar from "@/components/ui/Navbar";
+import ThemeProvider from "@/hooks/useTheme";
 
 export const metadata = {
   title: "Nexa AI",
@@ -20,11 +11,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-background-dark dark:text-[#f1f1f1] bg-background-light text-black`}
-      >
-        {children}
-        <Navbar />
+      <body className="antialiased dark:bg-dark-background dark:text-white bg-white text-dark-gray">
+        <ThemeProvider>
+          <Navbar />
+          <main className="container mx-auto px-4 max-md:pt-4 pt-14 pb-8 max-md:pb-24">
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );

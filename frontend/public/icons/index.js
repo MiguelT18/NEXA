@@ -8,6 +8,8 @@ import StatsIcon from "./stats";
 import PadlockIcon from "./padlock";
 import ThunderIcon from "./thunder";
 import ProcessorIcon from "./processor";
+import ArrowIcon from "./arrow";
+import TriangleArrowIcon from "./triangleArrow";
 
 export {
   ProcessorIcon,
@@ -20,4 +22,6 @@ export {
   SunRisingIcon,
   MenuIcon,
   UserIcon,
+  ArrowIcon,
+  TriangleArrowIcon,
 };
