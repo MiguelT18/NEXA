@@ -37,3 +37,6 @@ STATIC_FOLDER = '/static'
 
 # Carpeta de archivos dentro de la carpeta estática. Utilizada para almacenar archivos subidos por los usuarios u otros archivos necesarios.
 FILES_FOLDER = os.path.join(STATIC_FOLDER, 'files')
+
+# Ruta para guardar las imágenes de perfil de los usuarios.
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'img')

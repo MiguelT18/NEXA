@@ -1,10 +1,19 @@
 from . import auth_blueprint
-from flask import Blueprint, request, render_template, flash, redirect, url_for, session
+from flask import Blueprint, request, render_template, flash, redirect, url_for, session, current_app as app
 from app import db
 from app.mod_auth.models import User
 import random
 import bcrypt
 from datetime import datetime
+from werkzeug.utils import secure_filename
+import os
+from PIL import Image
+import io
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @auth_blueprint.route('/list_users', methods=['GET'])
 def list_users():
@@ -30,8 +39,8 @@ def add_user():
         if request.method == 'POST':
             random_number = random.randint(1000, 9999)
             name = request.form['name']
-            last_name = request.form['lastName']
-            username = name.lower() + '_' + last_name.lower() + str(random_number)
+            last_name = request.form['lastName'].split()[0]
+            username = last_name.lower() + str(random_number)
             email = request.form['email']
             password = request.form['password']
             repeat_password = request.form['repeatPassword']
@@ -167,14 +176,15 @@ def login_send():
                     session['name'] = user.name
                     session['username'] = user.username
                     session['status'] = user.status
-                    session['lastName'] = user.last_name
+                    session['last_name'] = user.last_name
+                    session['user_id'] = user.id
                     return render_template('index.html')
                 else:
                     flash('La contraseña es incorrecta', 'info')
                     return redirect(url_for('auth.login_view'))
             else:
                 flash('No existe el usuario', 'info')
-                return render_template('pages-error-404.html')
+                return redirect(url_for('auth.login_view'))
 
     except Exception as e:
         flash(f'Informacion del error: {str(e)}')
@@ -203,3 +213,43 @@ def register_view():
     Muestra la página de registro de usuarios.
     """
     return render_template('pages-register.html')
+
+@auth_blueprint.route('/update_user_with_photo/<id>', methods=['POST'])
+def update_user_with_photo(id):
+    """
+    Actualiza la información y la foto de perfil de un usuario específico.
+    """
+    try:
+        user = User.query.get(id)
+        if user:
+            # Actualizar datos del usuario según los campos del formulario
+            user.name = request.form['name']
+            user.last_name = request.form['lastName']
+            user.email = request.form['email']
+            user.username = request.form['username']
+
+            # Manejar la actualización de la foto
+            photo = request.files.get('photo')
+            if photo and allowed_file(photo.filename):
+                # Convertir la imagen a PNG
+                image = Image.open(photo.stream)
+                filename = f"{user.username}.png"  # Construir el nombre del archivo en formato PNG
+                photo_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                image.save(photo_path, format='PNG')
+                user.photo = 1  # Indica que la foto existe
+            else:
+                user.photo = 0  # No hay foto o el archivo no es permitido
+
+            # Actualizar la fecha de modificación del usuario
+            user.date_modified = datetime.datetime.now()  # Actualizar con la fecha y hora actuales
+
+            db.session.commit()
+            flash('Perfil actualizado con éxito.', 'info')
+        else:
+            flash('Usuario no encontrado.', 'error')
+            return render_template('users-profile.html')
+
+        return redirect(url_for('auth.list_users'))
+    except Exception as e:
+        flash(f'Error al actualizar el perfil: {str(e)}', 'error')
+        return render_template('users-profile.html', user=user)

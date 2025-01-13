@@ -205,12 +205,12 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="{{ url_for('static', filename='img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
+            <img src="{{ url_for('static', filename='img/' + (session['username'] + '.png') if session.get('photo') == 1 else 'img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
             {% if session['username'] %}
             <span class="d-none d-md-block dropdown-toggle ps-2">{{ session['username'] }}</span>
             {% else %}
             {% endif %}
-          </a><!-- End Profile Iamge Icon -->
+          </a><!-- End Profile Image Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
@@ -407,14 +407,34 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="logoutModalLabel">Confirmar Cierre de Sesión</h5>
+          <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
         </div>
         <div class="modal-body">
-          ¿Estás seguro de que deseas cerrar sesión?
+          Are you sure you want to log out, {{ session['name'] }} {{ session['last_name'] }}?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" id="confirmLogoutButton" data-logout-url="{{ url_for('auth.logout') }}">Cerrar Sesión</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="$('#logoutModal').modal('hide')">Cancel</button>
+          <button type="button" class="btn btn-outline-primary" id="confirmLogoutButton" data-logout-url="{{ url_for('auth.logout') }}">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Bienvenida -->
+  <div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="welcomeModalLabel">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="" style="height: 30px; margin-right: 10px;">
+            NEXA
+          </h5>
+        </div>
+        <div class="modal-body">
+          Hello, welcome {{ session['name'] }} {{ session['last_name'] }}!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -435,6 +455,15 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Script para mostrar el modal de bienvenida automáticamente al iniciar sesión -->
+  <script>
+    // Verificar si el usuario ha iniciado sesión
+    if ("{{ session['username'] }}" !== "") {
+        // Mostrar el modal de bienvenida
+        $('#welcomeModal').modal('show');
+    }
+  </script>
 
 </body>
 

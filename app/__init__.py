@@ -32,6 +32,9 @@ LOGGER.info(f'static folder: {app.static_folder}')
 
 app_files_folder = os.path.join(app.static_folder, 'files')
 
+# Carpeta para subir imágenes de perfil
+app.config['UPLOAD_FOLDER'] = os.path.join(app.static_folder, 'img')
+
 # Define the database object which is imported
 # by modules and controllers
 db = SQLAlchemy(app)

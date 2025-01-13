@@ -32,13 +32,17 @@ class User(Base):
     role = db.Column(db.SmallInteger, nullable=True, default=1)
     status = db.Column(db.SmallInteger, nullable=False, default=1)
 
+    # Photo indicator, nullable
+    photo = db.Column(db.SmallInteger, default=0, nullable=True)  # 0 = no photo, 1 = photo exists, or null if not specified
+
     # New instance instantiation procedure
-    def __init__(self, name, last_name, username, email, password):
+    def __init__(self, name, last_name, username, email, password, photo=None):
         self.name = name
         self.last_name = last_name
         self.username = username
         self.email = email
         self.password = password
+        self.photo = photo if photo is not None else 0
 
     def __repr__(self):
         return '<User %r>' % (self.name)
