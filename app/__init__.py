@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file
+from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file, jsonify
 import pandas as pd
 import smtplib
 from email.mime.text import MIMEText
@@ -67,7 +67,6 @@ def charts_view():
 
 def send_email(email, information):
     try: 
-        
         smtp_server = "smtp.gmail.com"
         port = 587  # puerto para TLS
         sender_email = "axelmiranda.845@gmail.com"
@@ -86,7 +85,7 @@ def send_email(email, information):
         message.attach(MIMEText(body, "plain"))
         server.sendmail(sender_email, email, message.as_string())
     except Exception as e:
-        flash(f'informacion de error: {str(e)}')
+        return {'error': f'información de error: {str(e)}'}
 
 @app.route('/contact_send', methods=['POST'])
 def contact_send():
@@ -95,16 +94,14 @@ def contact_send():
         email = request.form['email']
         subject = request.form['subject']
         message_body = request.form['message']
-        message = 'El usuario envio un mensaje: ' + name + ' ' + message_body  
+        message = 'El usuario envió un mensaje: ' + name + ' ' + message_body  
 
         try:
             send_email(email, message)
-            flash('Message sent successfully!', 'success')
+            return jsonify({'message': '¡Mensaje enviado con éxito!'}), 200
         except Exception as e:
             print(str(e))
-            flash('Error sending message. Please try again later.', 'error')
-
-    return redirect(url_for('contact_view'))
+            return jsonify({'error': 'Error al enviar el mensaje. Por favor, inténtelo de nuevo más tarde.'}), 500
 
 @app.route('/contact_information', methods=['POST'])
 def contact_information():
@@ -113,16 +110,14 @@ def contact_information():
         email = request.form['email']
         subject = request.form['subject']
         message_body = request.form['message']
-        message = 'El usuario envio un mensaje: ' + name + ' ' + message_body  
+        message = 'El usuario envió un mensaje: ' + name + ' ' + message_body  
 
         try:
             send_email(email, message)
-            flash('Message sent successfully!', 'success')
+            return jsonify({'message': '¡Mensaje enviado con éxito!'}), 200
         except Exception as e:
             print(str(e))
-            flash('Error sending message. Please try again later.', 'error')
-
-    return redirect(url_for('home_view'))
+            return jsonify({'error': 'Error al enviar el mensaje. Por favor, inténtelo de nuevo más tarde.'}), 500
 
 #ruta para la vista login
 @app.route('/index')

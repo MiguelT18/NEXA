@@ -1,5 +1,5 @@
 from . import auth_blueprint
-from flask import Blueprint, request, render_template, flash, redirect, url_for, session, current_app as app
+from flask import Blueprint, request, render_template, flash, redirect, url_for, session, current_app as app, jsonify
 from app import db
 from app.mod_auth.models import User
 import random
@@ -18,22 +18,32 @@ def allowed_file(filename):
 @auth_blueprint.route('/list_users', methods=['GET'])
 def list_users():
     """
-    Lista todos los usuarios registrados.
-    Retorna una página HTML con una tabla que muestra los usuarios.
+    Lista todos los usuarios registrados y retorna en formato JSON.
     """
     try:
         users = User.query.all()
-        return render_template('tables-data.html', users=users)
+        users_data = [{
+            'id': user.id,
+            'name': user.name,
+            'last_name': user.last_name,
+            'username': user.username,
+            'email': user.email,
+            'role': user.role,
+            'status': user.status,
+            'photo': user.photo,
+            'phoneNumber': user.phoneNumber,
+            'address': user.address,
+            'date_register': user.date_register,
+            'date_modified': user.date_modified
+        } for user in users]
+        return jsonify(users_data), 200
     except Exception as e:
-        flash(f'Informacion del error: {str(e)}')
-    return render_template('tables-data.html', users=[])
+        return jsonify({'error': str(e)}), 500
 
 @auth_blueprint.route('/add_user', methods=['POST'])
 def add_user():
     """
-    Añade un nuevo usuario al sistema.
-    Recoge datos del formulario y crea un nuevo usuario si no existe uno con el mismo email.
-    Redirige a la vista de registro con un mensaje apropiado dependiendo del resultado de la operación.
+    Añade un nuevo usuario al sistema y retorna en formato JSON.
     """
     try:
         if request.method == 'POST':
@@ -49,118 +59,126 @@ def add_user():
             existing_user = User.query.filter_by(email=email).first()
 
             if existing_user:
-                flash("El correo electrónico ya está en uso", "error")
-                return redirect(url_for('auth.register_view'))
+                return jsonify({"error": "El correo electrónico ya está en uso"}), 400
 
             if not email.endswith('.com'):
-                flash("El correo electrónico ingresado no tiene dominio .com", "info")
-                return redirect(url_for('auth.register_view'))
+                return jsonify({"error": "El correo electrónico ingresado no tiene dominio .com"}), 400
 
             if len(password) < 8:
-                flash("La contraseña debe tener al menos 8 caracteres", "info")
-                return redirect(url_for('auth.register_view'))
+                return jsonify({"error": "La contraseña debe tener al menos 8 caracteres"}), 400
 
             if password != repeat_password:
-                flash('Las contraseñas no coinciden', 'info')
-                return redirect(url_for('auth.register_view'))
+                return jsonify({"error": "Las contraseñas no coinciden"}), 400
 
             if accept_terms != 'yes':
-                flash("Debes aceptar los términos y condiciones", "info")
-                return redirect(url_for('auth.register_view'))
+                return jsonify({"error": "Debes aceptar los términos y condiciones"}), 400
 
             new_user = User(
-               name=name,
-               last_name=last_name,  
-               username=username,    
-               email=email,
-               password=bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+                name=name,
+                last_name=last_name,
+                username=username,
+                email=email,
+                password=bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
             )
             db.session.add(new_user)
             db.session.commit()
 
-            session['name'] = name
-            session['email'] = email
-            session['username'] = username
-
-            flash('Su cuenta ha sido creado con éxito', "info")
-            flash(f'Su nombre de usuario es: {username}', 'info')
-            return redirect(url_for('auth.register_view'))
+            return jsonify({"message": "Su cuenta ha sido creada con éxito", "username": username}), 201
 
     except Exception as e:
-        flash(f'Informacion del error: {str(e)}')
-        return redirect(url_for('auth.register_view'))
-
-    return redirect(url_for('auth.register_view'))
+        return jsonify({'error': str(e)}), 500
 
 @auth_blueprint.route('/get_user/<id>', methods=['GET'])
 def get_user(id):
     """
-    Obtiene los detalles de un usuario específico por su ID.
-    Retorna una página HTML para actualizar los datos del usuario si existe, de lo contrario muestra una página de error.
+    Obtiene los detalles de un usuario específico por su ID y retorna en formato JSON.
     """
     user = User.query.get(id)
     if user:
-        return render_template('user-update.html', user=user)
+        user_data = {
+            'id': user.id,
+            'name': user.name,
+            'last_name': user.last_name,
+            'username': user.username,
+            'email': user.email,
+            'role': user.role,
+            'status': user.status,
+            'photo': user.photo,
+            'phoneNumber': user.phoneNumber,
+            'address': user.address,
+            'date_register': user.date_register,
+            'date_modified': user.date_modified
+        }
+        return jsonify(user_data), 200
     else:
-        return render_template('pages-error-404.html')
+        return jsonify({'error': 'Usuario no encontrado'}), 404
 
 @auth_blueprint.route('/update_user/<id>', methods=['POST'])
 def update_user(id):
     """
-    Actualiza la información de un usuario específico.
-    Recoge datos del formulario y actualiza los detalles del usuario en la base de datos.
-    Retorna a la lista de usuarios si la actualización es exitosa, de lo contrario muestra un mensaje de error.
+    Actualiza la información de un usuario específico y retorna en formato JSON.
     """
     try:
         if request.method == 'POST':
             user = User.query.get(id)
             if user:
-                user.name = request.form['name']
-                user.last_name = request.form['lastName']
-                user.email = request.form['email']
-                user.username = request.form['username']
-                user.role = request.form['role']
-                current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                user.date_modified = current_datetime
+                # Validaciones
+                name = request.form.get('name')
+                last_name = request.form.get('lastName')
+                email = request.form.get('email')
+                username = request.form.get('username')
+                phoneNumber = request.form.get('phoneNumber')
+                address = request.form.get('address')
+
+                if not name or not last_name or not email or not username:
+                    return jsonify({'error': 'Todos los campos son obligatorios.'}), 400
+
+                if User.query.filter_by(email=email).first() and user.email != email:
+                    return jsonify({'error': 'El correo electrónico ya está en uso.'}), 400
+
+                if len(phoneNumber) < 10:
+                    return jsonify({'error': 'El número de teléfono debe tener al menos 10 dígitos.'}), 400
+
+                # Actualizar datos del usuario
+                user.name = name
+                user.last_name = last_name
+                user.email = email
+                user.username = username
+                user.phoneNumber = phoneNumber  # Actualizar phoneNumber
+                user.address = address  # Actualizar address
+                user.date_modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
                 db.session.commit()
-                flash('Registro actualizado', 'info')
+                return jsonify({'message': 'Registro actualizado'}), 200
             else:
-                flash('No se encontró el usuario con el ID especificado', 'info')
+                return jsonify({'error': 'No se encontró el usuario con el ID especificado'}), 404
     except Exception as e:
-        flash(f'Informacion del error: {str(e)}')
-        return render_template('user-update.html')
-
-    return redirect(url_for('auth.list_users'))
+        return jsonify({'error': str(e)}), 500
 
 @auth_blueprint.route('/delete_user/<id>', methods=['POST', 'GET'])
 def delete_user(id):
     """
-    Elimina un usuario del sistema cambiando su estado a inactivo.
-    Retorna a la lista de usuarios con un mensaje apropiado.
+    Elimina un usuario del sistema cambiando su estado a inactivo y retorna en formato JSON.
     """
     try:
         user = User.query.get(id)
         if user:
             user.status = 0
-            current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            user.date_modified = current_datetime
+            user.date_modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
             db.session.commit()
-            flash('Registro eliminado', 'info')
+            return jsonify({'message': 'Registro eliminado'}), 200
         else:
-            flash('No se encontró el usuario con el ID especificado', 'info')
+            return jsonify({'error': 'No se encontró el usuario con el ID especificado'}), 404
     except Exception as e:
-        flash(f'Informacion del error: {str(e)}')
-
-    return redirect(url_for('auth.list_users'))
+        return jsonify({'error': str(e)}), 500
 
 @auth_blueprint.route('/login_send', methods=['POST'])
 def login_send():
     """
-    Procesa el inicio de sesión del usuario.
-    Verifica las credenciales y, si son correctas, redirige al usuario a la página principal.
-    De lo contrario, muestra un mensaje de error y redirige a la página de inicio de sesión.
+    Procesa el inicio de sesión del usuario y retorna en formato JSON.
+    Verifica las credenciales y, si son correctas, retorna un mensaje de éxito.
+    De lo contrario, retorna un mensaje de error.
     """
     try:
         if request.method == "POST":
@@ -171,6 +189,7 @@ def login_send():
 
             if user:
                 if bcrypt.checkpw(password, user.password.encode('utf-8')):
+                    # Guardar información del usuario en la sesión
                     session['email'] = user.email
                     session['role'] = user.role
                     session['name'] = user.name
@@ -178,18 +197,17 @@ def login_send():
                     session['status'] = user.status
                     session['last_name'] = user.last_name
                     session['user_id'] = user.id
-                    return render_template('index.html')
+
+                    return jsonify({'message': 'Inicio de sesión exitoso', 'user_id': user.id}), 200
                 else:
-                    flash('La contraseña es incorrecta', 'info')
-                    return redirect(url_for('auth.login_view'))
+                    return jsonify({'error': 'La contraseña es incorrecta'}), 401
             else:
-                flash('No existe el usuario', 'info')
-                return redirect(url_for('auth.login_view'))
+                return jsonify({'error': 'No existe el usuario'}), 404
 
     except Exception as e:
-        flash(f'Informacion del error: {str(e)}')
+        return jsonify({'error': f'Informacion del error: {str(e)}'}), 500
 
-    return redirect(url_for('auth.register_view'))
+    return jsonify({'error': 'Método no permitido'}), 405
 
 @auth_blueprint.route('/login')
 def login_view():
@@ -202,10 +220,10 @@ def login_view():
 def logout():
     """
     Cierra la sesión del usuario y limpia la sesión.
-    Redirige al usuario a la página de inicio.
+    Retorna un mensaje en formato JSON.
     """
     session.clear()
-    return render_template('home-page.html')
+    return jsonify({'message': 'Sesión cerrada con éxito.'}), 200
 
 @auth_blueprint.route('/register')
 def register_view():
@@ -214,8 +232,8 @@ def register_view():
     """
     return render_template('pages-register.html')
 
-@auth_blueprint.route('/update_user_with_photo/<id>', methods=['POST'])
-def update_user_with_photo(id):
+@auth_blueprint.route('/user_profile/<id>', methods=['POST'])
+def user_profile(id):
     """
     Actualiza la información y la foto de perfil de un usuario específico.
     """
@@ -227,6 +245,8 @@ def update_user_with_photo(id):
             user.last_name = request.form['lastName']
             user.email = request.form['email']
             user.username = request.form['username']
+            user.phoneNumber = request.form.get('phoneNumber')  # Actualizar phoneNumber
+            user.address = request.form.get('address')  # Actualizar address
 
             # Manejar la actualización de la foto
             photo = request.files.get('photo')
@@ -241,15 +261,12 @@ def update_user_with_photo(id):
                 user.photo = 0  # No hay foto o el archivo no es permitido
 
             # Actualizar la fecha de modificación del usuario
-            user.date_modified = datetime.datetime.now()  # Actualizar con la fecha y hora actuales
+            user.date_modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Actualizar con la fecha y hora actuales
 
             db.session.commit()
-            flash('Perfil actualizado con éxito.', 'info')
+            return jsonify({'message': 'Perfil actualizado con éxito.'}), 200
         else:
-            flash('Usuario no encontrado.', 'error')
-            return render_template('users-profile.html')
+            return jsonify({'error': 'Usuario no encontrado.'}), 404
 
-        return redirect(url_for('auth.list_users'))
     except Exception as e:
-        flash(f'Error al actualizar el perfil: {str(e)}', 'error')
-        return render_template('users-profile.html', user=user)
+        return jsonify({'error': f'Error al actualizar el perfil: {str(e)}'}), 500

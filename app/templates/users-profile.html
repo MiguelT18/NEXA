@@ -118,7 +118,7 @@
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                   <!-- Profile Edit Form -->
-                  <form action="{{ url_for('auth.update_user_with_photo', id=session['user_id']) }}" method="post" enctype="multipart/form-data">
+                  <form id="profileEditForm" enctype="multipart/form-data">
                     <div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                       <div class="col-md-8 col-lg-9">
@@ -160,7 +160,7 @@
                     </div>
 
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                      <button type="button" class="btn btn-primary" onclick="submitProfileForm();">Save Changes</button>
                     </div>
                   </form><!-- End Profile Edit Form -->
 
@@ -260,6 +260,29 @@
     </section>
 
     <script>
+    function submitProfileForm() {
+        const formData = new FormData(document.getElementById('profileEditForm'));
+        const userId = "{{ session['user_id'] }}"; // Obtener el ID del usuario de la sesión
+
+        fetch(`{{ url_for('auth.user_profile', id='') }}${userId}`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert(data.message); // Mostrar mensaje de éxito
+                // Aquí puedes redirigir o actualizar la interfaz según sea necesario
+            } else if (data.error) {
+                alert(data.error); // Mostrar mensaje de error
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al enviar el formulario. Por favor, inténtelo de nuevo más tarde.');
+        });
+    }
+
     function previewImage() {
         var file = document.getElementById("profileImage").files[0];
         var reader = new FileReader();
