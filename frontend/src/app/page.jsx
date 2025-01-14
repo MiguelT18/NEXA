@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import HeroImg from "../../public/images/hero-image-01.jpg";
+import HeroImg from "@/images/hero-image-01.jpg";
 import * as Icons from "@/icons/index";
 import Faq from "@/components/layouts/Faq";
 import { useTheme } from "@/hooks/useTheme";
@@ -80,7 +80,7 @@ export default function Home() {
   const { theme } = useTheme();
 
   return (
-    <>
+    <main className="container mx-auto px-4 max-md:pt-4 pt-14 pb-8 max-md:pb-24">
       <section className="flex items-center max-md:flex-col gap-4 lg:gap-10 max-md:mb-8 mb-20">
         <div className="max-md:text-center w-full md:w-1/2">
           <h1
@@ -165,7 +165,7 @@ export default function Home() {
       </section>
 
       <section>
-        <div className="bg-gradient-light-section dark:bg-gradient-dark-section p-4 rounded-xl">
+        <div className="bg-gradient-light-section dark:bg-gradient-dark-section p-4 rounded-lg">
           <h1 className="text-lg font-bold font-sans text-center">
             Conoce a las Mentes Detrás de Nuestro Bot de Trading
           </h1>
@@ -204,6 +204,6 @@ export default function Home() {
         </h1>
         <Faq />
       </section>
-    </>
+    </main>
   );
 }

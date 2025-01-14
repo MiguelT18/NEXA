@@ -19,7 +19,7 @@ export default function Navbar() {
       <div className="max-md:hidden flex justify-around items-center">
         <Link
           href="/"
-          className={`font-black font-sans uppercase text-md inline-block ${
+          className={`font-black font-sans uppercase text-[28px] inline-block ${
             theme === "light" ? "text-gradient-light" : "text-gradient-dark"
           }`}
         >
@@ -35,6 +35,7 @@ export default function Navbar() {
               Inicio
             </Link>
           </li>
+
           <li>
             <Link
               href="/pricing"
@@ -43,9 +44,7 @@ export default function Navbar() {
               Precios
             </Link>
           </li>
-          <li className="hover:bg-black/10 hover:dark:bg-white/10 p-2 rounded-md transition-all">
-            <UserIcon className="size-6" />
-          </li>
+
           <li
             className="hover:bg-black/10 hover:dark:bg-white/10 p-2 rounded-md transition-all"
             onClick={toggleTheme}
@@ -55,6 +54,27 @@ export default function Navbar() {
             ) : (
               <SunRisingIcon className="text-black dark:text-white size-6" />
             )}
+          </li>
+
+          <li className="relative group">
+            <div className="hover:bg-black/10 hover:dark:bg-white/10 p-2 rounded-md transition-all">
+              <UserIcon className="size-6" />
+            </div>
+
+            <div className="absolute right-0 hidden group-hover:block bg-white dark:bg-dark-background border border-difuminate-text-dark dark:border-light-gray rounded-md w-40 z-20 group-hover:pointer-events-auto pointer-events-none">
+              <Link
+                href="/login"
+                className="block px-4 py-2 text-sm hover:bg-black/10 hover:dark:bg-white/10 transition-all rounded-t-[inherit]"
+              >
+                Iniciar Sesión
+              </Link>
+              <Link
+                href="/register"
+                className="block px-4 py-2 text-sm hover:bg-black/10 hover:dark:bg-white/10 transition-all rounded-b-[inherit]"
+              >
+                Crear Cuenta
+              </Link>
+            </div>
           </li>
         </ul>
       </div>

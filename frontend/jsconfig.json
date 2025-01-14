@@ -7,6 +7,12 @@
       "@/icons/*": [
         "./public/icons/*"
       ],
+      "@/images/*": [
+        "./public/images/*"
+      ],
+      "@/logos/*": [
+        "./public/images/logos/*"
+      ]
     }
   }
 }

@@ -11,12 +11,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      <body className="antialiased dark:bg-dark-background dark:text-white bg-white text-dark-gray">
+      <body className="antialiased dark:bg-dark-background dark:text-white bg-white text-dark-gray flex flex-col min-h-dvh">
         <ThemeProvider>
           <Navbar />
-          <main className="container mx-auto px-4 max-md:pt-4 pt-14 pb-8 max-md:pb-24">
-            {children}
-          </main>
+          {children}
         </ThemeProvider>
       </body>
     </html>

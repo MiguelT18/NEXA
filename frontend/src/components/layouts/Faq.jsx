@@ -49,10 +49,10 @@ export default function Faq() {
           key={index}
           className="rounded-md border border-difuminate-text-dark dark:border-light-gray p-4 cursor-pointer"
         >
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center gap-6">
             <h3 className="text-md">{faq.question}</h3>
             <TriangleArrowIcon
-              className={`size-8 transform transition-transform duration-300 ${
+              className={`max-md:size-4 size-6 min-w-[24px] transform transition-transform duration-300 ${
                 openIndex === index ? "rotate-180" : "rotate-0"
               }`}
             />
