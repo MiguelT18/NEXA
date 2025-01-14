@@ -3,7 +3,7 @@
 import Image from "next/image";
 import HeroImg from "@/images/hero-image-01.jpg";
 import * as Icons from "@/icons/index";
-import Faq from "@/components/layouts/Faq";
+import Faq from "@/components/ui/Faq";
 import { useTheme } from "@/hooks/useTheme";
 import MarketTicker from "@/components/ui/MarketTicker";
 import Loader from "@/components/ui/Loader";

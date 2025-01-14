@@ -3,7 +3,8 @@
 2. Axel Miranda
 
 ## Tareas pendientes
-- [❓] Implementar la estrategias de trading
+- [❓] Asegurarse de que los ids de los usuarios creados sean aleatorios 'uuid'
+- [❓] Implementar la e] Implementar la estrategias de trading
 - [❓] Implementar la gestión de datos históricos
 - [❓] Implementar la gestión de ordenes y acciones
 - [❓] Crear archivo de configuración para la conexión con el broker
@@ -71,4 +72,9 @@ project/
 
 # Tareas pendientes
 
-1. Crear un componente market ticker que muestre algunos precios de algunos activos del mercado en forma de carrusel infinito
+- [❓] Crear un componente market ticker que muestre algunos precios de algunos activos del mercado en forma de carrusel infinito
+- [❓] Usar cookies junto con localStorage para menjar las sesiones del usuario
+
+# Caracteristicas a tomar en cuenta
+1. Diseñar un sistema de planes mensuales y anuales para la suscripción al bot.
+2. Diseñar un sistema de afiliados al bot y/u ofrecer descuentos para usuarios que traigan más clientes.

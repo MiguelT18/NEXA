@@ -14,9 +14,27 @@ export default function RegisterPage() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Formulario enviado con éxito!", data);
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch("http://localhost:5000/add_user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("✅ Formulario enviado con éxito!", data);
+        reset();
+      } else {
+        const errorData = await response.json();
+        console.log("❌ Error al enviar el formulario", errorData);
+      }
+    } catch (error) {
+      console.log("❌ Error al enviar el formulario", error);
+    }
   };
 
   const password = watch("password");

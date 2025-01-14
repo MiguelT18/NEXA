@@ -12,8 +12,29 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Formulario enviado con éxito!", data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch("http://localhost:5000/login_send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        console.log("✅ Inicio de sesión exitoso:", result);
+        localStorage.setItem("token", result.token);
+        window.location.href = "/dashboard";
+      } else {
+        console.error("❌ Error al iniciar sesión:", result);
+      }
+    } catch (error) {
+      console.error("❌ Error al iniciar sesión:", error);
+    }
   };
 
   return (
