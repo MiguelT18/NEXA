@@ -32,15 +32,16 @@ export default function Navbar() {
         console.error("❌ Error al cerrar sesión:", response.statusText);
       }
       console.log("Sesión cerrada en el servidor exitosamente");
+      window.location.href = "/login";
     } catch (error) {
       console.error("❌ Error al cerrar sesión:", error);
     }
   };
 
   return (
-    <nav className="dark:bg-dark-background bg-white block px-4 py-5 w-full z-10 max-md:fixed max-md:bottom-0 max-md:border-t md:border-b border-dark-gray dark:border-light-gray dark:border-background-light">
+    <nav className="dark:bg-dark-background bg-white block px-4 w-full z-10 max-md:fixed max-md:bottom-0 max-md:border-t md:border-b border-dark-gray dark:border-light-gray dark:border-background-light">
       {/* Desktop Navbar */}
-      <div className="max-md:hidden flex justify-around items-center">
+      <div className="max-md:hidden flex justify-around items-center min-h-[10dvh]">
         <Link
           href="/"
           className={`font-black font-sans uppercase text-[28px] inline-block ${
@@ -107,19 +108,13 @@ export default function Navbar() {
                 </Link>
               </div>
             ) : (
-              <div className="w-fit absolute right-0 hidden group-hover:block bg-white dark:bg-dark-background border border-difuminate-text-dark dark:border-light-gray text-start rounded-md z-20 group-hover:pointer-events-auto pointer-events-none">
+              <div className="w-max absolute right-0 hidden group-hover:block bg-white dark:bg-dark-background border border-difuminate-text-dark dark:border-light-gray text-start rounded-md z-20 group-hover:pointer-events-auto pointer-events-none">
                 <Link
                   href="/dashboard"
                   className="w-full block px-4 py-2 text-sm hover:bg-black/10 hover:dark:bg-white/10 transition-all rounded-t-[inherit]"
                 >
                   Mi perfil
                 </Link>
-                <button
-                  type="button"
-                  className="w-full block px-4 py-2 text-sm hover:bg-black/10 hover:dark:bg-white/10 transition-all"
-                >
-                  Configuración
-                </button>
                 <button
                   onClick={handleLogout}
                   type="button"
@@ -134,7 +129,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Navbar */}
-      <ul className="md:hidden dark:bg-background w-full flex justify-around max-sm:justify-between items-center">
+      <ul className="md:hidden dark:bg-background w-full flex justify-around max-sm:justify-between items-center min-h-[10dvh]">
         <li onClick={toggleTheme}>
           {theme === "dark" ? (
             <MoonRisingIcon className="text-black dark:text-white size-8" />

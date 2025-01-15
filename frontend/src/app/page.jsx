@@ -7,11 +7,12 @@ import Faq from "@/components/ui/Faq";
 import { useTheme } from "@/hooks/useTheme";
 import MarketTicker from "@/components/ui/MarketTicker";
 import Loader from "@/components/ui/Loader";
+import Link from "next/link";
 
 const iconMap = {
   "robot-wink": Icons.RobotWinkIcon,
   binary: Icons.BinaryIcon,
-  stats: Icons.StatsIcon,
+  stats: Icons.StatsIcon01,
   padlock: Icons.PadlockIcon,
   thunder: Icons.ThunderIcon,
   processor: Icons.ProcessorIcon,
@@ -96,9 +97,12 @@ export default function Home() {
           </p>
 
           <div className="flex max-md:justify-center gap-4 my-4">
-            <button className="primary-button text-white tracking-wide dark:bg-primary-color hover:dark:bg-primary-color/60 bg-secondary-color hover:bg-secondary-color/80 transition-all p-2 rounded-md">
+            <Link
+              href="/login"
+              className="primary-button text-white tracking-wide dark:bg-primary-color hover:dark:bg-primary-color/60 bg-secondary-color hover:bg-secondary-color/80 transition-all p-2 rounded-md"
+            >
               Comenzar a Operar
-            </button>
+            </Link>
             <button className="p-2 rounded-md tracking-wide border-difuminate-text-dark hover:border-difuminate-text-light dark:border-light-gray border hover:dark:text-difuminate-text-dark transition-all">
               Saber más
             </button>
