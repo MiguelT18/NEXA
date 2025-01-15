@@ -448,6 +448,7 @@
     document.getElementById('confirmLogoutButton').addEventListener('click', function() {
       var logoutUrl = this.getAttribute('data-logout-url'); // Obtiene la URL desde el atributo de datos
       window.location.href = logoutUrl; // Redirige a la ruta de cierre de sesión
+      window.location.href = "/";
     });
   </script>
 

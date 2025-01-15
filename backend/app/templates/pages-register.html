@@ -54,54 +54,57 @@
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
-                    <p class="text-center small">Enter your personal details to create account</p>
+                    <h5 class="card-title text-center pb-0 fs-4">Crear una Cuenta</h5>
+                    <p class="text-center small">Ingresa tus datos personales para crear una cuenta</p>
                   </div>
 
-                  <form id="registerForm" class="row g-3 needs-validation" novalidate>
+                  <form id="registerForm" class="row g-3 needs-validation" novalidate onsubmit="return validateRegisterForm();">
                     <div class="col-12">
-                      <label for="yourName" class="form-label">Your Name</label>
-                      <input type="text" name="name" class="form-control" id="yourName" required minlength="5" pattern="^[a-zA-Z\s]+$" title="Name must be at least 5 characters long and contain only letters and spaces.">
-                      <div class="invalid-feedback">Please, enter your name (at least 5 characters)!</div>
+                      <label for="yourName" class="form-label">Tu Nombre</label>
+                      <input type="text" name="name" class="form-control" id="yourName" required minlength="5" pattern="^[a-zA-Z\s]+$" title="El nombre debe tener al menos 5 caracteres y contener solo letras y espacios.">
+                      <div class="invalid-feedback">Por favor, ingresa tu nombre (¡al menos 5 caracteres)!</div>
                     </div>
                     <div class="col-12">
-                      <label for="yourLastName" class="form-label">Your Last Name</label>
-                      <input type="text" name="lastName" class="form-control" id="yourLastName" required minlength="5" pattern="^[a-zA-Z\s]+$" title="Last name must be at least 5 characters long and contain only letters and spaces.">
-                      <div class="invalid-feedback">Please, enter your last name (at least 5 characters)!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourEmail" class="form-label">Your Email</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid email address with .com">
-                      <div class="invalid-feedback">Please enter a valid Email address (must contain .com)!</div>
+                      <label for="yourLastName" class="form-label">Tu Apellido</label>
+                      <input type="text" name="lastName" class="form-control" id="yourLastName" required minlength="5" pattern="^[a-zA-Z\s]+$" title="El apellido debe tener al menos 5 caracteres y contener solo letras y espacios.">
+                      <div class="invalid-feedback">Por favor, ingresa tu apellido (¡al menos 5 caracteres)!</div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must be at least 8 characters long and include at least one number, one uppercase and one lowercase letter.">
-                      <div class="invalid-feedback">Please enter your password! It must be at least 8 characters long and include at least one number, one uppercase and one lowercase letter.</div>
+                      <label for="yourEmail" class="form-label">Tu Correo Electrónico</label>
+                      <input type="email" name="email" class="form-control" id="yourEmail" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Por favor, ingresa una dirección de correo electrónico válida con .com">
+                      <div class="invalid-feedback">Por favor, ingresa un correo electrónico válido (¡debe contener .com)!</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourPassword" class="form-label">Contraseña</label>
+                      <input type="password" name="password" class="form-control" id="yourPassword" required minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="La contraseña debe tener al menos 8 caracteres e incluir al menos un número, una letra mayúscula y una letra minúscula.">
+                      <div class="invalid-feedback">Por favor, ingresa tu contraseña. Debe tener al menos 8 caracteres e incluir al menos un número, una letra mayúscula y una letra minúscula.</div>
                     </div>
                     <div class="col-12">
-                      <label for="yourRepeatPassword" class="form-label">Repeat Password</label>
-                      <input type="password" name="repeatPassword" class="form-control" id="yourRepeatPassword" required minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Repeat password must match the password criteria.">
-                      <div class="invalid-feedback">Please enter password again! It must match the password criteria.</div>
+                      <label for="yourRepeatPassword" class="form-label">Repetir Contraseña</label>
+                      <input type="password" name="repeatPassword" class="form-control" id="yourRepeatPassword" required minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="La contraseña repetida debe coincidir con los criterios de la contraseña.">
+                      <div class="invalid-feedback">Por favor, ingresa la contraseña nuevamente. Debe coincidir con los criterios de la contraseña.</div>
                     </div>
 
                     <div class="col-12">
                       <div class="form-check">
                         <input class="form-check-input" name="acceptTerms" type="checkbox" value="yes" id="acceptTerms" required>
-                        <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#" class="text-white">terms and conditions</a></label>
-                        <div class="invalid-feedback">You must agree before submitting.</div>
+                        <label class="form-check-label" for="acceptTerms">Acepto y acepto los <a href="#" class="text-white">términos y condiciones</a></label>
+                        <div class="invalid-feedback">Debes aceptar antes de enviar.</div>
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-outline-dark w-100" type="button" onclick="submitRegisterForm();">Create Account</button>
+                      <button class="btn btn-outline-dark w-100" type="button" onclick="submitRegisterForm();">Crear Cuenta</button>
                     </div>
 
-                    <div id="alertMessage" class="alert alert-light text-white bg-info d-none" role="alert"></div>
+                    <div id="alertMessage" class="alert alert-light text-white bg-info alert-dismissible fade show d-none" role="alert">
+                        <span id="alertText"></span>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
 
                     <div class="col-12">
-                      <p class="small mb-0">Already have an account? <a href="{{ url_for('auth.login_view') }}">Log in</a></p>
+                      <p class="small mb-0">¿Ya tienes una cuenta? <a href="{{ url_for('auth.login_view') }}">Iniciar sesión</a></p>
                     </div>
                   </form>
 
@@ -134,40 +137,77 @@
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
   <script>
+  function validateRegisterForm() {
+      const form = document.getElementById('registerForm');
+      const alertMessage = document.getElementById('alertMessage');
+      const alertText = document.getElementById('alertText');
+
+      // Limpiar mensajes de alerta
+      alertMessage.classList.add('d-none');
+      alertText.innerText = '';
+
+      // Validar el formulario
+      if (!form.checkValidity()) {
+          // Si el formulario no es válido, mostrar los mensajes de error
+          Array.from(form.elements).forEach(element => {
+              if (element.tagName === 'INPUT') {
+                  if (!element.checkValidity()) {
+                      element.classList.add('is-invalid');
+                  } else {
+                      element.classList.remove('is-invalid');
+                  }
+              }
+          });
+
+          // Mostrar mensaje de alerta si hay un error
+          alertText.innerText = 'Por favor, complete todos los campos requeridos correctamente.';
+          alertMessage.classList.remove('d-none');
+          return false; // Evitar el envío del formulario
+      }
+
+      // Si todo está bien, permitir el envío del formulario
+      return true;
+  }
+
   function submitRegisterForm() {
-      const formData = new FormData(document.getElementById('registerForm'));
+      if (validateRegisterForm()) {
+          // Aquí puedes agregar la lógica para enviar el formulario
+          const formData = new FormData(document.getElementById('registerForm'));
+          fetch("{{ url_for('auth.add_user') }}", {
+              method: 'POST',
+              body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+              const alertMessage = document.getElementById('alertMessage');
+              const alertText = document.getElementById('alertText');
+              alertMessage.classList.remove('d-none'); // Mostrar el div de alertas
 
-      fetch("{{ url_for('auth.add_user') }}", {
-          method: 'POST',
-          body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-          const alertMessage = document.getElementById('alertMessage');
-          alertMessage.classList.remove('d-none'); // Mostrar el div de alertas
+              if (data.message) {
+                  alertMessage.classList.remove('bg-danger');
+                  alertMessage.classList.add('bg-info');
+                  alertText.innerText = data.message; // Mostrar mensaje de éxito
+              }
 
-          if (data.message) {
-              alertMessage.classList.remove('bg-danger');
-              alertMessage.classList.add('bg-info');
-              alertMessage.innerText = data.message; // Mostrar mensaje de éxito
-              // Aquí puedes redirigir o actualizar la interfaz según sea necesario
-              setTimeout(() => {
-                  window.location.href = "{{ url_for('auth.login_view') }}"; // Redirigir a la página de inicio de sesión
-              }, 2000);
-          } else if (data.error) {
+              if (data.username) {
+                  alertText.innerText = data.username;
+              }
+
+              if (data.error) {
+                  alertMessage.classList.remove('bg-info');
+                  alertMessage.classList.add('bg-danger');
+                  alertText.innerText = data.error; // Mostrar mensaje de error
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              const alertMessage = document.getElementById('alertMessage');
+              alertMessage.classList.remove('d-none');
               alertMessage.classList.remove('bg-info');
               alertMessage.classList.add('bg-danger');
-              alertMessage.innerText = data.error; // Mostrar mensaje de error
-          }
-      })
-      .catch(error => {
-          console.error('Error:', error);
-          const alertMessage = document.getElementById('alertMessage');
-          alertMessage.classList.remove('d-none');
-          alertMessage.classList.remove('bg-info');
-          alertMessage.classList.add('bg-danger');
-          alertMessage.innerText = 'Error al enviar el formulario. Por favor, inténtelo de nuevo más tarde.';
-      });
+              alertText.innerText = 'Error al enviar el formulario. Por favor, inténtelo de nuevo más tarde.';
+          });
+      }
   }
   </script>
 

@@ -118,49 +118,68 @@
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                   <!-- Profile Edit Form -->
-                  <form id="profileEditForm" enctype="multipart/form-data">
+                  <form id="profileEditForm" enctype="multipart/form-data" novalidate onsubmit="return validateProfileForm();">
                     <div class="row mb-3">
-                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                       <div class="col-md-8 col-lg-9">
-                        <img src="{{ url_for('static', filename='img/' + (session['username'] + '.png') if session.get('photo') == 1 else 'img/profile-img.jpg') }}" alt="Profile" class="rounded-circle" id="profileImagePreview">
+                        <img src="{{ url_for('static', filename='img/' + (session['username'] + '.png') if session.get('photo') == 1 else 'img/profile-img.jpg') }}" alt="Perfil" class="rounded-circle" id="profileImagePreview">
                         <input type="file" class="form-control" name="photo" id="profileImage" onchange="previewImage();">
                         <div class="pt-2">
-                          <button class="btn btn-primary btn-sm" type="button" title="Upload new profile image" onclick="document.getElementById('profileImage').click();"><i class="bi bi-upload"></i> Upload</button>
-                          <button class="btn btn-danger btn-sm" type="button" title="Remove my profile image" onclick="removeImage();"><i class="bi bi-trash"></i> Remove</button>
+                          <button class="btn btn-primary btn-sm" type="button" title="Subir nueva imagen de perfil" onclick="document.getElementById('profileImage').click();"><i class="bi bi-upload"></i> Subir</button>
+                          <button class="btn btn-danger btn-sm" type="button" title="Eliminar mi imagen de perfil" onclick="removeImage();"><i class="bi bi-trash"></i> Eliminar</button>
                         </div>
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Name" class="col-md-4 col-lg-3 col-form-label">Name</label>
+                      <label for="Name" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="name" type="text" class="form-control" id="Name" value="{{ session['name'] }}">
+                        <input name="name" type="text" class="form-control" id="Name" value="{{ session['name'] }}" required>
+                        <div class="invalid-feedback">Por favor, ingresa tu nombre.</div>
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="LastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                      <label for="LastName" class="col-md-4 col-lg-3 col-form-label">Apellido</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="lastName" type="text" class="form-control" id="LastName" value="{{ session['last_name'] }}">
+                        <input name="lastName" type="text" class="form-control" id="LastName" value="{{ session['last_name'] }}" required>
+                        <div class="invalid-feedback">Por favor, ingresa tu apellido.</div>
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Username" class="col-md-4 col-lg-3 col-form-label">Username</label>
+                      <label for="Username" class="col-md-4 col-lg-3 col-form-label">Nombre de Usuario</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="username" type="text" class="form-control" id="Username" value="{{ session['username'] }}">
+                        <input name="username" type="text" class="form-control" id="Username" value="{{ session['username'] }}" required minlength="5" pattern="^[a-zA-Z0-9_]+$" title="El nombre de usuario debe tener al menos 5 caracteres y contener solo letras, números y guiones bajos.">
+                        <div class="invalid-feedback">Por favor, ingresa tu nombre de usuario (¡al menos 5 caracteres).</div>
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo Electrónico</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="{{ session['email'] }}">
+                        <input name="email" type="email" class="form-control" id="Email" value="{{ session['email'] }}" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Por favor, ingresa un correo electrónico válido.">
+                        <div class="invalid-feedback">Por favor, ingresa un correo electrónico válido.</div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="PhoneNumber" class="col-md-4 col-lg-3 col-form-label">Número de Teléfono</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="phoneNumber" type="text" class="form-control" id="PhoneNumber" value="{{ session['phone_number'] }}" required pattern="^\d{10}$" title="El número de teléfono debe tener 10 dígitos.">
+                        <div class="invalid-feedback">Por favor, ingresa un número de teléfono válido (10 dígitos).</div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Dirección</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="address" type="text" class="form-control" id="Address" value="{{ session['address'] }}">
                       </div>
                     </div>
 
                     <div class="text-center">
-                      <button type="button" class="btn btn-primary" onclick="submitProfileForm();">Save Changes</button>
+                      <button type="button" class="btn btn-primary" onclick="submitProfileForm();">Guardar Cambios</button>
                     </div>
                   </form><!-- End Profile Edit Form -->
 
@@ -299,6 +318,38 @@
     function removeImage() {
         document.getElementById("profileImagePreview").src = "{{ url_for('static', filename='img/profile-img.jpg') }}";
         document.getElementById("profileImage").value = "";
+    }
+
+    function validateProfileForm() {
+        const form = document.getElementById('profileEditForm');
+        const alertMessage = document.getElementById('alertMessage');
+        const alertText = document.getElementById('alertText');
+
+        // Limpiar mensajes de alerta
+        alertMessage.classList.add('d-none');
+        alertText.innerText = '';
+
+        // Validar el formulario
+        if (!form.checkValidity()) {
+            // Si el formulario no es válido, mostrar los mensajes de error
+            Array.from(form.elements).forEach(element => {
+                if (element.tagName === 'INPUT') {
+                    if (!element.checkValidity()) {
+                        element.classList.add('is-invalid');
+                    } else {
+                        element.classList.remove('is-invalid');
+                    }
+                }
+            });
+
+            // Mostrar mensaje de alerta si hay un error
+            alertText.innerText = 'Por favor, completa todos los campos requeridos correctamente.';
+            alertMessage.classList.remove('d-none');
+            return false; // Evitar el envío del formulario
+        }
+
+        // Si todo está bien, permitir el envío del formulario
+        return true;
     }
     </script>
   {% endblock %}

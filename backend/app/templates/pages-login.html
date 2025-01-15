@@ -55,42 +55,45 @@
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
-                    <p class="text-center small">Enter your username & password to login</p>
+                    <h5 class="card-title text-center pb-0 fs-4">Inicia Sesión en Tu Cuenta</h5>
+                    <p class="text-center small">Ingresa tu nombre de usuario y contraseña para iniciar sesión</p>
                   </div>
 
-                  <form id="loginForm" class="row g-3 needs-validation" novalidate>
+                  <form id="loginForm" class="row g-3 needs-validation" novalidate onsubmit="return validateLoginForm();">
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
+                      <label for="yourUsername" class="form-label">Nombre de Usuario</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required minlength="5" pattern="^[a-zA-Z0-9_]+$" title="Username must be at least 5 characters long and contain only letters, numbers, and underscores.">
-                        <div class="invalid-feedback">Please enter your username (at least 5 characters).</div>
+                        <input type="text" name="username" class="form-control" id="yourUsername" required minlength="5" pattern="^[a-zA-Z0-9_]+$" title="El nombre de usuario debe tener al menos 5 caracteres y contener solo letras, números y guiones bajos.">
+                        <div class="invalid-feedback">Por favor, ingresa tu nombre de usuario (¡al menos 5 caracteres).</div>
                       </div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required minlength="8" title="Password must be at least 8 characters long.">
-                      <div class="invalid-feedback">Please enter your password! It must be at least 8 characters long.</div>
+                      <label for="yourPassword" class="form-label">Contraseña</label>
+                      <input type="password" name="password" class="form-control" id="yourPassword" required minlength="8" title="La contraseña debe tener al menos 8 caracteres.">
+                      <div class="invalid-feedback">Por favor, ingresa tu contraseña. Debe tener al menos 8 caracteres.</div>
                     </div>
 
                     <div class="col-12">
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe" required>
-                        <label class="form-check-label" for="rememberMe">Remember me</label>
-                        <div class="invalid-feedback">You must check this box to proceed.</div>
+                        <label class="form-check-label" for="rememberMe">Recuérdame</label>
+                        <div class="invalid-feedback">Debes marcar esta casilla para continuar.</div>
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-outline-dark w-100" type="button" onclick="submitLoginForm();">Login</button>
+                      <button class="btn btn-outline-dark w-100" type="button" onclick="submitLoginForm();">Iniciar Sesión</button>
                     </div>
 
-                    <div class="alert alert-light text-white bg-info d-none" id="alertMessage" role="alert"></div>
+                    <div class="alert alert-light text-white bg-info alert-dismissible fade show d-none" id="alertMessage" role="alert">
+                        <span id="alertText"></span>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
 
                     <div class="col-12">
-                      <p class="small mb-0">Don't have an account? <a href="{{ url_for('auth.register_view') }}">Create an account</a></p>
+                      <p class="small mb-0">¿No tienes una cuenta? <a href="{{ url_for('auth.register_view') }}">Crea una cuenta</a></p>
                     </div>
                   </form>
 
@@ -123,40 +126,88 @@
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
   <script>
-  function submitLoginForm() {
-      const formData = new FormData(document.getElementById('loginForm'));
+  function validateLoginForm() {
+      const form = document.getElementById('loginForm');
+      const username = document.getElementById('yourUsername');
+      const password = document.getElementById('yourPassword');
+      const rememberMe = document.getElementById('rememberMe');
+      const alertMessage = document.getElementById('alertMessage');
+      const alertText = document.getElementById('alertText');
 
-      fetch("{{ url_for('auth.login_send') }}", {
-          method: 'POST',
-          body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-          const alertMessage = document.getElementById('alertMessage');
-          alertMessage.classList.remove('d-none'); // Mostrar el div de alertas
+      // Limpiar mensajes de alerta
+      alertMessage.classList.add('d-none');
+      alertText.innerText = '';
 
-          if (data.message) {
-              alertMessage.classList.remove('bg-danger');
-              alertMessage.classList.add('bg-info');
-              alertMessage.innerText = data.message; // Mostrar mensaje de éxito
-              // Aquí puedes redirigir o actualizar la interfaz según sea necesario
-              setTimeout(() => {
-                  window.location.href = "{{ url_for('index') }}"; // Redirigir a la página principal
-              }, 2000);
-          } else if (data.error) {
-              alertMessage.classList.remove('bg-info');
-              alertMessage.classList.add('bg-danger');
-              alertMessage.innerText = data.error; // Mostrar mensaje de error
+      // Validar el formulario
+      if (!form.checkValidity()) {
+          // Si el formulario no es válido, mostrar los mensajes de error
+          if (username.validity.valueMissing) {
+              username.classList.add('is-invalid');
+          } else {
+              username.classList.remove('is-invalid');
           }
-      })
-      .catch(error => {
-          console.error('Error:', error);
-          const alertMessage = document.getElementById('alertMessage');
+
+          if (password.validity.valueMissing) {
+              password.classList.add('is-invalid');
+          } else {
+              password.classList.remove('is-invalid');
+          }
+
+          if (!rememberMe.checked) {
+              rememberMe.classList.add('is-invalid');
+          } else {
+              rememberMe.classList.remove('is-invalid');
+          }
+
+          // Mostrar mensaje de alerta si hay un error
+          alertText.innerText = 'Por favor, complete todos los campos requeridos.';
           alertMessage.classList.remove('d-none');
-          alertMessage.classList.remove('bg-info');
-          alertMessage.classList.add('bg-danger');
-          alertMessage.innerText = 'Error al enviar el formulario. Por favor, inténtelo de nuevo más tarde.';
-      });
+          return false; // Evitar el envío del formulario
+      }
+
+      // Si todo está bien, permitir el envío del formulario
+      return true;
+  }
+
+  function submitLoginForm() {
+    if (validateLoginForm()) {
+        // Crear objeto FormData con el formulario
+        const formData = new FormData(document.getElementById('loginForm'));
+
+        fetch("{{ url_for('auth.login_send') }}", {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const alertMessage = document.getElementById('alertMessage');
+            const alertText = document.getElementById('alertText');
+            alertMessage.classList.remove('d-none'); // Mostrar el div de alertas
+
+            if (data.message) {
+                alertMessage.classList.remove('bg-danger');
+                alertMessage.classList.add('bg-info');
+                alertText.innerText = data.message; // Mostrar mensaje de éxito
+
+                // Redirigir a la vista /index
+                setTimeout(() => {
+                    window.location.href = "/index"; // Ajusta esta ruta según la estructura de tu aplicación
+                }, 2000); // Retraso opcional para que el usuario pueda ver el mensaje
+            } else if (data.error) {
+                alertMessage.classList.remove('bg-info');
+                alertMessage.classList.add('bg-danger');
+                alertText.innerText = data.error; // Mostrar mensaje de error
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const alertMessage = document.getElementById('alertMessage');
+            alertMessage.classList.remove('d-none');
+            alertMessage.classList.remove('bg-info');
+            alertMessage.classList.add('bg-danger');
+            alertText.innerText = 'Error al enviar el formulario. Por favor, inténtelo de nuevo más tarde.';
+        });
+    }
   }
   </script>
 

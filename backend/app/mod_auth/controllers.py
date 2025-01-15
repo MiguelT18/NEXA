@@ -18,10 +18,10 @@ def allowed_file(filename):
 @auth_blueprint.route('/list_users', methods=['GET'])
 def list_users():
     """
-    Lista todos los usuarios registrados y retorna en formato JSON.
+    Lista todos los usuarios registrados con status = 1 y retorna en formato JSON.
     """
     try:
-        users = User.query.all()
+        users = User.query.filter_by(status=1).all()
         users_data = [{
             'id': user.id,
             'name': user.name,
@@ -31,7 +31,7 @@ def list_users():
             'role': user.role,
             'status': user.status,
             'photo': user.photo,
-            'phoneNumber': user.phoneNumber,
+            'phone_number': user.phone_number,
             'address': user.address,
             'date_register': user.date_register,
             'date_modified': user.date_modified
@@ -83,7 +83,10 @@ def add_user():
             db.session.add(new_user)
             db.session.commit()
 
-            return jsonify({"message": "Su cuenta ha sido creada con éxito", "username": username}), 201
+            return jsonify({
+                "message": "Su cuenta ha sido creada con éxito",
+                "username": f"Su nombre de usuario es: {username}"
+            }), 201
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -185,7 +188,8 @@ def login_send():
             username = request.form['username']
             password = request.form['password'].encode('utf-8')
 
-            user = User.query.filter_by(username=username).first()
+            # Filtrar para obtener solo usuarios con status = 1
+            user = User.query.filter_by(username=username, status=1).first()
 
             if user:
                 if bcrypt.checkpw(password, user.password.encode('utf-8')):
@@ -197,12 +201,15 @@ def login_send():
                     session['status'] = user.status
                     session['last_name'] = user.last_name
                     session['user_id'] = user.id
+                    session['phone_number'] = user.phone_number
+                    session['address'] = user.address
+                    session['photo'] = user.photo
 
                     return jsonify({'message': 'Inicio de sesión exitoso', 'user_id': user.id}), 200
                 else:
                     return jsonify({'error': 'La contraseña es incorrecta'}), 401
             else:
-                return jsonify({'error': 'No existe el usuario'}), 404
+                return jsonify({'error': 'No existe el usuario o el usuario está inactivo'}), 404
 
     except Exception as e:
         return jsonify({'error': f'Informacion del error: {str(e)}'}), 500
@@ -238,35 +245,74 @@ def user_profile(id):
     Actualiza la información y la foto de perfil de un usuario específico.
     """
     try:
-        user = User.query.get(id)
+        user = User.query.filter_by(id=id, status=1).first()
         if user:
             # Actualizar datos del usuario según los campos del formulario
             user.name = request.form['name']
             user.last_name = request.form['lastName']
             user.email = request.form['email']
             user.username = request.form['username']
-            user.phoneNumber = request.form.get('phoneNumber')  # Actualizar phoneNumber
-            user.address = request.form.get('address')  # Actualizar address
+            user.phone_number = request.form['phoneNumber']
+            user.address = request.form.get('address')
 
             # Manejar la actualización de la foto
             photo = request.files.get('photo')
             if photo and allowed_file(photo.filename):
                 # Convertir la imagen a PNG
                 image = Image.open(photo.stream)
-                filename = f"{user.username}.png"  # Construir el nombre del archivo en formato PNG
+                filename = f"{user.username}.png"
                 photo_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 image.save(photo_path, format='PNG')
-                user.photo = 1  # Indica que la foto existe
+                user.photo = 1
             else:
-                user.photo = 0  # No hay foto o el archivo no es permitido
+                user.photo = 0
 
             # Actualizar la fecha de modificación del usuario
-            user.date_modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Actualizar con la fecha y hora actuales
+            user.date_modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
             db.session.commit()
             return jsonify({'message': 'Perfil actualizado con éxito.'}), 200
         else:
-            return jsonify({'error': 'Usuario no encontrado.'}), 404
+            return jsonify({'error': 'Usuario no encontrado o inactivo.'}), 404
 
     except Exception as e:
         return jsonify({'error': f'Error al actualizar el perfil: {str(e)}'}), 500
+
+@auth_blueprint.route('/change_password/<id>', methods=['POST'])
+def change_password(id):
+    """
+    Cambia la contraseña del usuario específico.
+    """
+    try:
+        user = User.query.filter_by(id=id, status=1).first()
+        if user:
+            current_password = request.form['currentPassword']
+            new_password = request.form['newPassword']
+            confirm_password = request.form['confirmPassword']
+
+            # Validaciones
+            if not current_password or not new_password or not confirm_password:
+                return jsonify({'error': 'Todos los campos son obligatorios.'}), 400
+
+            if len(new_password) < 8:
+                return jsonify({'error': 'La nueva contraseña debe tener al menos 8 caracteres.'}), 400
+
+            # Verificar la contraseña actual
+            if not bcrypt.checkpw(current_password.encode('utf-8'), user.password.encode('utf-8')):
+                return jsonify({'error': 'La contraseña actual es incorrecta.'}), 400
+
+            # Validar que la nueva contraseña y la confirmación coincidan
+            if new_password != confirm_password:
+                return jsonify({'error': 'Las contraseñas nuevas no coinciden.'}), 400
+
+            # Actualizar la contraseña y la fecha de modificación
+            user.password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+            user.date_modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+            db.session.commit()
+            return jsonify({'message': 'Contraseña actualizada con éxito.'}), 200
+        else:
+            return jsonify({'error': 'Usuario no encontrado o inactivo.'}), 404
+
+    except Exception as e:
+        return jsonify({'error': f'Error al cambiar la contraseña: {str(e)}'}), 500
