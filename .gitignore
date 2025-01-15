@@ -23,7 +23,7 @@ yarn.lock
 /coverage
 
 # next.js
-frontend/next/*
+frontend/.next/
 
 /out/
 
