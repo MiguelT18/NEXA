@@ -182,7 +182,7 @@ export default function Home() {
             {mindsBehind.map((collaborator, index) => (
               <article
                 key={index}
-                className="bg-white dark:bg-dark-background p-4 rounded-md space-y-2"
+                className="bg-white dark:bg-dark-background p-4 rounded-lg space-y-2"
               >
                 <Loader
                   uniqueId={index}
