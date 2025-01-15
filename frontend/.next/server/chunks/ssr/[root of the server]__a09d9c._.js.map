@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 31, "column": 0}, "map": {"version":3,"sources":["file:///home/miguel/development/2_projects/NEXA/frontend/src/components/layouts/ProtectedRoute.jsx"],"sourcesContent":["\"use client\";\n\nimport { useRouter } from \"next/router\";\nimport React, { useEffect } from \"react\";\n\nexport default function ProtectedRoute({ children }) {\n  const router = useRouter();\n\n  useEffect(() => {\n    const token = localStorage.getItem(\"token\");\n    if (!token) {\n      router.push(\"/login\");\n    }\n  }, [router]);\n\n  return <>{children}</>;\n}\n"],"names":[],"mappings":";;;;AAEA;AACA;AAHA;;;;AAKe,SAAS,eAAe,EAAE,QAAQ,EAAE;IACjD,MAAM,SAAS,CAAA,GAAA,8HAAA,CAAA,YAAS,AAAD;IAEvB,CAAA,GAAA,qMAAA,CAAA,YAAS,AAAD,EAAE;QACR,MAAM,QAAQ,aAAa,OAAO,CAAC;QACnC,IAAI,CAAC,OAAO;YACV,OAAO,IAAI,CAAC;QACd;IACF,GAAG;QAAC;KAAO;IAEX,qBAAO;kBAAG;;AACZ"}},
+    {"offset": {"line": 55, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}
