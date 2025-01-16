@@ -9,11 +9,22 @@ from werkzeug.utils import secure_filename
 import os
 from PIL import Image
 import io
+import secrets
+import string
+from app import send_email
 
 def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def generate_random_password():
+    """
+    Genera una contraseña aleatoria segura de 12 caracteres.
+    """
+    characters = string.ascii_letters + string.digits + string.punctuation
+    password = ''.join(secrets.choice(characters) for i in range(12))
+    return password
 
 @auth_blueprint.route('/list_users', methods=['GET'])
 def list_users():
@@ -223,7 +234,7 @@ def login_view():
     """
     return render_template('pages-login.html')
 
-@auth_blueprint.route('/logout')
+@auth_blueprint.route('/logout', methods=['POST'])
 def logout():
     """
     Cierra la sesión del usuario y limpia la sesión.
@@ -243,6 +254,7 @@ def register_view():
 def user_profile(id):
     """
     Actualiza la información y la foto de perfil de un usuario específico.
+    Retorna un mensaje en formato JSON.
     """
     try:
         user = User.query.filter_by(id=id, status=1).first()
@@ -282,6 +294,7 @@ def user_profile(id):
 def change_password(id):
     """
     Cambia la contraseña del usuario específico.
+    Retorna un mensaje en formato JSON.
     """
     try:
         user = User.query.filter_by(id=id, status=1).first()
@@ -316,3 +329,35 @@ def change_password(id):
 
     except Exception as e:
         return jsonify({'error': f'Error al cambiar la contraseña: {str(e)}'}), 500
+
+@auth_blueprint.route('/forgot_password', methods=['POST'])
+def forgot_password():
+    """
+    Permite a los usuarios recuperar su contraseña enviando una nueva contraseña a su correo electrónico.
+    """
+    email = request.form['email']
+
+    try:
+        # Buscar el usuario por correo electrónico y que esté activo
+        user = User.query.filter_by(email=email, status=1).first()
+        if not user:
+            return jsonify({'error': 'No se encontró un usuario activo con ese correo electrónico.'}), 404
+
+        # Generar una nueva contraseña aleatoria
+        new_password = generate_random_password()
+
+        # Actualizar la contraseña del usuario en la base de datos
+        user.password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+        db.session.commit()
+
+        # Enviar correo electrónico con la nueva contraseña
+        subject = "Restablecimiento de Contraseña"
+        body = f"Tu nueva contraseña es: {new_password}"
+        response = send_email(email, subject, body)
+        if 'error' in response:
+            raise Exception(response['error'])
+
+        return jsonify({'message': 'Se ha enviado una nueva contraseña a su correo electrónico.'}), 200
+
+    except Exception as e:
+        return jsonify({'error': f'Error al procesar la solicitud: {str(e)}'}), 500

@@ -38,31 +38,31 @@ const planes = [
 export default function PricingPage() {
   return (
     <ProtectedRoute>
-      <div className="bg-light min-vh-100">
+      <div className="bg-gray-100 min-h-screen">
         <Navbar />
-        <main className="container py-5">
-          <h1 className="text-center fw-bold mb-5">Planes de Precios</h1>
-          <div className="row g-4">
+        <main className="container mx-auto py-10">
+          <h1 className="text-center font-bold text-3xl mb-10">Planes de Precios</h1>
+          <div className="flex flex-wrap -mx-4">
             {planes.map((plan, index) => (
-              <div key={index} className="col-md-4">
-                <div className="card h-100 shadow">
-                  <div className="card-body d-flex flex-column">
-                    <h2 className="card-title text-center fw-bold">{plan.nombre}</h2>
-                    <p className="card-text text-center fs-4 fw-bold my-3">
+              <div key={index} className="w-full md:w-1/3 px-4 mb-6">
+                <div className="bg-white rounded-lg shadow-lg flex flex-col h-full">
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h2 className="text-center font-bold text-2xl mb-3">{plan.nombre}</h2>
+                    <p className="text-center text-xl font-semibold my-3">
                       {plan.precio === "Personalizado"
                         ? "Personalizado"
                         : `$${plan.precio}/mes`}
                     </p>
-                    <ul className="list-unstyled mb-4">
+                    <ul className="flex-grow mb-4">
                       {plan.caracteristicas.map((caracteristica, idx) => (
-                        <li key={idx} className="mb-2">
-                          <i className="bi bi-check-circle-fill text-success"></i>{" "}
-                          {caracteristica}
+                        <li key={idx} className="mb-2 flex items-center">
+                          <i className="bi bi-check-circle-fill text-green-500"></i>
+                          <span className="ml-2">{caracteristica}</span>
                         </li>
                       ))}
                     </ul>
                     <Link href="/register" passHref>
-                      <button className="btn btn-primary w-100 mt-auto">
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-auto">
                         Seleccionar Plan
                       </button>
                     </Link>

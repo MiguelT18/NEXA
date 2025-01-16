@@ -19,7 +19,7 @@
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img src="{{ url_for('static', filename='img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
+              <img src="{{ url_for('static', filename='img/' + (session['username'] + '.png') if session.get('photo') == 1 else 'img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
               {% if session['username'] %}
               <h2>{{ session['username'] }}</h2>
               {% else %}
@@ -122,7 +122,7 @@
                     <div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                       <div class="col-md-8 col-lg-9">
-                        <img src="{{ url_for('static', filename='img/' + (session['username'] + '.png') if session.get('photo') == 1 else 'img/profile-img.jpg') }}" alt="Perfil" class="rounded-circle" id="profileImagePreview">
+                        <img src="{{ url_for('static', filename='img/' + (session['username'] + '.png') if session.get('photo') == 1 else 'img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
                         <input type="file" class="form-control" name="photo" id="profileImage" onchange="previewImage();">
                         <div class="pt-2">
                           <button class="btn btn-primary btn-sm" type="button" title="Subir nueva imagen de perfil" onclick="document.getElementById('profileImage').click();"><i class="bi bi-upload"></i> Subir</button>
@@ -306,12 +306,12 @@
         var file = document.getElementById("profileImage").files[0];
         var reader = new FileReader();
         reader.onloadend = function() {
-            document.getElementById("profileImagePreview").src = reader.result;
+            document.querySelector('img.rounded-circle').src = reader.result;
         }
         if (file) {
             reader.readAsDataURL(file);
         } else {
-            document.getElementById("profileImagePreview").src = "{{ url_for('static', filename='img/profile-img.jpg') }}";
+            document.querySelector('img.rounded-circle').src = "{{ url_for('static', filename='img/profile-img.jpg') }}";
         }
     }
 

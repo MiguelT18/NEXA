@@ -65,8 +65,8 @@ def profile_view():
 def charts_view():
     return render_template('charts-apexcharts.html')
 
-def send_email(email, information):
-    try: 
+def send_email(email, subject, body):
+    try:
         smtp_server = "smtp.gmail.com"
         port = 587  # puerto para TLS
         sender_email = "axelmiranda.845@gmail.com"
@@ -75,8 +75,6 @@ def send_email(email, information):
         server = smtplib.SMTP(smtp_server, port)
         server.starttls()
         server.login(sender_email, sender_password)
-        subject = "Data Learning System"
-        body = information
 
         message = MIMEMultipart()
         message["From"] = sender_email
@@ -84,8 +82,10 @@ def send_email(email, information):
         message["Subject"] = subject
         message.attach(MIMEText(body, "plain"))
         server.sendmail(sender_email, email, message.as_string())
+        server.quit()
     except Exception as e:
-        return {'error': f'información de error: {str(e)}'}
+        return {'error': f'Error al enviar el correo: {str(e)}'}
+    return {'success': 'Correo enviado correctamente'}
 
 @app.route('/contact_send', methods=['POST'])
 def contact_send():
@@ -97,7 +97,7 @@ def contact_send():
         message = 'El usuario envió un mensaje: ' + name + ' ' + message_body  
 
         try:
-            send_email(email, message)
+            send_email(email, subject, message)
             return jsonify({'message': '¡Mensaje enviado con éxito!'}), 200
         except Exception as e:
             print(str(e))
@@ -113,7 +113,7 @@ def contact_information():
         message = 'El usuario envió un mensaje: ' + name + ' ' + message_body  
 
         try:
-            send_email(email, message)
+            send_email(email, subject, message)
             return jsonify({'message': '¡Mensaje enviado con éxito!'}), 200
         except Exception as e:
             print(str(e))

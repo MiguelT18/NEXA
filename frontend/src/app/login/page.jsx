@@ -2,7 +2,7 @@
 
 import BrandLogo from "@/images/logos/variant-01";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function LoginPage() {
@@ -11,6 +11,8 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [responseMessage, setResponseMessage] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   const onSubmit = async (data) => {
     try {
@@ -20,7 +22,7 @@ export default function LoginPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: data.email,
+          username: data.username,
           password: data.password,
         }),
       });
@@ -30,11 +32,17 @@ export default function LoginPage() {
         localStorage.setItem("token", result.token);
         window.location.href = "/dashboard";
       } else {
-        console.error("❌ Error al iniciar sesión:", result);
+        setResponseMessage("❌ " + (result.error || "Error al iniciar sesión"));
+        setShowMessage(true);
       }
     } catch (error) {
-      console.error("❌ Error al iniciar sesión:", error);
+      setResponseMessage("❌ Error al iniciar sesión: " + error.message);
+      setShowMessage(true);
     }
+  };
+
+  const handleCloseMessage = () => {
+    setShowMessage(false);
   };
 
   return (
@@ -54,24 +62,24 @@ export default function LoginPage() {
 
         <div className="flex flex-col gap-2 [&>label]:w-full mb-2">
           <label
-            htmlFor="email"
+            htmlFor="username"
             className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
           >
-            Email
+            Nombre de usuario
             <input
-              type="email"
-              id="email"
+              type="text"
+              id="username"
               autoComplete="off"
-              {...register("email", {
-                required: "El email es obligatorio.",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "El formato del email es inválido.",
+              {...register("username", {
+                required: "El nombre de usuario es obligatorio.",
+                minLength: {
+                  value: 3,
+                  message: "El nombre de usuario debe tener al menos 3 caracteres.",
                 },
               })}
             />
-            {errors.email && (
-              <p className="text-red-500 text-xs">{errors.email.message}</p>
+            {errors.username && (
+              <p className="text-red-500 text-xs">{errors.username.message}</p>
             )}
           </label>
 
@@ -86,6 +94,10 @@ export default function LoginPage() {
               autoComplete="off"
               {...register("password", {
                 required: "La contraseña es obligatoria.",
+                minLength: {
+                  value: 8,
+                  message: "La contraseña debe tener al menos 8 caracteres.",
+                },
               })}
             />
             {errors.password && (
@@ -118,6 +130,24 @@ export default function LoginPage() {
             Crea una cuenta
           </Link>
         </span>
+        <span className="w-full inline-block text-sm text-center mt-2 dark:text-difuminate-text-dark text-difuminate-text-light [&>a]:dark:text-white [&>a]:text-black transition-all">
+          ¿Olvidaste tu contraseña?{" "}
+          <Link
+            href="/forgot-password"
+            className="hover:underline hover:dark:text-primary-color hover:text-secondary-color"
+          >
+            Restablecer contraseña
+          </Link>
+        </span>
+
+        {showMessage && responseMessage && (
+          <div className="text-center my-4 p-2 bg-gray-100 dark:bg-gray-700 text-sm relative">
+            {responseMessage}
+            <button onClick={handleCloseMessage} className="absolute top-0 right-0 p-2">
+              ✖
+            </button>
+          </div>
+        )}
       </form>
     </main>
   );

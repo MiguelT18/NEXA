@@ -447,8 +447,21 @@
 
     document.getElementById('confirmLogoutButton').addEventListener('click', function() {
       var logoutUrl = this.getAttribute('data-logout-url'); // Obtiene la URL desde el atributo de datos
-      window.location.href = logoutUrl; // Redirige a la ruta de cierre de sesión
-      window.location.href = "/";
+      fetch(logoutUrl, {
+        method: 'POST', // Asegúrate de que sea POST
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest' // Indica que es una solicitud AJAX
+        }
+      }).then(response => {
+        if (response.ok) {
+          // Redirigir a la vista de inicio
+          window.location.href = "/"; // Redirige a la vista de inicio
+        } else {
+          console.error('Error al cerrar sesión');
+        }
+      }).catch(error => {
+        console.error('Error en la solicitud:', error);
+      });
     });
   </script>
 

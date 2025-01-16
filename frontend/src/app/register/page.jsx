@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import BrandLogo from "@/images/logos/variant-01";
 import { useForm } from "react-hook-form";
@@ -13,6 +13,8 @@ export default function RegisterPage() {
     reset,
     formState: { errors },
   } = useForm();
+  const [responseMessage, setResponseMessage] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   const onSubmit = async (data) => {
     try {
@@ -21,20 +23,30 @@ export default function RegisterPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          name: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          password: data.password,
+          repeatPassword: data.confirmPassword,
+          acceptTerms: data.terms ? 'yes' : 'no',
+        }),
       });
 
+      const responseData = await response.json();
       if (response.ok) {
-        const data = await response.json();
-        console.log("✅ Formulario enviado con éxito!", data);
+        setResponseMessage("✅ " + responseData.message);
         reset();
       } else {
-        const errorData = await response.json();
-        console.log("❌ Error al enviar el formulario", errorData);
+        setResponseMessage("❌ " + responseData.error);
       }
     } catch (error) {
-      console.log("❌ Error al enviar el formulario", error);
+      setResponseMessage("❌ Error al enviar el formulario: " + error.message);
     }
+  };
+
+  const handleCloseMessage = () => {
+    setShowMessage(false);
   };
 
   const password = watch("password");
@@ -125,8 +137,12 @@ export default function RegisterPage() {
               {...register("password", {
                 required: "Tu contraseña es obligatoria.",
                 minLength: {
-                  value: 6,
-                  message: "La contraseña debe tener al menos 6 caracteres.",
+                  value: 8,
+                  message: "La contraseña debe tener al menos 8 caracteres.",
+                },
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                  message: "La contraseña debe incluir minúsculas, mayúsculas y números.",
                 },
               })}
             />
@@ -198,6 +214,15 @@ export default function RegisterPage() {
             Iniciar Sesión
           </Link>
         </span>
+
+        {showMessage && responseMessage && (
+          <div className="text-center my-4 p-2 bg-gray-100 dark:bg-gray-700 text-sm relative">
+            {responseMessage}
+            <button onClick={handleCloseMessage} className="absolute top-0 right-0 p-2">
+              ✖
+            </button>
+          </div>
+        )}
       </form>
     </main>
   );
