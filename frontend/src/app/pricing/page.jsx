@@ -45,7 +45,7 @@ const gradients = [
 
 export default function PricingPage() {
   return (
-    <main className="container mx-auto px-4 max-md:pt-4 md:py-24">
+    <main className="container min-h-[80dvh] mx-auto px-4 flex items-center py-12">
       <section className="h-full w-full grid gap-10 grid-cols-[repeat(auto-fit,_minmax(290px,1fr))] max-md:pb-24">
         {plans.map((plan, index) => {
           return (

@@ -19,8 +19,14 @@ import ClockIcon from "./clock";
 import CalendarIcon from "./calendar";
 import CheckIcon from "./check";
 import CloudUploadIcon from "./cloudUpload";
+import FacebookIcon from "./facebook";
+import TwitterIcon from "./twitter";
+import InstagramIcon from "./instagram";
 
 export {
+  InstagramIcon,
+  TwitterIcon,
+  FacebookIcon,
   CloudUploadIcon,
   CheckIcon,
   CalendarIcon,

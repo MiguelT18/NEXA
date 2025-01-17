@@ -218,7 +218,7 @@ export default function UserProfile() {
                 )}
               </div>
 
-              <div className="rounded-full px-4 py-1 w-fit dark:bg-white dark:text-black bg-black text-white text-xs font-medium font-sans">
+              <div className="rounded-full px-4 py-1 w-fit bg-gradient-pro text-white text-xs font-bold font-sans">
                 Pro
               </div>
             </div>
@@ -360,7 +360,7 @@ export default function UserProfile() {
         }`}
       >
         <article
-          className={`bg-dark-background border-dark-gray border rounded-lg p-6 w-[90%] h-fit max-w-2xl transform transition-all duration-300 ${
+          className={`bg-white dark:bg-dark-background border-dark-gray border rounded-lg p-6 w-[90%] h-fit max-w-2xl transform transition-all duration-300 ${
             isModalOpen ? "scale-100" : "scale-0"
           }`}
         >
@@ -377,8 +377,8 @@ export default function UserProfile() {
                     key={index}
                     className={`overflow-hidden rounded-full cursor-pointer transition-all border-2 ${
                       selectedAvatar === avatar
-                        ? "border-white/80"
-                        : "border-dark-gray hover:border-white/80"
+                        ? "border-black/30 dark:border-white/80"
+                        : "hover:border-dark-gray border-black/30 hover:dark:border-white/80"
                     }`}
                     tabIndex={0}
                     onClick={() => handleAvatarSelect(avatar)}
@@ -421,13 +421,13 @@ export default function UserProfile() {
             <div className="mt-5 flex justify-between gap-4 [&>button]:py-2 [&>button]:rounded-md">
               <button
                 onClick={handleCancelAvatar}
-                className="border dark:border-dark-gray text-difuminate-text-dark hover:text-white hover:dark:border-white/50 transition-all w-full"
+                className="border dark:border-dark-gray hover:border-black dark:text-difuminate-text-dark hover:dark:text-white hover:dark:border-white/50 transition-all w-full"
               >
                 Cancelar
               </button>
               <button
                 onClick={handleConfirmAvatar}
-                className="dark:bg-white dark:text-black hover:dark:bg-white/80 transition-all w-full"
+                className="bg-black hover:bg-black/90 text-white dark:bg-white dark:text-black hover:dark:bg-white/80 transition-all w-full"
               >
                 Confirmar
               </button>

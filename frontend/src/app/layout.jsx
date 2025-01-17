@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
 import ThemeProvider from "@/hooks/useTheme";
 import { AvatarProvider } from "@/hooks/useAvatar";
+import Footer from "@/components/ui/Footer";
 
 export const metadata = {
   title: "Nexa AI",
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
           <AvatarProvider>
             <Navbar />
             {children}
+            <Footer />
           </AvatarProvider>
         </ThemeProvider>
       </body>

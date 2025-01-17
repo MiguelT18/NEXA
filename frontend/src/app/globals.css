@@ -27,7 +27,7 @@ body {
 }
 
 p {
-  line-height: 30px;
+  line-height: 180%;
 }
 
 ::-webkit-scrollbar {

@@ -73,7 +73,7 @@ const mindsBehind = [
     name: "Deivy Figueredo",
     occupation: "Inversor Estratégico y Asesor Legal",
     about:
-      "Nuestro estimado inversor financiero jugó un papel crucial en dar vida a este proyecto. Su inversión y experiencia en asuntos legales han sido fundamentales para establecer una base sólida para nuestra empresa de bots de trading.",
+      "Nuestro estimado inversor financiero y asesor legal jugó un papel crucial en dar vida a este proyecto. Su inversión y experiencia en asuntos legales han sido fundamentales para establecer una base sólida para nuestra empresa de bots de trading.",
   },
 ];
 

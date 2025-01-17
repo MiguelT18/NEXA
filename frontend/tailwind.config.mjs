@@ -21,9 +21,9 @@ export default {
       },
     },
     fontSize: {
-      sm: "clamp(14px, 3vw, 18px)",
-      md: "clamp(20px, 4vw, 24px)",
-      lg: "clamp(26px, 6vw, 36px)",
+      sm: "clamp(14px, 3vw, 16px)",
+      md: "clamp(20px, 4vw, 22px)",
+      lg: "clamp(26px, 6vw, 34px)",
     },
     backgroundImage: {
       "gradient-basic": "linear-gradient(to right, #38bdf8, #60a5fa)",
