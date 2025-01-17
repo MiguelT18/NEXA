@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import HeroImg from "@/images/hero-image-01.jpg";
-import * as Icons from "@/icons/index";
+import * as Icons from "@/components/icons/index";
 import Faq from "@/components/ui/Faq";
 import { useTheme } from "@/hooks/useTheme";
 import MarketTicker from "@/components/ui/MarketTicker";
@@ -70,7 +70,7 @@ const mindsBehind = [
       "Como líder del proyecto y desarrollador FullStack, Miguel supervisa el desarrollo tanto del backend como del frontend. Su visión y capacidad para forjar alianzas clave han sido fundamentales para dar vida a este proyecto.",
   },
   {
-    name: "Deivy Fk'ns",
+    name: "Deivy Figueredo",
     occupation: "Inversor Estratégico y Asesor Legal",
     about:
       "Nuestro estimado inversor financiero jugó un papel crucial en dar vida a este proyecto. Su inversión y experiencia en asuntos legales han sido fundamentales para establecer una base sólida para nuestra empresa de bots de trading.",
@@ -98,7 +98,7 @@ export default function Home() {
 
           <div className="flex max-md:justify-center gap-4 my-4">
             <Link
-              href="/login"
+              href="/market"
               className="primary-button text-white tracking-wide dark:bg-primary-color hover:dark:bg-primary-color/60 bg-secondary-color hover:bg-secondary-color/80 transition-all p-2 rounded-md"
             >
               Comenzar a Operar

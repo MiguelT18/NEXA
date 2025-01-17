@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { TriangleArrowIcon } from "@/icons/index";
+import { TriangleArrowIcon } from "@/components/icons/index";
 
 const faqItems = [
   {
@@ -50,7 +50,7 @@ export default function Faq() {
           className="rounded-md border border-difuminate-text-dark dark:border-light-gray p-4 cursor-pointer"
         >
           <div className="flex justify-between items-center gap-6">
-            <h3 className="text-md">{faq.question}</h3>
+            <h3 className="text-sm font-bold">{faq.question}</h3>
             <TriangleArrowIcon
               className={`max-md:size-4 size-6 min-w-[24px] transform transition-transform duration-300 ${
                 openIndex === index ? "rotate-180" : "rotate-0"

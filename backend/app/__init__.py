@@ -39,7 +39,7 @@ secret_key = secrets.token_hex(16)  # Genera una clave secreta de 16 bytes
 app.config['SECRET_KEY'] = secret_key
 
 # CORS
-CORS(app)
+CORS(app, origins=["http://localhost:3000"])
 # Configurations
 app.config.from_object('config')
 
@@ -264,10 +264,22 @@ def get_user(id):
     user = User.query.get(id)  # Obtener un solo usuario por su ID
 
     if user:
-        return render_template('user-update.html', user=user)
+        user_data = {
+            "username": user.username,
+            "name": user.name,
+            "last_name": user.last_name,
+            "email": user.email,
+            "role": user.role,
+            "active": user.status,
+            "id": user.id,
+            "created_at": user.date_created,
+            "updated_at": user.date_modified,
+        }
+
+        return jsonify(user_data)
     else:
         # Manejar el caso en que no se encuentra el usuario con el ID especificado
-        return render_template('pages-error-404.html')
+        return jsonify({"error": "No se encontró el usuario con el ID especificado"}), 404
 
 
 @app.route('/update_user/<id>', methods=['POST'])
@@ -278,23 +290,38 @@ def update_user(id):
             user = User.query.get(id)
 
             if user:
-                user.name = request.form['name']
-                user.last_name = request.form['lastName']
-                user.email = request.form['email']
-                user.username = request.form['username']
-                user.role = request.form['role']
-                current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                data = request.get_json()
+
+                if 'name' in data and data['name']:
+                    user.name = data['name']
+                if 'last_name' in data and data['last_name']:
+                    user.last_name = data['last_name']
+                if 'email' in data and data['email']:
+                    user.email = data['email']
+                if 'username' in data and data['username']:
+                    user.username = data['username']
+                if 'role' in data and data['role']:
+                    user.role = data['role']
+
+                current_datetime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 user.date_modified = current_datetime
 
                 db.session.commit()
-                flash('Registro actualizado', 'info')
-            else:
-                flash('No se encontró el usuario con el ID especificado', 'info')
-    except Exception as e:
-        flash(f'Informacion del error: {str(e)}')
-        return render_template('user-update.html')
 
-    return redirect(url_for('list_users'))
+                return jsonify({
+                    'message': 'Registro actualizado correctamente',
+                    'status': 'success'
+                }), 200
+            else:
+                return jsonify({
+                    'message': 'No se encontró el usuario con el ID especificado',
+                    'status': 'error'
+                }), 404
+    except Exception as e:
+        return jsonify({
+            'message': f'Error al actualizar el usuario: {str(e)}',
+            'status': 'error'
+        }), 500
 
 
 # eliminar registro existente de la tabla usuario
@@ -327,13 +354,15 @@ def login_send():
     try:
         if request.method == "POST":
             data = request.get_json()
-            email = data['email']
+            identifier = data['identifier']
             password = data['password']
-            # username = request.form['username']
-            # password = request.form['password'].encode('utf-8')
-            remember = request.form.get('remember')
+            # remember = request.form.get('remember')
 
-            user = User.query.filter_by(email=email).first()
+            user = None
+            if "@" in identifier:
+                user = User.query.filter_by(email=identifier).first()
+            else:
+                user = User.query.filter_by(username=identifier).first()
 
             if user:
                 if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
@@ -351,25 +380,20 @@ def login_send():
                     session['username'] = user.username
                     session['status'] = user.status
                     session['lastName'] = user.last_name
-                    # return redirect(url_for('analisis_view'))
+                    session['id'] = user.id
+
                     return jsonify({
                         "message": "Sesión iniciada correctamente",
-                        "token": token
+                        "token": token,
+                        "userId": user.id
                     }), 200
                 else:
-                    # flash('La contraseña es incorrecta', 'info')
-                    # return redirect(url_for('login_view'))
                     return jsonify({"message": "La contraseña es incorrecta"}), 401
             else:
-                # flash('No existe el usuario', 'info')
-                # return redirect(url_for('error_view'))
                 return jsonify({"message": "El usuario no existe"}), 500
 
     except Exception as e:
-        # flash(f'Informacion del error: {str(e)}')
         return jsonify({"message": f'Informacion del error: {str(e)}'})
-
-    # return redirect(url_for('register_view'))
 
 
 # Build the database:

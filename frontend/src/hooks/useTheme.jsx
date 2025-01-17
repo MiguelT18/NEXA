@@ -7,12 +7,6 @@ const ThemeContext = createContext();
 export default function ThemeProvider({ children }) {
   const [theme, setTheme] = useState("light");
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    setTheme(savedTheme);
-    document.documentElement.classList.add(savedTheme);
-  }, []);
-
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
@@ -21,6 +15,12 @@ export default function ThemeProvider({ children }) {
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(newTheme);
   };
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
+    document.documentElement.classList.add(savedTheme);
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

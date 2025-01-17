@@ -1,11 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import BrandLogo from "@/images/logos/variant-01";
 import { useForm } from "react-hook-form";
 
 export default function RegisterPage() {
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
+  if (error) {
+    setTimeout(() => {
+      setError(null);
+    }, 3000);
+  }
+  if (success) {
+    setTimeout(() => {
+      setSuccess(null);
+    }, 3000);
+  }
+
   const {
     register,
     handleSubmit,
@@ -26,22 +40,30 @@ export default function RegisterPage() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("✅ Formulario enviado con éxito!", data);
+        setSuccess(data.message);
         reset();
       } else {
         const errorData = await response.json();
-        console.log("❌ Error al enviar el formulario", errorData);
+        setError(errorData.message);
       }
     } catch (error) {
-      console.log("❌ Error al enviar el formulario", error);
+      setError(error.message);
     }
   };
 
   const password = watch("password");
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.href = "/";
+    }
+  }, []);
+
   return (
-    <main className="bg-gradient-light-section dark:bg-gradient-dark-section flex-grow flex justify-center items-center max-md:px-4 max-md:pb-16">
+    <main className="bg-gradient-light-section dark:bg-gradient-dark-section flex-grow flex justify-center items-center max-md:px-4 max-md:pb-16 relative">
       <form
+        method="POST"
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white dark:bg-dark-background p-4 rounded-lg w-full max-w-[500px] h-fit max-md:my-8"
       >
@@ -57,7 +79,7 @@ export default function RegisterPage() {
         <div className="flex flex-col gap-2 [&>label]:w-full">
           <div className="flex gap-2 [&>label]:w-full [&>label]:flex [&>label]:flex-col [&>label>input]:w-full [&>label>input]:rounded-md [&>label>input]:p-2 [&>label>input]:bg-transparent [&>label>input]:border [&>label>input]:dark:border-light-gray [&>label>input]:mt-1">
             <label htmlFor="firstName">
-              Nombres
+              Nombres:
               <input
                 type="text"
                 id="firstName"
@@ -74,7 +96,7 @@ export default function RegisterPage() {
             </label>
 
             <label htmlFor="lastName">
-              Apellidos
+              Apellidos:
               <input
                 type="text"
                 id="lastName"
@@ -95,7 +117,7 @@ export default function RegisterPage() {
             htmlFor="email"
             className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
           >
-            Email
+            Correo electrónico:
             <input
               type="email"
               id="email"
@@ -117,7 +139,7 @@ export default function RegisterPage() {
             htmlFor="password"
             className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
           >
-            Contraseña
+            Contraseña:
             <input
               type="password"
               id="password"
@@ -139,7 +161,7 @@ export default function RegisterPage() {
             htmlFor="confirmPassword"
             className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
           >
-            Confirmar Contraseña
+            Confirmar Contraseña:
             <input
               type="password"
               id="confirmPassword"
@@ -199,6 +221,21 @@ export default function RegisterPage() {
           </Link>
         </span>
       </form>
+
+      {error && (
+        <p
+          className={`text-white bg-red-500 dark:bg-red-500/50 px-6 py-2 rounded-md absolute top-5 right-5`}
+        >
+          <strong>Error:</strong> {error}
+        </p>
+      )}
+      {success && (
+        <p
+          className={`text-white bg-green-500 dark:bg-green-500/50 px-6 py-2 rounded-md absolute top-5 right-5`}
+        >
+          ✅ {success}
+        </p>
+      )}
     </main>
   );
 }

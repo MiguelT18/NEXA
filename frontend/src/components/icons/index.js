@@ -14,8 +14,18 @@ import FileIcon from "./file";
 import StatsIcon01 from "./stats01";
 import StatsIcon02 from "./stats02";
 import UsersIcon from "./users";
+import TrashIcon from "./trash";
+import ClockIcon from "./clock";
+import CalendarIcon from "./calendar";
+import CheckIcon from "./check";
+import CloudUploadIcon from "./cloudUpload";
 
 export {
+  CloudUploadIcon,
+  CheckIcon,
+  CalendarIcon,
+  ClockIcon,
+  TrashIcon,
   FileIcon,
   ConfigIcon,
   ProcessorIcon,

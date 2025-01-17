@@ -2,10 +2,18 @@
 
 import BrandLogo from "@/images/logos/variant-01";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function LoginPage() {
+  const [error, setError] = useState(null);
+
+  if (error) {
+    setTimeout(() => {
+      setError(null);
+    }, 3000);
+  }
+
   const {
     register,
     handleSubmit,
@@ -20,26 +28,34 @@ export default function LoginPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: data.email,
+          identifier: data.email_or_username,
           password: data.password,
         }),
       });
       const result = await response.json();
       if (response.ok) {
-        console.log("✅ Inicio de sesión exitoso:", result);
         localStorage.setItem("token", result.token);
-        window.location.href = "/dashboard";
+        localStorage.setItem("userId", result.userId);
+        window.location.href = "/market";
       } else {
-        console.error("❌ Error al iniciar sesión:", result);
+        setError(result.message);
       }
     } catch (error) {
-      console.error("❌ Error al iniciar sesión:", error);
+      setError(error.message);
     }
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.href = "/";
+    }
+  }, []);
+
   return (
-    <main className="bg-gradient-light-section dark:bg-gradient-dark-section flex-grow flex justify-center items-center max-md:px-4 max-md:pb-16">
+    <main className="bg-gradient-light-section dark:bg-gradient-dark-section flex-grow flex justify-center items-center max-md:px-4 max-md:pb-16 relative">
       <form
+        method="POST"
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white dark:bg-dark-background p-4 rounded-lg w-full max-w-[500px] h-fit max-md:my-8"
       >
@@ -54,24 +70,27 @@ export default function LoginPage() {
 
         <div className="flex flex-col gap-2 [&>label]:w-full mb-2">
           <label
-            htmlFor="email"
+            htmlFor="email_or_username"
             className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
           >
-            Email
+            Correo o nombre de usuario:
             <input
-              type="email"
-              id="email"
+              type="email_or_username"
+              id="email_or_username"
               autoComplete="off"
-              {...register("email", {
+              {...register("email_or_username", {
                 required: "El email es obligatorio.",
                 pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  value:
+                    /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^[a-zA-Z0-9._-]{3,}$/,
                   message: "El formato del email es inválido.",
                 },
               })}
             />
-            {errors.email && (
-              <p className="text-red-500 text-xs">{errors.email.message}</p>
+            {errors.email_or_username && (
+              <p className="text-red-500 text-xs">
+                {errors.email_or_username.message}
+              </p>
             )}
           </label>
 
@@ -79,7 +98,7 @@ export default function LoginPage() {
             htmlFor="password"
             className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
           >
-            Contraseña
+            Contraseña:
             <input
               type="password"
               id="password"
@@ -119,6 +138,14 @@ export default function LoginPage() {
           </Link>
         </span>
       </form>
+
+      {error && (
+        <p
+          className={`text-white bg-red-500 dark:bg-red-500/50 px-6 py-2 rounded-md absolute top-5 right-5`}
+        >
+          <strong>Error:</strong> {error}
+        </p>
+      )}
     </main>
   );
 }

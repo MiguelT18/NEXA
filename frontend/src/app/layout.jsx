@@ -2,6 +2,7 @@ import "@fontsource/roboto";
 import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
 import ThemeProvider from "@/hooks/useTheme";
+import { AvatarProvider } from "@/hooks/useAvatar";
 
 export const metadata = {
   title: "Nexa AI",
@@ -11,10 +12,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      <body className="antialiased dark:bg-dark-background dark:text-white bg-white text-dark-gray flex flex-col min-h-dvh">
+      <body className="antialiased dark:bg-dark-background dark:text-white bg-white text-dark-gray flex flex-col min-h-dvh relative">
         <ThemeProvider>
-          <Navbar />
-          {children}
+          <AvatarProvider>
+            <Navbar />
+            {children}
+          </AvatarProvider>
         </ThemeProvider>
       </body>
     </html>
