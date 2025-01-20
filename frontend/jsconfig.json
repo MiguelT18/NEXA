@@ -5,7 +5,7 @@
         "./src/*"
       ],
       "@/icons/*": [
-        "./public/icons/*"
+        "./src/components/icons/*"
       ],
       "@/images/*": [
         "./public/images/*"

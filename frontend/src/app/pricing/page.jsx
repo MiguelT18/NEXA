@@ -1,78 +1,94 @@
-import Navbar from "@/components/ui/Navbar";
-import ProtectedRoute from "@/components/layouts/ProtectedRoute";
-import Link from 'next/link';
 import React from "react";
+import { CheckIcon } from "@/components/icons/index";
 
-const planes = [
+const plans = [
   {
-    nombre: "Básico",
-    precio: "29.99",
-    caracteristicas: [
-      "Acceso a mercados sintéticos básicos",
-      "Análisis de mercado diario",
-      "Soporte por correo electrónico",
+    name: "Básico",
+    price: "29.99",
+    features: [
+      "Acceso limitado a mercados sintéticos básicos.",
+      "Análisis diario de tendencias del mercado.",
+      "Alertas de señales de trading por correo electrónico.",
+      "Soporte técnico estándar.",
     ],
   },
   {
-    nombre: "Pro",
-    precio: "99.99",
-    caracteristicas: [
-      "Acceso a todos los mercados sintéticos",
-      "Análisis de mercado en tiempo real",
-      "Estrategias de trading automatizadas",
-      "Soporte prioritario 24/7",
+    name: "Pro",
+    price: "99.99",
+    features: [
+      "Acceso completo a todos los mercados sintéticos.",
+      "Análisis en tiempo real con actualizaciones cada 5 minutos.",
+      "Estrategias de trading preconfiguradas y optimizadas.",
+      "Alertas personalizadas de señales de trading.",
+      "Soporte técnico prioritario 24/7.",
     ],
   },
   {
-    nombre: "Empresarial",
-    precio: "Personalizado",
-    caracteristicas: [
-      "Soluciones personalizadas",
-      "API dedicada",
-      "Gestor de cuenta personal",
-      "Formación y soporte in situ",
+    name: "Premium",
+    price: "199.99",
+    features: [
+      "Acceso completo con priorización de estrategias en mercados sintéticos.",
+      "Análisis en tiempo real con actualizaciones en tiempo real.",
+      "Estrategias avanzadas y personalizadas de trading automatizado.",
+      "Informes detallados de rendimiento mensual.",
+      "Soporte técnico prioritario con gestor asignado.",
+      "Sesiones exclusivas de consultoría para optimización de estrategias.",
     ],
   },
 ];
 
+const gradients = [
+  "bg-gradient-to-r from-green-400 to-blue-500", // Básico
+  "bg-gradient-to-r from-blue-500 to-purple-600", // Pro
+  "bg-gradient-to-r from-purple-600 to-red-500", // Premium
+];
+
 export default function PricingPage() {
   return (
-    <ProtectedRoute>
-      <div className="bg-gray-100 min-h-screen">
-        <Navbar />
-        <main className="container mx-auto py-10">
-          <h1 className="text-center font-bold text-3xl mb-10">Planes de Precios</h1>
-          <div className="flex flex-wrap -mx-4">
-            {planes.map((plan, index) => (
-              <div key={index} className="w-full md:w-1/3 px-4 mb-6">
-                <div className="bg-white rounded-lg shadow-lg flex flex-col h-full">
-                  <div className="p-6 flex flex-col flex-grow">
-                    <h2 className="text-center font-bold text-2xl mb-3">{plan.nombre}</h2>
-                    <p className="text-center text-xl font-semibold my-3">
-                      {plan.precio === "Personalizado"
-                        ? "Personalizado"
-                        : `$${plan.precio}/mes`}
-                    </p>
-                    <ul className="flex-grow mb-4">
-                      {plan.caracteristicas.map((caracteristica, idx) => (
-                        <li key={idx} className="mb-2 flex items-center">
-                          <i className="bi bi-check-circle-fill text-green-500"></i>
-                          <span className="ml-2">{caracteristica}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <Link href="/register" passHref>
-                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-auto">
-                        Seleccionar Plan
-                      </button>
-                    </Link>
-                  </div>
+    <main className="container min-h-[80dvh] mx-auto px-4 flex items-center py-12">
+      <section className="h-full w-full grid gap-10 grid-cols-[repeat(auto-fit,_minmax(290px,1fr))] max-md:pb-24">
+        {plans.map((plan, index) => {
+          return (
+            <article
+              key={index}
+              className="border dark:border-light-gray border-dark-gray rounded-lg flex flex-col"
+            >
+              <div
+                className={`h-3 w-full rounded-t-[inherit] ${
+                  index === 0
+                    ? "bg-gradient-basic"
+                    : index === 1
+                      ? "bg-gradient-pro"
+                      : "bg-gradient-premium"
+                }`}
+              />
+
+              <div className="p-5 flex flex-col h-full gap-5">
+                <div className="flex-grow">
+                  <h2 className="text-md font-sans font-bold">{plan.name}</h2>
+                  <h1 className="text-lg font-black font-sans">
+                    ${plan.price}/mes
+                  </h1>
+                  <ul className="space-y-4 pt-4">
+                    {plan.features.map((feature, index) => (
+                      <li key={index} className="flex items-center gap-4">
+                        <div className="text-green-500 size-5">
+                          <CheckIcon />
+                        </div>
+                        <span className="inline-block text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
+
+                <button className="mt-auto bg-black text-white dark:bg-white dark:text-black w-full rounded-md py-2">
+                  Seleccionar plan
+                </button>
               </div>
-            ))}
-          </div>
-        </main>
-      </div>
-    </ProtectedRoute>
+            </article>
+          );
+        })}
+      </section>
+    </main>
   );
 }

@@ -2,52 +2,60 @@
 
 import BrandLogo from "@/images/logos/variant-01";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function LoginPage() {
+  const [error, setError] = useState(null);
+
+  if (error) {
+    setTimeout(() => {
+      setError(null);
+    }, 3000);
+  }
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [responseMessage, setResponseMessage] = useState("");
-  const [showMessage, setShowMessage] = useState(false);
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("http://localhost:5000/login_send", {
+      const response = await fetch("http://localhost:5000/auth/login_send", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: data.username,
+          identifier: data.email_or_username,
           password: data.password,
         }),
       });
       const result = await response.json();
       if (response.ok) {
-        console.log("✅ Inicio de sesión exitoso:", result);
         localStorage.setItem("token", result.token);
-        window.location.href = "/dashboard";
+        localStorage.setItem("userId", result.userId);
+        window.location.href = "/market";
       } else {
-        setResponseMessage("❌ " + (result.error || "Error al iniciar sesión"));
-        setShowMessage(true);
+        setError(result.message);
       }
     } catch (error) {
-      setResponseMessage("❌ Error al iniciar sesión: " + error.message);
-      setShowMessage(true);
+      setError(error.message);
     }
   };
 
-  const handleCloseMessage = () => {
-    setShowMessage(false);
-  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.href = "/";
+    }
+  }, []);
 
   return (
-    <main className="bg-gradient-light-section dark:bg-gradient-dark-section flex-grow flex justify-center items-center max-md:px-4 max-md:pb-16">
+    <main className="bg-gradient-light-section dark:bg-gradient-dark-section flex-grow flex justify-center items-center max-md:px-4 max-md:pb-16 relative">
       <form
+        method="POST"
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white dark:bg-dark-background p-4 rounded-lg w-full max-w-[500px] h-fit max-md:my-8"
       >
@@ -62,24 +70,27 @@ export default function LoginPage() {
 
         <div className="flex flex-col gap-2 [&>label]:w-full mb-2">
           <label
-            htmlFor="username"
+            htmlFor="email_or_username"
             className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
           >
-            Nombre de usuario
+            Correo o nombre de usuario:
             <input
-              type="text"
-              id="username"
+              type="email_or_username"
+              id="email_or_username"
               autoComplete="off"
-              {...register("username", {
-                required: "El nombre de usuario es obligatorio.",
-                minLength: {
-                  value: 3,
-                  message: "El nombre de usuario debe tener al menos 3 caracteres.",
+              {...register("email_or_username", {
+                required: "El email es obligatorio.",
+                pattern: {
+                  value:
+                    /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^[a-zA-Z0-9._-]{3,}$/,
+                  message: "El formato del email es inválido.",
                 },
               })}
             />
-            {errors.username && (
-              <p className="text-red-500 text-xs">{errors.username.message}</p>
+            {errors.email_or_username && (
+              <p className="text-red-500 text-xs">
+                {errors.email_or_username.message}
+              </p>
             )}
           </label>
 
@@ -87,17 +98,13 @@ export default function LoginPage() {
             htmlFor="password"
             className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
           >
-            Contraseña
+            Contraseña:
             <input
               type="password"
               id="password"
               autoComplete="off"
               {...register("password", {
                 required: "La contraseña es obligatoria.",
-                minLength: {
-                  value: 8,
-                  message: "La contraseña debe tener al menos 8 caracteres.",
-                },
               })}
             />
             {errors.password && (
@@ -130,25 +137,25 @@ export default function LoginPage() {
             Crea una cuenta
           </Link>
         </span>
+
         <span className="w-full inline-block text-sm text-center mt-2 dark:text-difuminate-text-dark text-difuminate-text-light [&>a]:dark:text-white [&>a]:text-black transition-all">
           ¿Olvidaste tu contraseña?{" "}
           <Link
-            href="/forgot-password"
+            href="/reset-password"
             className="hover:underline hover:dark:text-primary-color hover:text-secondary-color"
           >
             Restablecer contraseña
           </Link>
         </span>
-
-        {showMessage && responseMessage && (
-          <div className="text-center my-4 p-2 bg-gray-100 dark:bg-gray-700 text-sm relative">
-            {responseMessage}
-            <button onClick={handleCloseMessage} className="absolute top-0 right-0 p-2">
-              ✖
-            </button>
-          </div>
-        )}
       </form>
+
+      {error && (
+        <p
+          className={`text-white bg-red-500 dark:bg-red-500/50 px-6 py-2 rounded-md absolute top-5 right-5`}
+        >
+          <strong>Error:</strong> {error}
+        </p>
+      )}
     </main>
   );
 }

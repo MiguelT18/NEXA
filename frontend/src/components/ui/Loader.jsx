@@ -21,8 +21,8 @@ const Loader = ({ uniqueId, className = "" }) => {
     <ContentLoader
       speed={1}
       viewBox="0 0 100 100"
-      backgroundColor={theme === "dark" ? "#1f1f21" : "#e6e6ed"}
-      foregroundColor={theme === "dark" ? "#27272a" : "#dcdce5"}
+      backgroundColor={theme === "dark" ? "#0d0d0f" : "#e6e6ed"}
+      foregroundColor={theme === "dark" ? "#38383b" : "#f4f4f9"}
       className={className}
     >
       <rect x="0" y="0" rx="0" ry="0" width="100%" height="100%" />
