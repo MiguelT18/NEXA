@@ -1,9 +1,9 @@
 {
   "app": {
     "[project]/src/app/page": [],
+    "[project]/src/app/register/page": [],
     "[project]/src/app/login/page": [],
-    "[project]/src/app/dashboard/page": [],
-    "[project]/src/app/pricing/page": []
+    "[project]/src/app/_not-found/page": []
   },
   "appUsingSizeAdjust": false,
   "pages": {},

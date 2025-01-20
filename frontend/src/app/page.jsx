@@ -2,16 +2,17 @@
 
 import Image from "next/image";
 import HeroImg from "@/images/hero-image-01.jpg";
-import * as Icons from "@/icons/index";
+import * as Icons from "@/components/icons/index";
 import Faq from "@/components/ui/Faq";
 import { useTheme } from "@/hooks/useTheme";
 import MarketTicker from "@/components/ui/MarketTicker";
 import Loader from "@/components/ui/Loader";
+import Link from "next/link";
 
 const iconMap = {
   "robot-wink": Icons.RobotWinkIcon,
   binary: Icons.BinaryIcon,
-  stats: Icons.StatsIcon,
+  stats: Icons.StatsIcon01,
   padlock: Icons.PadlockIcon,
   thunder: Icons.ThunderIcon,
   processor: Icons.ProcessorIcon,
@@ -69,10 +70,10 @@ const mindsBehind = [
       "Como líder del proyecto y desarrollador FullStack, Miguel supervisa el desarrollo tanto del backend como del frontend. Su visión y capacidad para forjar alianzas clave han sido fundamentales para dar vida a este proyecto.",
   },
   {
-    name: "Deivy Fk'ns",
+    name: "Deivy Figueredo",
     occupation: "Inversor Estratégico y Asesor Legal",
     about:
-      "Nuestro estimado inversor financiero jugó un papel crucial en dar vida a este proyecto. Su inversión y experiencia en asuntos legales han sido fundamentales para establecer una base sólida para nuestra empresa de bots de trading.",
+      "Nuestro estimado inversor financiero y asesor legal jugó un papel crucial en dar vida a este proyecto. Su inversión y experiencia en asuntos legales han sido fundamentales para establecer una base sólida para nuestra empresa de bots de trading.",
   },
 ];
 
@@ -96,9 +97,12 @@ export default function Home() {
           </p>
 
           <div className="flex max-md:justify-center gap-4 my-4">
-            <button className="primary-button text-white tracking-wide dark:bg-primary-color hover:dark:bg-primary-color/60 bg-secondary-color hover:bg-secondary-color/80 transition-all p-2 rounded-md">
+            <Link
+              href="/market"
+              className="primary-button text-white tracking-wide dark:bg-primary-color hover:dark:bg-primary-color/60 bg-secondary-color hover:bg-secondary-color/80 transition-all p-2 rounded-md"
+            >
               Comenzar a Operar
-            </button>
+            </Link>
             <button className="p-2 rounded-md tracking-wide border-difuminate-text-dark hover:border-difuminate-text-light dark:border-light-gray border hover:dark:text-difuminate-text-dark transition-all">
               Saber más
             </button>
@@ -178,7 +182,7 @@ export default function Home() {
             {mindsBehind.map((collaborator, index) => (
               <article
                 key={index}
-                className="bg-white dark:bg-dark-background p-4 rounded-md space-y-2"
+                className="bg-white dark:bg-dark-background p-4 rounded-lg space-y-2"
               >
                 <Loader
                   uniqueId={index}

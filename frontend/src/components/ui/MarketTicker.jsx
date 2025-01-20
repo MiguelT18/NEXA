@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ArrowIcon } from "@/icons/index";
+import { ArrowIcon } from "@/components/icons/index";
 
 const markets = [
   { name: "BTC/USD", price: 43250.2 },

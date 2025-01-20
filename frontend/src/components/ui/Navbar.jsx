@@ -6,22 +6,27 @@ import {
   SunRisingIcon,
   MenuIcon,
   UserIcon,
-} from "@/icons/index";
+} from "@/components/icons/index";
 import Link from "next/link";
 import { useTheme } from "@/hooks/useTheme";
-import Loader from "./Loader";
+import { useAvatar } from "@/hooks/useAvatar";
+import Image from "next/image";
+import DefaultAvatar from "@/images/avatars/default-avatar.png";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { avatar } = useAvatar();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const storedAvatar = localStorage.getItem("avatar");
     setIsAuthenticated(!!token);
   }, []);
 
   const handleLogout = async () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     setIsAuthenticated(false);
     try {
       const response = await fetch("http://localhost:5000/logout", {
@@ -32,15 +37,16 @@ export default function Navbar() {
         console.error("❌ Error al cerrar sesión:", response.statusText);
       }
       console.log("Sesión cerrada en el servidor exitosamente");
+      window.location.href = "/login";
     } catch (error) {
       console.error("❌ Error al cerrar sesión:", error);
     }
   };
 
   return (
-    <nav className="dark:bg-dark-background bg-white block px-4 py-5 w-full z-10 max-md:fixed max-md:bottom-0 max-md:border-t md:border-b border-dark-gray dark:border-light-gray dark:border-background-light">
+    <nav className="dark:bg-dark-background bg-white block px-4 w-full z-20 max-md:fixed max-md:bottom-0 max-md:border-t md:border-b border-dark-gray dark:border-light-gray dark:border-background-light">
       {/* Desktop Navbar */}
-      <div className="max-md:hidden flex justify-around items-center">
+      <div className="max-md:hidden flex justify-around items-center min-h-[10dvh]">
         <Link
           href="/"
           className={`font-black font-sans uppercase text-[28px] inline-block ${
@@ -54,7 +60,7 @@ export default function Navbar() {
           <li>
             <Link
               href="/"
-              className="text-sm hover:bg-black/10 hover:dark:bg-white/10 px-4 py-2 rounded-md transition-all"
+              className="text-sm hover:bg-light-gray/5 hover:dark:bg-white/10 px-4 py-2 rounded-md transition-all"
             >
               Inicio
             </Link>
@@ -63,14 +69,23 @@ export default function Navbar() {
           <li>
             <Link
               href="/pricing"
-              className="text-sm hover:bg-black/10 hover:dark:bg-white/10 px-4 py-2 rounded-md transition-all"
+              className="text-sm hover:bg-light-gray/5 hover:dark:bg-white/10 px-4 py-2 rounded-md transition-all"
             >
               Precios
             </Link>
           </li>
 
+          <li>
+            <Link
+              href="/market"
+              className="text-sm hover:bg-light-gray/5 hover:dark:bg-white/10 px-4 py-2 rounded-md transition-all"
+            >
+              Mercado
+            </Link>
+          </li>
+
           <li
-            className="hover:bg-black/10 hover:dark:bg-white/10 p-2 rounded-md transition-all"
+            className="hover:bg-light-gray/5 hover:dark:bg-white/10 p-2 rounded-md transition-all"
             onClick={toggleTheme}
           >
             {theme === "dark" ? (
@@ -82,12 +97,28 @@ export default function Navbar() {
 
           <li className="relative group">
             {!isAuthenticated ? (
-              <div className="hover:bg-black/10 hover:dark:bg-white/10 p-2 rounded-md transition-all">
+              <div className="hover:bg-light-gray/5 hover:dark:bg-white/10 p-2 rounded-md transition-all">
                 <UserIcon className="size-6" />
               </div>
+            ) : avatar ? (
+              <div className="hover:bg-light-gray/5 hover:dark:bg-white/10 p-2 rounded-md transition-all">
+                <Image
+                  src={avatar}
+                  alt="Avatar"
+                  width={40}
+                  height={40}
+                  className="w-8 h-8 rounded-full"
+                />
+              </div>
             ) : (
-              <div className="hover:bg-black/10 hover:dark:bg-white/10 p-2 rounded-md transition-all">
-                <Loader className="size-6 rounded-full" />
+              <div className="hover:bg-light-gray/5 hover:dark:bg-white/10 p-2 rounded-md transition-all">
+                <Image
+                  src={DefaultAvatar}
+                  alt="Default Avatar"
+                  width={250}
+                  height={250}
+                  className="size-8 object-cover aspect-square rounded-full"
+                />
               </div>
             )}
 
@@ -95,35 +126,29 @@ export default function Navbar() {
               <div className="absolute right-0 hidden group-hover:block bg-white dark:bg-dark-background border border-difuminate-text-dark dark:border-light-gray rounded-md w-40 z-20 group-hover:pointer-events-auto pointer-events-none">
                 <Link
                   href="/login"
-                  className="block px-4 py-2 text-sm hover:bg-black/10 hover:dark:bg-white/10 transition-all rounded-t-[inherit]"
+                  className="block px-4 py-2 text-sm hover:bg-light-gray/5 hover:dark:bg-white/10 transition-all rounded-t-[inherit]"
                 >
                   Iniciar Sesión
                 </Link>
                 <Link
                   href="/register"
-                  className="block px-4 py-2 text-sm hover:bg-black/10 hover:dark:bg-white/10 transition-all rounded-b-[inherit]"
+                  className="block px-4 py-2 text-sm hover:bg-light-gray/5 hover:dark:bg-white/10 transition-all rounded-b-[inherit]"
                 >
                   Crear Cuenta
                 </Link>
               </div>
             ) : (
-              <div className="w-fit absolute right-0 hidden group-hover:block bg-white dark:bg-dark-background border border-difuminate-text-dark dark:border-light-gray text-start rounded-md z-20 group-hover:pointer-events-auto pointer-events-none">
+              <div className="w-max absolute right-0 hidden group-hover:block bg-white dark:bg-dark-background border border-difuminate-text-dark dark:border-light-gray text-start rounded-md z-20 group-hover:pointer-events-auto pointer-events-none">
                 <Link
                   href="/dashboard"
-                  className="w-full block px-4 py-2 text-sm hover:bg-black/10 hover:dark:bg-white/10 transition-all rounded-t-[inherit]"
+                  className="w-full block px-4 py-2 text-sm hover:bg-light-gray/5 hover:dark:bg-white/10 transition-all rounded-t-[inherit]"
                 >
-                  Mi perfil
+                  Dashboard
                 </Link>
-                <button
-                  type="button"
-                  className="w-full block px-4 py-2 text-sm hover:bg-black/10 hover:dark:bg-white/10 transition-all"
-                >
-                  Configuración
-                </button>
                 <button
                   onClick={handleLogout}
                   type="button"
-                  className="w-full block px-4 py-2 text-sm hover:bg-black/10 hover:dark:bg-white/10 transition-all rounded-b-[inherit]"
+                  className="w-full block px-4 py-2 text-sm hover:bg-light-gray/5 hover:dark:bg-white/10 transition-all rounded-b-[inherit]"
                 >
                   Cerrar Sesión
                 </button>
@@ -134,7 +159,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Navbar */}
-      <ul className="md:hidden dark:bg-background w-full flex justify-around max-sm:justify-between items-center">
+      <ul className="md:hidden dark:bg-background w-full flex justify-around max-sm:justify-between items-center min-h-[10dvh]">
         <li onClick={toggleTheme}>
           {theme === "dark" ? (
             <MoonRisingIcon className="text-black dark:text-white size-8" />
@@ -148,8 +173,16 @@ export default function Navbar() {
         <li>
           {!isAuthenticated ? (
             <UserIcon className="size-9" />
+          ) : avatar ? (
+            <img src={avatar} alt="Avatar" className="w-9 h-9 rounded-full" />
           ) : (
-            <Loader className="size-9 rounded-full" />
+            <Image
+              src={DefaultAvatar}
+              alt="Default Avatar"
+              width={250}
+              height={250}
+              className="size-9 object-cover aspect-square rounded-full"
+            />
           )}
         </li>
       </ul>

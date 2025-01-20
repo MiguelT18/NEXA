@@ -1,11 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import BrandLogo from "@/images/logos/variant-01";
 import { useForm } from "react-hook-form";
 
 export default function RegisterPage() {
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
+  if (error) {
+    setTimeout(() => {
+      setError(null);
+    }, 3000);
+  }
+  if (success) {
+    setTimeout(() => {
+      setSuccess(null);
+    }, 3000);
+  }
+
   const {
     register,
     handleSubmit,
@@ -13,47 +27,43 @@ export default function RegisterPage() {
     reset,
     formState: { errors },
   } = useForm();
-  const [responseMessage, setResponseMessage] = useState("");
-  const [showMessage, setShowMessage] = useState(false);
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("http://localhost:5000/add_user", {
+      const response = await fetch("http://localhost:5000/auth/add_user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          password: data.password,
-          repeatPassword: data.confirmPassword,
-          acceptTerms: data.terms ? 'yes' : 'no',
-        }),
+        body: JSON.stringify(data),
       });
 
-      const responseData = await response.json();
       if (response.ok) {
-        setResponseMessage("✅ " + responseData.message);
+        const data = await response.json();
+        setSuccess(data.message);
         reset();
       } else {
-        setResponseMessage("❌ " + responseData.error);
+        const errorData = await response.json();
+        setError(errorData.message);
       }
     } catch (error) {
-      setResponseMessage("❌ Error al enviar el formulario: " + error.message);
+      setError(error.message);
     }
-  };
-
-  const handleCloseMessage = () => {
-    setShowMessage(false);
   };
 
   const password = watch("password");
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.href = "/";
+    }
+  }, []);
+
   return (
-    <main className="bg-gradient-light-section dark:bg-gradient-dark-section flex-grow flex justify-center items-center max-md:px-4 max-md:pb-16">
+    <main className="bg-gradient-light-section dark:bg-gradient-dark-section flex-grow flex justify-center items-center max-md:px-4 max-md:pb-16 relative">
       <form
+        method="POST"
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white dark:bg-dark-background p-4 rounded-lg w-full max-w-[500px] h-fit max-md:my-8"
       >
@@ -69,13 +79,17 @@ export default function RegisterPage() {
         <div className="flex flex-col gap-2 [&>label]:w-full">
           <div className="flex gap-2 [&>label]:w-full [&>label]:flex [&>label]:flex-col [&>label>input]:w-full [&>label>input]:rounded-md [&>label>input]:p-2 [&>label>input]:bg-transparent [&>label>input]:border [&>label>input]:dark:border-light-gray [&>label>input]:mt-1">
             <label htmlFor="firstName">
-              Nombres
+              Nombres:
               <input
                 type="text"
                 id="firstName"
                 autoComplete="off"
                 {...register("firstName", {
                   required: "Tus nombres son obligatorios.",
+                  minLength: {
+                    value: 4,
+                    message: "El nombre debe tener al menos 4 caracteres."
+                  }
                 })}
               />
               {errors.firstName && (
@@ -86,13 +100,17 @@ export default function RegisterPage() {
             </label>
 
             <label htmlFor="lastName">
-              Apellidos
+              Apellidos:
               <input
                 type="text"
                 id="lastName"
                 autoComplete="off"
                 {...register("lastName", {
                   required: "Tus apellidos son obligatorios.",
+                  minLength: {
+                    value: 4,
+                    message: "El apellido debe tener al menos 4 caracteres."
+                  }
                 })}
               />
               {errors.lastName && (
@@ -107,7 +125,7 @@ export default function RegisterPage() {
             htmlFor="email"
             className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
           >
-            Email
+            Correo electrónico:
             <input
               type="email"
               id="email"
@@ -129,7 +147,7 @@ export default function RegisterPage() {
             htmlFor="password"
             className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
           >
-            Contraseña
+            Contraseña:
             <input
               type="password"
               id="password"
@@ -138,12 +156,12 @@ export default function RegisterPage() {
                 required: "Tu contraseña es obligatoria.",
                 minLength: {
                   value: 8,
-                  message: "La contraseña debe tener al menos 8 caracteres.",
+                  message: "La contraseña debe tener al menos 8 caracteres."
                 },
                 pattern: {
                   value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-                  message: "La contraseña debe incluir minúsculas, mayúsculas y números.",
-                },
+                  message: "La contraseña debe incluir mayúsculas, minúsculas y números."
+                }
               })}
             />
             {errors.password && (
@@ -155,7 +173,7 @@ export default function RegisterPage() {
             htmlFor="confirmPassword"
             className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
           >
-            Confirmar Contraseña
+            Confirmar Contraseña:
             <input
               type="password"
               id="confirmPassword"
@@ -214,16 +232,22 @@ export default function RegisterPage() {
             Iniciar Sesión
           </Link>
         </span>
-
-        {showMessage && responseMessage && (
-          <div className="text-center my-4 p-2 bg-gray-100 dark:bg-gray-700 text-sm relative">
-            {responseMessage}
-            <button onClick={handleCloseMessage} className="absolute top-0 right-0 p-2">
-              ✖
-            </button>
-          </div>
-        )}
       </form>
+
+      {error && (
+        <p
+          className={`text-white bg-red-500 dark:bg-red-500/50 px-6 py-2 rounded-md absolute top-5 right-5`}
+        >
+          <strong>Error:</strong> {error}
+        </p>
+      )}
+      {success && (
+        <p
+          className={`text-white bg-green-500 dark:bg-green-500/50 px-6 py-2 rounded-md absolute top-5 right-5`}
+        >
+          ✅ {success}
+        </p>
+      )}
     </main>
   );
 }

@@ -6,6 +6,7 @@ export default {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -20,11 +21,14 @@ export default {
       },
     },
     fontSize: {
-      sm: "clamp(14px, 3vw, 18px)",
+      sm: "clamp(14px, 3vw, 16px)",
       md: "clamp(20px, 4vw, 22px)",
-      lg: "clamp(26px, 6vw, 36px)",
+      lg: "clamp(26px, 6vw, 34px)",
     },
     backgroundImage: {
+      "gradient-basic": "linear-gradient(to right, #38bdf8, #60a5fa)",
+      "gradient-pro": "linear-gradient(to right, #3b82f6, #9333ea)",
+      "gradient-premium": "linear-gradient(to right, #9333ea, #ef4444)",
       "gradient-dark-section":
         "linear-gradient(180deg,rgba(14, 14, 16, 1) 0%, rgba(29, 29, 31, 1) 100% 100%)",
       "gradient-light-section":
