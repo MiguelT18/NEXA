@@ -1,9 +1,10 @@
 from flask import Blueprint, request, jsonify
-from app.services.email_service import send_welcome_email
+from app.services.email_service import send_welcome_email, send_user_credentials_email
 from app.utils.response_utils import create_response
 from app.schemas.user_schema import UserSchema
-from app.services.user_service import get_user_by_email, create_user, get_user_by_id
+from app.services.user_service import get_user_by_email, create_user, get_user_by_id, get_user_by_username
 from app.utils.security import generate_token, token_required
+from app.utils.user_utils import generate_random_password, generate_username
 
 user_bp = Blueprint("user", __name__, url_prefix="/api/users")
 
@@ -26,12 +27,32 @@ def welcome():
 def register():
     """
     Ruta para registrar un nuevo usuario.
+
+    Esta ruta valida los datos del usuario, crea una nueva instancia de usuario y persona,
+    y envía un correo electrónico al usuario con su nombre de usuario y contraseña.
+
+    :return: Un mensaje de éxito y los datos del usuario registrado.
     """
     data = request.json
     user_schema = UserSchema()
     try:
         user_data = user_schema.load(data)
-        new_user = create_user(user_data)
+        
+        # Extraer los campos necesarios
+        name = data.get('name')
+        last_name = data.get('last_name')
+        email = user_data.get('email')
+        
+        # Generar un nombre de usuario y una contraseña aleatoria
+        username = generate_username(last_name)
+        password = generate_random_password()  # Generar una contraseña aleatoria
+
+        # Crear el nuevo usuario
+        new_user = create_user(username, email, password, name, last_name)
+        
+        # Enviar un correo electrónico al usuario con sus credenciales
+        send_user_credentials_email(email, name, username, password)
+
         return jsonify({"message": "Usuario registrado con éxito", "user": user_schema.dump(new_user)}), 201
     except Exception as e:
         return jsonify({"message": str(e)}), 400
@@ -41,13 +62,24 @@ def register():
 def login():
     """
     Ruta para iniciar sesión y obtener un token.
+
+    Esta ruta permite a un usuario iniciar sesión utilizando su nombre de usuario y contraseña.
+    Se verifica que el usuario exista y que su estado sea activo (status = 1).
+
+    :return: Un mensaje de éxito y un token de acceso si las credenciales son válidas.
+             Un mensaje de error si las credenciales son incorrectas o el usuario no está activo.
     """
     data = request.json
-    user = get_user_by_email(data.get("email"))
-    if user and user.check_password(data.get("password")):
-        token = generate_token(user.id)
-        return jsonify({"message": "Inicio de sesión exitoso", "token": token}), 200
-    return jsonify({"message": "Credenciales incorrectas"}), 401
+    username = data.get("username")  # Obtener el nombre de usuario del JSON
+    password = data.get("password")  # Obtener la contraseña del JSON
+
+    user = get_user_by_username(username)  # Cambiar a búsqueda por nombre de usuario
+    if user and user.check_password(password):
+        if user.status == 1:  # Verificar que el estado del usuario sea activo
+            token = generate_token(user.id)
+            return jsonify({"message": "Inicio de sesión exitoso", "token": token}), 200
+        return jsonify({"message": "Usuario inactivo"}), 403  # Usuario inactivo
+    return jsonify({"message": "Credenciales incorrectas"}), 401  # Credenciales incorrectas
 
 
 @user_bp.route('/profile', methods=['GET'])
