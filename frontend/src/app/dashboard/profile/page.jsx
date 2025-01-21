@@ -11,10 +11,9 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import avatars from "@/utils/avatars";
 import Image from "next/image";
-import { useAvatar } from "@/hooks/useAvatar";
 import DefaultAvatar from "@/images/avatars/default-avatar.png";
-import apiService from "@/services/apiService";
 import { useRouter } from "next/navigation";
+import apiService from "@/services/apiService";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -25,7 +24,6 @@ export default function UserProfile() {
   const [success, setSuccess] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState(null);
-  const { avatar, removeAvatar, setAvatar } = useAvatar();
 
   const { register, handleSubmit, setValue, reset } = useForm();
 
@@ -33,9 +31,6 @@ export default function UserProfile() {
     const fetchUserData = async () => {
       const token = localStorage.getItem("token");
       const id = localStorage.getItem("userId");
-      const storedAvatar = localStorage.getItem("avatar");
-
-      if (storedAvatar) setAvatar(storedAvatar);
 
       try {
         if (token && id) {
@@ -60,46 +55,63 @@ export default function UserProfile() {
     const token = localStorage.getItem("token");
     const id = localStorage.getItem("userId");
 
+    if (!token || !id) {
+      router.push("/");
+      return;
+    }
+
+    // Filtrar valores null/undefined/empty y validar campos requeridos
     const filteredData = Object.fromEntries(
-      Object.entries(data).filter(([_, value]) => value.trim() !== ""),
+      Object.entries(data).filter(
+        ([_, value]) =>
+          value && typeof value === "string" && value.trim() !== ""
+      )
     );
 
     if (Object.keys(filteredData).length === 0) {
       setError("Por favor llena al menos un campo del formulario.");
-      setTimeout(() => {
-        setError(null);
-      }, 3000);
+      setTimeout(() => setError(null), 3000);
+      return;
     }
 
-    if (token && id) {
-      try {
-        const response = await apiService.post(
-          `/update_user/${id}`,
-          {
-            name: data.name,
-            last_name: data.last_name,
-            username: data.username,
-            email: data.email,
-          },
-          {
-            Authorization: `Bearer ${token}`,
-          },
-        );
+    // Validar formato de email si está presente
+    if (
+      filteredData.email &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(filteredData.email)
+    ) {
+      setError("Por favor ingresa un correo electrónico válido");
+      setTimeout(() => setError(null), 3000);
+      return;
+    }
 
-        reset();
-        setSuccess(response.message);
-        setUser((prevUser) => ({
-          ...prevUser,
-          ...filteredData,
-          updated_at: new Date().toISOString(),
-        }));
-        setTimeout(() => {
-          setSuccess(null);
-        }, 3000);
-      } catch (error) {
-        console.error(error.message);
-        setError(error.message);
-      }
+    setLoading(true);
+    try {
+      const response = await apiService.post(
+        `/update_user/${id}`,
+        filteredData,
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+
+      // Actualizar estado sólo si la petición fue exitosa
+      setUser((prevUser) => ({
+        ...prevUser,
+        ...filteredData,
+        updated_at: new Date().toISOString(),
+      }));
+
+      setSuccess(response.message);
+      reset();
+
+      setTimeout(() => setSuccess(null), 3000);
+    } catch (error) {
+      setError(
+        error.response?.data?.message || "Error al actualizar el perfil"
+      );
+      setTimeout(() => setError(null), 3000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,11 +125,66 @@ export default function UserProfile() {
     setSelectedAvatar(avatar);
   };
 
-  const handleConfirmAvatar = () => {
+  const handleConfirmAvatar = async () => {
     if (selectedAvatar) {
-      setAvatar(selectedAvatar);
-      localStorage.setItem("avatar", selectedAvatar);
-      setIsModalOpen(false);
+      const token = localStorage.getItem("token");
+      const id = localStorage.getItem("userId");
+
+      try {
+        setLoading(true);
+        const response = await apiService.post(
+          `/update_user/${id}`,
+          { avatar: selectedAvatar },
+          {
+            Authorization: `Bearer ${token}`,
+          }
+        );
+
+        setUser((prev) => ({
+          ...prev,
+          avatar: selectedAvatar,
+        }));
+
+        setSuccess(response.message || "Avatar actualizado correctamente");
+        setTimeout(() => setSuccess(null), 3000);
+      } catch (error) {
+        setError(
+          error.response?.data?.message || "Error al actualizar el avatar"
+        );
+        setTimeout(() => setError(null), 3000);
+      } finally {
+        setLoading(false);
+        setIsModalOpen(false);
+      }
+    }
+  };
+
+  const handleRemoveAvatar = async () => {
+    const token = localStorage.getItem("token");
+    const id = localStorage.getItem("userId");
+
+    try {
+      setLoading(true);
+      const response = await apiService.post(
+        `/update_user/${id}`,
+        { avatar: null },
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+
+      setUser((prev) => ({
+        ...prev,
+        avatar: null,
+      }));
+
+      setSuccess(response.message || "Avatar eliminado correctamente");
+      setTimeout(() => setSuccess(null), 3000);
+    } catch (error) {
+      setError(error.response?.data?.message || "Error al eliminar el avatar");
+      setTimeout(() => setError(null), 3000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -139,23 +206,13 @@ export default function UserProfile() {
           </p>
 
           <div className="mt-5 flex max-md:flex-col md:items-center gap-5">
-            {avatar ? (
-              <Image
-                src={avatar}
-                alt="Avatar selected"
-                width={250}
-                height={250}
-                className="size-32 object-cover aspect-square rounded-full max-md:mx-auto"
-              />
-            ) : (
-              <Image
-                src={DefaultAvatar}
-                alt="Default Avatar"
-                width={250}
-                height={250}
-                className="size-32 object-cover aspect-square rounded-full max-md:mx-auto"
-              />
-            )}
+            <Image
+              src={user?.avatar || DefaultAvatar}
+              alt={user?.avatar ? "Avatar selected" : "Default Avatar"}
+              width={250}
+              height={250}
+              className="size-32 object-cover aspect-square rounded-full max-md:mx-auto"
+            />
 
             <div className="md:space-y-4 max-md:flex max-md:items-center max-md:justify-evenly">
               <button
@@ -166,7 +223,7 @@ export default function UserProfile() {
                 Cambiar foto
               </button>
               <button
-                onClick={removeAvatar}
+                onClick={handleRemoveAvatar}
                 type="button"
                 className="flex items-center border hover:border-red-700/80 hover:text-red-700/80 border-red-500 text-red-500 rounded-md p-2 transition-all"
               >
@@ -323,11 +380,13 @@ export default function UserProfile() {
             </div>
 
             <button
-              onClick={onSubmit}
               type="submit"
-              className="dark:hover:bg-white/80 bg-black text-white dark:bg-white dark:text-black p-2 mt-5 rounded-md transition-all"
+              disabled={loading}
+              className={`dark:hover:bg-white/80 bg-black text-white dark:bg-white dark:text-black p-2 mt-5 rounded-md transition-all ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              Guardar cambios
+              {loading ? "Guardando..." : "Guardar cambios"}
             </button>
           </form>
         </div>
