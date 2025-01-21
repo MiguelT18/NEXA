@@ -1,59 +1,67 @@
+from app.models.base import BaseMixin
 from app.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.models.base import BaseMixin
-
 
 class User(BaseMixin, db.Model):
     """
-    Modelo de usuario para la base de datos.
+    Modelo de usuario que referencia a una persona.
+
+    Atributos:
+    - id: Identificador único del registro (heredado de BaseMixin).
+    - date_created: Fecha y hora en que se creó el registro (heredado de BaseMixin).
+    - date_modified: Fecha y hora en que se modificó el registro (heredado de BaseMixin).
+    - status: Estado del registro (0 = inactivo, 1 = activo, heredado de BaseMixin).
+    - person_id: Identificador de la persona asociada (entero, opcional).
+    - username: Nombre de usuario único (cadena, obligatorio).
+    - email: Correo electrónico único (cadena, obligatorio).
+    - password_hash: Hash de la contraseña (cadena, obligatorio).
+    - photo: Indicador de si el usuario tiene foto (entero, 0 = no, 1 = sí, por defecto 0).
+
+    Relaciones:
+    - person: Relación con el modelo Person, que permite acceder a la información de la persona asociada.
     """
     __tablename__ = 'users'
 
-   
-    # User Name
-    name = db.Column(db.String(128), nullable=False)
-
-    # Additional User Data
-    last_name = db.Column(db.String(128), nullable=False)
-    username = db.Column(db.String(128), nullable=False, unique=True)
-    
-    # New columns for phone_number and address with nullable option
-    phone_number = db.Column(db.String(20), nullable=True)
-    city = db.Column(db.String(255), nullable=True)
-
-    # Identification Data: email & password
-    email = db.Column(db.String(128), nullable=False, unique=True)
+    person_id = db.Column(db.Integer, db.ForeignKey('persons.id'), nullable=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
+    photo = db.Column(db.Integer, default=0)  # Cambiado a entero con valor por defecto 0
 
-    # Authorisation Data: role & status
-    role = db.Column(db.SmallInteger, nullable=True, default=1)
-    status = db.Column(db.SmallInteger, nullable=False, default=1)
+    person = db.relationship('Person', backref=db.backref('user', uselist=False))
 
-    # Photo indicator, nullable
-    photo = db.Column(db.SmallInteger, default=0, nullable=True)  # 0 = no photo, 1 = photo exists, or null if not specified
+    def __init__(self, person, username, email, password, photo=0):
+        """
+        Inicializa una instancia de User con una persona asociada y genera el hash de la contraseña.
 
-    # New instance instantiation procedure
-    def __init__(self, name, last_name, username, email, password, photo=None, phone_number=None, city=None):
-        self.name = name
-        self.last_name = last_name
+        :param person: Instancia de Person asociada al usuario (opcional).
+        :param username: Nombre de usuario único.
+        :param email: Correo electrónico único.
+        :param password: Contraseña del usuario.
+        :param photo: Indicador de si el usuario tiene foto (0 = no, 1 = sí, por defecto 0).
+        """
+        self.person = person
         self.username = username
         self.email = email
-        self.password_hash = password
-        self.photo = photo if photo is not None else 0
-        self.phone_number = phone_number
-        self.city = city
-
-    def __repr__(self):
-        return '<User %r>' % (self.name)
+        self.set_password(password)  # Generar el hash al inicializar
+        self.photo = photo  # Asignar el indicador de foto
 
     def set_password(self, password):
         """
-        Genera un hash de la contraseña.
+        Genera un hash de la contraseña proporcionada.
+
+        :param password: Contraseña en texto plano.
         """
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         """
-        Verifica si la contraseña proporcionada coincide con el hash.
+        Verifica si la contraseña proporcionada coincide con el hash almacenado.
+
+        :param password: Contraseña en texto plano a verificar.
+        :return: True si la contraseña coincide, False en caso contrario.
         """
         return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return f"<User {self.username}>"

@@ -1,11 +1,16 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields, validate, ValidationError
 
+def validate_email_domain(email):
+    """Valida que el correo electrónico termine en .com."""
+    if not email.endswith('.com'):
+        raise ValidationError("El correo electrónico debe terminar en '.com'.")
 
 class UserSchema(Schema):
     """
     Esquema para validar y serializar datos de usuario.
+
+    Atributos:
+    - email: Correo electrónico único del usuario (cadena, obligatorio, debe terminar en .com).
     """
-    id = fields.Int(dump_only=True)
-    name = fields.Str(required=True, validate=validate.Length(min=1, max=100))
-    email = fields.Email(required=True)
-    password = fields.Str(required=True, load_only=True, validate=validate.Length(min=6))
+
+    email = fields.Email(required=True, validate=validate_email_domain)  # Validación de correo electrónico
