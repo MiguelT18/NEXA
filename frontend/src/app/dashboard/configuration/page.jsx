@@ -39,7 +39,7 @@ export default function Configuration() {
       </article>
 
       <article className="border border-dark-gray dark:border-dark-gray w-full p-4 rounded-lg mt-5">
-        <div className="space-y-1">
+        <div>
           <h2 className="text-md font-bold">Seguridad de la Cuenta</h2>
           <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
             Configura opciones adicionales de seguridad.
@@ -47,7 +47,7 @@ export default function Configuration() {
         </div>
 
         <div className="flex items-center justify-between gap-4 mt-8">
-          <div className="space-y-2">
+          <div>
             <h3 className="font-bold text-sm">Autenticación de Dos Factores</h3>
             <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
               Aumenta la seguridad de tu cuenta con la autenticación de dos
@@ -60,7 +60,7 @@ export default function Configuration() {
       </article>
 
       <article className="border border-dark-gray dark:border-dark-gray w-full p-4 rounded-lg mt-5">
-        <div className="space-y-1">
+        <div>
           <h2 className="text-md font-bold">Notificaciones</h2>
           <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
             Configura tus preferencias de notificaciones
@@ -68,7 +68,7 @@ export default function Configuration() {
         </div>
 
         <div className="flex items-center justify-between gap-4 mt-8">
-          <div className="space-y-2">
+          <div>
             <h3 className="font-bold text-sm">Notificaciones Push</h3>
             <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
               Recibe notificaciones push en tu dispositivo.
@@ -79,7 +79,7 @@ export default function Configuration() {
         </div>
 
         <div className="flex items-center justify-between mt-8">
-          <div className="space-y-2">
+          <div>
             <h3 className="font-bold text-sm">Notificaciones por Email</h3>
             <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
               Recibe notificaciones por correo electrónico.

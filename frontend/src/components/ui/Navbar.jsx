@@ -12,35 +12,19 @@ import { useTheme } from "@/hooks/useTheme";
 import { useAvatar } from "@/hooks/useAvatar";
 import Image from "next/image";
 import DefaultAvatar from "@/images/avatars/default-avatar.png";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Navbar() {
+  const router = useRouter();
+
+  const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { avatar } = useAvatar();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const storedAvatar = localStorage.getItem("avatar");
-    setIsAuthenticated(!!token);
-  }, []);
-
   const handleLogout = async () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    setIsAuthenticated(false);
-    try {
-      const response = await fetch("http://localhost:5000/logout", {
-        method: "GET",
-      });
-
-      if (!response.ok) {
-        console.error("❌ Error al cerrar sesión:", response.statusText);
-      }
-      console.log("Sesión cerrada en el servidor exitosamente");
-      window.location.href = "/login";
-    } catch (error) {
-      console.error("❌ Error al cerrar sesión:", error);
-    }
+    await logout();
+    router.push("/login");
   };
 
   return (
@@ -96,7 +80,7 @@ export default function Navbar() {
           </li>
 
           <li className="relative group">
-            {!isAuthenticated ? (
+            {!user ? (
               <div className="hover:bg-light-gray/5 hover:dark:bg-white/10 p-2 rounded-md transition-all">
                 <UserIcon className="size-6" />
               </div>
@@ -122,7 +106,7 @@ export default function Navbar() {
               </div>
             )}
 
-            {!isAuthenticated ? (
+            {!user ? (
               <div className="absolute right-0 hidden group-hover:block bg-white dark:bg-dark-background border border-difuminate-text-dark dark:border-light-gray rounded-md w-40 z-20 group-hover:pointer-events-auto pointer-events-none">
                 <Link
                   href="/login"
@@ -171,7 +155,7 @@ export default function Navbar() {
           <MenuIcon className="size-6" />
         </li>
         <li>
-          {!isAuthenticated ? (
+          {!user ? (
             <UserIcon className="size-9" />
           ) : avatar ? (
             <img src={avatar} alt="Avatar" className="w-9 h-9 rounded-full" />

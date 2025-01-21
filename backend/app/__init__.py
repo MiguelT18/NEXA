@@ -57,6 +57,20 @@ migrate = Migrate(app, db)  # Inicializar Flask-Migrate
 # Sample HTTP error handling
 
 
+def generate_unique_username(name, last_name):
+    from app.mod_auth.models import User
+
+    base_username = f"{name.lower()}_{last_name.lower()}"
+    random_number = random.randint(1000, 9999)
+    username = f"{base_username}{random_number}"
+
+    while User.query.filter_by(username=username).first():
+        random_number = random.randint(1000, 9999)
+        username = f"{base_username}{random_number}"
+
+    return username
+
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template('pages-error-404.html'), 404
@@ -156,8 +170,7 @@ def login_view():
 @app.route('/logout')
 def logout():
     session.clear()
-    # return redirect(url_for('home_view'))
-    return jsonify({"message": "Sesión cerrada"})
+    return jsonify({"message": "Sesión cerrada", "status": 200})
 
 
 @app.route('/register')
@@ -192,70 +205,43 @@ def add_user():
     try:
         if request.method == 'POST':
             data = request.get_json()  # obtener los datos en formato JSON
-            print(data)
 
-            # Obtener los datos del usuario
-            random_number = random.randint(1000, 9999)
-            name = data['firstName']
-            last_name = data['lastName']
-            username = name.lower() + '_' + last_name.lower() + str(random_number)
-            email = data['email']
-            password = data['password']
-            repeat_password = data['confirmPassword']
-            accept_terms = data['terms']
+            if not data.get('email').endswith('.com'):
+                app.logger.info("Correo inválido: no tiene dominio .com")
+                return jsonify({"error": "El correo electrónico ingresado no tiene dominio .com"}), 400
 
-            # ? algunas validaciones se realizan desde el frontend
-            # Consulta la base de datos para verificar si el correo electrónico ya existe
-            existing_user = User.query.filter_by(email=email).first()
-            if existing_user:
-                #     # flash("El correo electrónico ya está en uso", "error")
-                #     # return redirect(url_for('register_view'))
-                return jsonify({"error": "El correo electrónico ya está en uso."}), 400
+            if len(data.get('password')) < 6:
+                app.logger.info("Contraseña demasiado corta")
+                return jsonify({"error": "La contraseña debe tener al menos 6 caracteres"}), 400
 
-            # if not email.endswith('.com'):
-            #     # flash("El correo electrónico ingresado no tiene dominio .com", "info")
-            #     # return redirect(url_for('register_view'))
-            #     return jsonify({"error": "El correo electrónico ingresado no tiene dominio .com"}), 400
+            if data.get('password') != data.get('confirmPassword'):
+                app.logger.info("Las contraseñas no coinciden")
+                return jsonify({"error": "Las contraseñas no coinciden"}), 400
 
-            # if len(password) < 6:
-            #     # flash("La contraseña debe tener al menos 8 caracteres", "info")
-            #     # return redirect(url_for('register_view'))
-            #     return jsonify({"error": "La contraseña debe tener al menos 8 caracteres"}), 400
+            if User.query.filter_by(email=data.get('email')).first():
+                app.logger.info(f"Correo ya registrado: {data.get('email')}")
+                return jsonify({"error": "El correo electrónico ya está en uso"}), 400
 
-            # if password != repeat_password:
-            #     # flash('Las contraseñas no coinciden', 'info')
-            #     # return redirect(url_for('register_view'))
-            #     return jsonify({"error": "Las contraseñas no coinciden"}), 400
-
-            # if accept_terms != 'yes':
-            #     # flash("Debes aceptar los términos y condiciones", "info")
-            #     # return redirect(url_for('register_view'))
-            #     return jsonify({"error": "Debes aceptar los términos y condiciones"}), 400
+            username = generate_unique_username(
+                data['firstName'], data['lastName'])
 
             # Crea un nuevo usuario utilizando el modelo User
             new_user = User(
-                name=name,
-                last_name=last_name,
+                name=data['firstName'],
+                last_name=data['lastName'],
                 username=username,
-                email=email,
+                email=data['email'],
                 password=bcrypt.hashpw(
-                    password.encode("utf-8"), bcrypt.gensalt())
+                    data['password'].encode("utf-8"), bcrypt.gensalt())
             )
             db.session.add(new_user)
             db.session.commit()
 
-            # Almacenar los datos del usuario en la sesión
-            session['name'] = name
-            session['email'] = email
-            session['username'] = username
-
-            flash('Su cuenta ha sido creado con éxito', "info")
-            flash(f'Su nombre de usuario es: {username}', 'info')
-            return jsonify({"message": "Tu cuenta ha sido creada con éxito"}), 201
+            return jsonify({"message": "Tu cuenta ha sido creada con éxito", "username": username}), 201
 
     except Exception as e:
-        flash(f'Informacion del error: {str(e)}')
-        return jsonify({"error": f"Error: {str(e)}"}), 500
+        app.logger.error(f"Error al agregar usuario: {str(e)}")
+        return jsonify({"error": "Ocurrió un error inesperado. Por favor, inténtelo más tarde."}), 500
 
 
 @app.route('/get_user/<id>', methods=['GET'])
@@ -354,46 +340,49 @@ def login_send():
     try:
         if request.method == "POST":
             data = request.get_json()
+
+            if not data or 'identifier' not in data or 'password' not in data:
+                return jsonify({"message": "Faltan datos necesarios"}), 400
+
             identifier = data['identifier']
             password = data['password']
             # remember = request.form.get('remember')
 
-            user = None
-            if "@" in identifier:
-                user = User.query.filter_by(email=identifier).first()
-            else:
-                user = User.query.filter_by(username=identifier).first()
+            user = User.query.filter_by(email=identifier).first(
+            ) if "@" in identifier else User.query.filter_by(username=identifier).first()
 
-            if user:
-                if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
-                    # datos para el token
-                    payload = {
-                        "email": user.email,
-                        "role": user.role,
-                        "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)
-                    }
-                    token = jwt.encode(payload, secret_key, algorithm="HS256")
+            if not user:
+                return jsonify({"message": "El usuario no existe"}), 404
 
-                    session['email'] = user.email
-                    session['role'] = user.role
-                    session['name'] = user.name
-                    session['username'] = user.username
-                    session['status'] = user.status
-                    session['lastName'] = user.last_name
-                    session['id'] = user.id
+            if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+                return jsonify({"message": "La contraseña es incorrecta"}), 401
 
-                    return jsonify({
-                        "message": "Sesión iniciada correctamente",
-                        "token": token,
-                        "userId": user.id
-                    }), 200
-                else:
-                    return jsonify({"message": "La contraseña es incorrecta"}), 401
-            else:
-                return jsonify({"message": "El usuario no existe"}), 500
+            payload = {
+                "email": user.email,
+                "role": user.role,
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+            }
+            token = jwt.encode(payload, secret_key, algorithm="HS256")
+
+            session.update({
+                'email': user.email,
+                'role': user.role,
+                'name': user.name,
+                'username': user.username,
+                'status': user.status,
+                'lastName': user.last_name,
+                'id': user.id,
+            })
+
+            return jsonify({
+                "message": "Sesión iniciada correctamente",
+                "token": token,
+                "userId": user.id
+            }), 200
 
     except Exception as e:
-        return jsonify({"message": f'Informacion del error: {str(e)}'})
+        print(f"Error en /login_send: {e}")
+        return jsonify({"message": f"Error interno: {str(e)}"}), 500
 
 
 # Build the database:

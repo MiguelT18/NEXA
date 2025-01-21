@@ -1,168 +1,80 @@
 "use client";
 
-import ProtectedRoute from "@/components/layouts/ProtectedRoute";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
-  UserIcon,
-  UsersIcon,
-  ConfigIcon,
-  FileIcon,
-  StatsIcon02,
-  TriangleArrowIcon,
-} from "@/components/icons/index";
-import UserProfile from "@/components/layouts/dashboard/UserProfile";
-import Configuration from "@/components/layouts/dashboard/Configuration";
-import Reports from "@/components/layouts/dashboard/Reports";
-import Stats from "@/components/layouts/dashboard/Stats";
-import Users from "@/components/layouts/dashboard/Users";
-import Dashboard from "@/components/layouts/dashboard/Dashboard";
-import DashboardIcon from "@/components/icons/dashboard";
+  ArrowIcon,
+  TrendingUpIcon,
+  BalanceWalletIcon,
+} from "@/components/icons";
+import PerformanceChart from "@/components/layouts/dashboard/PerformanceChart";
+import OrderHistory from "@/components/layouts/dashboard/OrderHistory";
 
-export default function DashboardPage() {
-  const [activeSection, setActiveSection] = useState("Dashboard");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const iconMap = {
+  "trending-up": TrendingUpIcon,
+  arrow: ArrowIcon,
+  "balance-wallet": BalanceWalletIcon,
+};
 
-  useEffect(() => {
-    const savedSection = localStorage.getItem("activeSection");
-    if (savedSection) {
-      setActiveSection(savedSection);
-    }
+const userDashboard = [
+  { title: "Balance", icon: "trending-up", value: "$ 50 000" },
+  {
+    title: "Disponible",
+    icon: "balance-wallet",
+    value: "$ 3 500",
+  },
+  {
+    title: "Evaluación de Rendimiento",
+    icon: "trending-up",
+    value: "Positivo",
+  },
+  { title: "Operaciones Totales", icon: "trending-up", value: 5 },
+];
 
-    if (window.location.pathname === "/dashboard") {
-      document.documentElement.style.overflow = "hidden";
-    }
-
-    return () => {
-      document.documentElement.style.overflow = "auto";
-    };
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("activeSection", activeSection);
-  }, [activeSection]);
-
+export default function Dashboard() {
   return (
-    <ProtectedRoute>
-      <main className="flex h-[90dvh] overflow-y-hidden">
-        <aside
-          className={`border-r dark:border-light-gray border-dark-gray bg-white dark:bg-dark-background px-2 max-md:hidden md:sticky z-10 h-full duration-100 ${
-            isMenuOpen ? "w-64" : "w-16"
-          }`}
-        >
-          <div
-            className={`flex ${isMenuOpen ? "justify-end" : "justify-center rotate-180"}`}
-          >
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`transition-transform duration-300 transform ${
-                isMenuOpen ? "-rotate-90" : "-rotate-90"
-              } hover:bg-light-gray/5 hover:dark:bg-white/10 p-3 rounded-md my-4`}
-            >
-              <TriangleArrowIcon className="size-5" />
-            </button>
-          </div>
+    <section className="w-full min-h-[calc(100dvh-14dvh)] p-5 max-md:pb-28 relative">
+      <h1 className="text-lg font-sans font-bold">Dashboard</h1>
 
-          <ul className="flex flex-col gap-2 [&>li]:cursor-pointer [&>li]:text-sm [&>li]:rounded-md [&>li]:flex [&>li]:gap-2 [&>li]:items-center [&>li]:transition-all [&>li]:duration-300 [&>li]:p-3">
-            <li
-              onClick={() => setActiveSection("Dashboard")}
-              className="hover:bg-light-gray/5 hover:dark:bg-white/10"
-            >
-              <div>
-                <DashboardIcon className="size-5" />
-              </div>
-              <span
-                className={`text-sm transition-opacity duration-300 ${
-                  isMenuOpen ? "block" : "hidden"
-                }`}
-              >
-                Dashboard
-              </span>
-            </li>
-            <li
-              onClick={() => setActiveSection("Perfil")}
-              className="hover:bg-light-gray/5 hover:dark:bg-white/10"
-            >
-              <div>
-                <UserIcon className="size-5" />
-              </div>
-              <span
-                className={`text-sm transition-opacity duration-300 ${
-                  isMenuOpen ? "block" : "hidden"
-                }`}
-              >
-                Perfil
-              </span>
-            </li>
-            <li
-              onClick={() => setActiveSection("Configuración")}
-              className="hover:bg-light-gray/5 hover:dark:bg-white/10"
-            >
-              <div>
-                <ConfigIcon className="size-5" />
-              </div>
-              <span
-                className={`text-sm transition-opacity duration-300 ${
-                  isMenuOpen ? "block" : "hidden"
-                }`}
-              >
-                Configuración
-              </span>
-            </li>
-            <li
-              onClick={() => setActiveSection("Reportes")}
-              className="hover:bg-light-gray/5 hover:dark:bg-white/10"
-            >
-              <div>
-                <FileIcon className="size-5" />
-              </div>
-              <span
-                className={`text-sm transition-opacity duration-300 ${
-                  isMenuOpen ? "block" : "hidden"
-                }`}
-              >
-                Reportes
-              </span>
-            </li>
-            <li
-              onClick={() => setActiveSection("Estadísticas")}
-              className="hover:bg-light-gray/5 hover:dark:bg-white/10"
-            >
-              <div>
-                <StatsIcon02 className="size-5" />
-              </div>
-              <span
-                className={`text-sm transition-opacity duration-300 ${
-                  isMenuOpen ? "block" : "hidden"
-                }`}
-              >
-                Estadísticas
-              </span>
-            </li>
-            <li
-              onClick={() => setActiveSection("Usuarios")}
-              className="hover:bg-light-gray/5 hover:dark:bg-white/10"
-            >
-              <div>
-                <UsersIcon className="size-5" />
-              </div>
-              <span
-                className={`text-sm transition-opacity duration-300 ${
-                  isMenuOpen ? "block" : "hidden"
-                }`}
-              >
-                Usuarios
-              </span>
-            </li>
-          </ul>
-        </aside>
+      <div className="grid gap-8 grid-cols-[repeat(auto-fill,_minmax(240px,1fr))] mt-5">
+        {userDashboard.map((item, index) => {
+          const Icon = iconMap[item.icon];
 
-        {activeSection === "Dashboard" && <Dashboard />}
-        {activeSection === "Perfil" && <UserProfile />}
-        {activeSection === "Configuración" && <Configuration />}
-        {activeSection === "Reportes" && <Reports />}
-        {activeSection === "Estadísticas" && <Stats />}
-        {activeSection === "Usuarios" && <Users />}
-      </main>
-    </ProtectedRoute>
+          return (
+            <article
+              key={index}
+              className="border dark:border-light-gray rounded-md p-4 w-full"
+            >
+              <div className="flex justify-between items-center">
+                <h3 className="text-sm font-sans font-semibold">
+                  {item.title}
+                </h3>
+                <div>
+                  <Icon
+                    className={`size-5 ${(index === 1) | (index === 2) ? "text-secondary-color" : ""}`}
+                  />
+                </div>
+              </div>
+
+              <h1
+                className={`text-lg font-bold ${
+                  (index === 1) | (index === 2) ? "text-secondary-color" : ""
+                }`}
+              >
+                {item.value}
+              </h1>
+              {item.percentage && (
+                <span className="text-sm text-secondary-color font-bold">
+                  {item.percentage}
+                </span>
+              )}
+            </article>
+          );
+        })}
+      </div>
+
+      <PerformanceChart />
+
+      <OrderHistory />
+    </section>
   );
 }

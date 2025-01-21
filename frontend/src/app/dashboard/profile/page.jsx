@@ -13,8 +13,12 @@ import avatars from "@/utils/avatars";
 import Image from "next/image";
 import { useAvatar } from "@/hooks/useAvatar";
 import DefaultAvatar from "@/images/avatars/default-avatar.png";
+import apiService from "@/services/apiService";
+import { useRouter } from "next/navigation";
 
 export default function UserProfile() {
+  const router = useRouter();
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -35,25 +39,12 @@ export default function UserProfile() {
 
       try {
         if (token && id) {
-          const response = await fetch(`http://localhost:5000/get_user/${id}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
+          const response = await apiService.get(`/get_user/${id}`, {
+            Authorization: `Bearer ${token}`,
           });
-
-          if (!response.ok) {
-            console.error("Error al obtener los datos del usuario!");
-            window.location.href = "/";
-            return;
-          }
-
-          const data = await response.json();
-          setUser(data);
+          setUser(response);
         } else {
-          console.error("No se encontró ningún token o id de usuario");
-          window.location.href = "/";
+          router.push("/");
         }
       } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
@@ -78,47 +69,36 @@ export default function UserProfile() {
       setTimeout(() => {
         setError(null);
       }, 3000);
-      return;
     }
 
     if (token && id) {
       try {
-        const response = await fetch(
-          `http://localhost:5000/update_user/${id}`,
+        const response = await apiService.post(
+          `/update_user/${id}`,
           {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              name: data.name,
-              last_name: data.last_name,
-              username: data.username,
-              email: data.email,
-            }),
+            name: data.name,
+            last_name: data.last_name,
+            username: data.username,
+            email: data.email,
+          },
+          {
+            Authorization: `Bearer ${token}`,
           },
         );
 
-        const responseData = await response.json();
-        if (response.ok) {
-          setSuccess(responseData.message);
-
-          setUser((prevUser) => ({
-            ...prevUser,
-            ...filteredData,
-            updated_at: new Date().toISOString(),
-          }));
-
-          setTimeout(() => {
-            setSuccess(null);
-          }, 3000);
-          reset();
-        } else {
-          console.error(responseData.message);
-        }
+        reset();
+        setSuccess(response.message);
+        setUser((prevUser) => ({
+          ...prevUser,
+          ...filteredData,
+          updated_at: new Date().toISOString(),
+        }));
+        setTimeout(() => {
+          setSuccess(null);
+        }, 3000);
       } catch (error) {
         console.error(error.message);
+        setError(error.message);
       }
     }
   };
@@ -147,7 +127,7 @@ export default function UserProfile() {
 
   return (
     <>
-      <section className="w-full min-h-[calc(100dvh-14dvh)] overflow-y-auto p-5 relative">
+      <section className="w-full min-h-[calc(100dvh-14dvh)] p-5 max-md:pb-28 relative">
         <h1 className="text-lg font-sans font-bold">Perfil de Usuario</h1>
 
         <div className="border border-dark-gray dark:border-dark-gray w-full p-4 rounded-lg mt-5">
@@ -197,7 +177,7 @@ export default function UserProfile() {
 
           <div className="mt-5 p-5 rounded-lg border border-dark-gray dark:border-dark-gray">
             <div className="flex max-md:flex-col-reverse max-md:gap-4 justify-between items-start">
-              <div className="flex flex-col gap-2 w-full md:max-w-[45%]">
+              <div className="flex flex-col gap-1 w-full md:max-w-[45%]">
                 {loading ? (
                   <div className="w-full h-[30px] overflow-hidden rounded-lg">
                     <Loader />
@@ -343,6 +323,7 @@ export default function UserProfile() {
             </div>
 
             <button
+              onClick={onSubmit}
               type="submit"
               className="dark:hover:bg-white/80 bg-black text-white dark:bg-white dark:text-black p-2 mt-5 rounded-md transition-all"
             >

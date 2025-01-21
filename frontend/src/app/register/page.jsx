@@ -4,8 +4,22 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import BrandLogo from "@/images/logos/variant-01";
 import { useForm } from "react-hook-form";
+import apiService from "@/services/apiService";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function RegisterPage() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const { register: registerUser } = useAuth();
+  const router = useRouter();
+
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
@@ -20,31 +34,14 @@ export default function RegisterPage() {
     }, 3000);
   }
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm();
-
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("http://localhost:5000/add_user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setSuccess(data.message);
+      const response = await registerUser(data);
+      if (response.success) {
+        setSuccess(response.message);
         reset();
       } else {
-        const errorData = await response.json();
-        setError(errorData.message);
+        setError(response.message);
       }
     } catch (error) {
       setError(error.message);
@@ -55,10 +52,8 @@ export default function RegisterPage() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      window.location.href = "/";
-    }
-  }, []);
+    if (token) router.push("/");
+  }, [router]);
 
   return (
     <main className="bg-gradient-light-section dark:bg-gradient-dark-section flex-grow flex justify-center items-center max-md:px-4 max-md:pb-16 relative">
@@ -211,7 +206,7 @@ export default function RegisterPage() {
           Registrarse
         </button>
 
-        <span className="w-full inline-block text-sm text-center mt-2 dark:text-difuminate-text-dark text-difuminate-text-light [&>a]:dark:text-white [&>a]:text-black transition-all">
+        <span className="w-full inline-block text-sm text-center mt-2 [&>a]:dark:text-difuminate-text-dark [&>a]:text-difuminate-text-light dark:text-white text-black transition-all">
           ¿Ya tienes una cuenta?{" "}
           <Link
             href="/login"
@@ -233,7 +228,7 @@ export default function RegisterPage() {
         <p
           className={`text-white bg-green-500 dark:bg-green-500/50 px-6 py-2 rounded-md absolute top-5 right-5`}
         >
-          ✅ {success}
+          {success}
         </p>
       )}
     </main>

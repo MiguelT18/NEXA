@@ -4,8 +4,19 @@ import BrandLogo from "@/images/logos/variant-01";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const { login, user } = useAuth();
+  const router = useRouter();
+
   const [error, setError] = useState(null);
 
   if (error) {
@@ -14,43 +25,18 @@ export default function LoginPage() {
     }, 3000);
   }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
   const onSubmit = async (data) => {
-    try {
-      const response = await fetch("http://localhost:5000/login_send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          identifier: data.email_or_username,
-          password: data.password,
-        }),
-      });
-      const result = await response.json();
-      if (response.ok) {
-        localStorage.setItem("token", result.token);
-        localStorage.setItem("userId", result.userId);
-        window.location.href = "/market";
-      } else {
-        setError(result.message);
-      }
-    } catch (error) {
-      setError(error.message);
-    }
+    const { success, message } = await login(
+      data.email_or_username,
+      data.password,
+    );
+    if (!success) setError(message);
+    else router.push("/");
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      window.location.href = "/";
-    }
-  }, []);
+    if (user) router.push("/");
+  }, [router, user]);
 
   return (
     <main className="bg-gradient-light-section dark:bg-gradient-dark-section flex-grow flex justify-center items-center max-md:px-4 max-md:pb-16 relative">
@@ -128,7 +114,7 @@ export default function LoginPage() {
           Iniciar Sesión
         </button>
 
-        <span className="w-full inline-block text-sm text-center mt-2 dark:text-difuminate-text-dark text-difuminate-text-light [&>a]:dark:text-white [&>a]:text-black transition-all">
+        <span className="w-full inline-block text-sm text-center mt-2 [&>a]:dark:text-difuminate-text-dark [&>a]:text-difuminate-text-light dark:text-white text-black transition-all">
           ¿No tienes una cuenta?{" "}
           <Link
             href="/register"
