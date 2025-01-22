@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import apiService from "@/services/apiService";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { useNotification } from "@/hooks/useNotification";
+import { ColorizedButton } from "@/components/ui/pure/Buttons";
 
 export default function RegisterPage() {
   const {
@@ -20,35 +22,21 @@ export default function RegisterPage() {
   const { register: registerUser } = useAuth();
   const router = useRouter();
 
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
-
-  if (error) {
-    setTimeout(() => {
-      setError(null);
-    }, 3000);
-  }
-  if (success) {
-    setTimeout(() => {
-      setSuccess(null);
-    }, 3000);
-  }
+  const { showNotification } = useNotification();
 
   const onSubmit = async (data) => {
     try {
       const response = await registerUser(data);
       if (response.success) {
-        setSuccess(response.message);
+        showNotification(response.message, "success");
         reset();
       } else {
-        setError(response.message);
+        showNotification(response.message, "error");
       }
     } catch (error) {
-      setError(error.message);
+      showNotification(error.message, "error");
     }
   };
-
-  const password = watch("password");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -64,14 +52,14 @@ export default function RegisterPage() {
       >
         <BrandLogo className="w-14 h-auto mx-auto" />
 
-        <h1 className="text-center text-md uppercase font-black font-sans mt-4">
+        <h1 className="text-center text-md uppercase font-black font-sans mt-2">
           Crear una cuenta
         </h1>
-        <p className="dark:text-difuminate-text-dark text-difuminate-text-light text-sm text-center mb-2">
+        <p className="dark:text-difuminate-text-dark text-difuminate-text-light text-sm text-center mb-5">
           Crea una cuenta en Nexa AI para comenzar a operar.
         </p>
 
-        <div className="flex flex-col gap-2 [&>label]:w-full">
+        <div className="flex flex-col gap-2 mb-4 [&>label]:w-full">
           <div className="flex gap-2 [&>label]:w-full [&>label]:flex [&>label]:flex-col [&>label>input]:w-full [&>label>input]:rounded-md [&>label>input]:p-2 [&>label>input]:bg-transparent [&>label>input]:border [&>label>input]:dark:border-light-gray [&>label>input]:mt-1">
             <label htmlFor="firstName">
               Nombres:
@@ -131,55 +119,6 @@ export default function RegisterPage() {
           </label>
 
           <label
-            htmlFor="password"
-            className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
-          >
-            Contraseña:
-            <input
-              type="password"
-              id="password"
-              autoComplete="off"
-              {...register("password", {
-                required: "Tu contraseña es obligatoria.",
-                minLength: {
-                  value: 8,
-                  message: "La contraseña debe tener al menos 8 caracteres.",
-                },
-                pattern: {
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-                  message:
-                    "La contraseña debe incluir mayúsculas, minúsculas y números.",
-                },
-              })}
-            />
-            {errors.password && (
-              <p className="text-red-500 text-xs">{errors.password.message}</p>
-            )}
-          </label>
-
-          <label
-            htmlFor="confirmPassword"
-            className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
-          >
-            Confirmar Contraseña:
-            <input
-              type="password"
-              id="confirmPassword"
-              autoComplete="off"
-              {...register("confirmPassword", {
-                required: "Debes confirmar tu constraseña.",
-                validate: (value) =>
-                  value === password || "Las contraseñas no coinciden.",
-              })}
-            />
-            {errors.confirmPassword && (
-              <p className="text-red-500 text-xs">
-                {errors.confirmPassword.message}
-              </p>
-            )}
-          </label>
-
-          <label
             htmlFor="terms"
             className="flex items-center gap-2 text-sm cursor-pointer mt-2"
           >
@@ -204,14 +143,11 @@ export default function RegisterPage() {
           )}
         </div>
 
-        <button
-          type="submit"
-          className="bg-secondary-color hover:bg-secondary-color/80 dark:bg-primary-color hover:dark:bg-primary-color/60 w-full p-2 rounded-md mt-4 mb-2 text-white transition-all"
-        >
+        <ColorizedButton width="full" type="submit">
           Registrarse
-        </button>
+        </ColorizedButton>
 
-        <span className="w-full inline-block text-sm text-center mt-2 [&>a]:dark:text-difuminate-text-dark [&>a]:text-difuminate-text-light dark:text-white text-black transition-all">
+        <span className="w-full inline-block text-sm text-center mt-4 [&>a]:dark:text-difuminate-text-dark [&>a]:text-difuminate-text-light dark:text-white text-black transition-all">
           ¿Ya tienes una cuenta?{" "}
           <Link
             href="/login"
@@ -221,21 +157,6 @@ export default function RegisterPage() {
           </Link>
         </span>
       </form>
-
-      {error && (
-        <p
-          className={`text-white bg-red-500 dark:bg-red-500/50 px-6 py-2 rounded-md absolute top-5 right-5`}
-        >
-          <strong>Error:</strong> {error}
-        </p>
-      )}
-      {success && (
-        <p
-          className={`text-white bg-green-500 dark:bg-green-500/50 px-6 py-2 rounded-md absolute top-5 right-5`}
-        >
-          {success}
-        </p>
-      )}
     </main>
   );
 }

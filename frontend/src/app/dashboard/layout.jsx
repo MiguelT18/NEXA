@@ -4,14 +4,53 @@ import ProtectedRoute from "@/components/layouts/ProtectedRoute";
 import React, { useState, useEffect } from "react";
 import {
   UserIcon,
-  UsersIcon,
   ConfigIcon,
   FileIcon,
   StatsIcon02,
   TriangleArrowIcon,
+  ShortcutsIcon,
 } from "@/components/icons/index";
 import DashboardIcon from "@/components/icons/dashboard";
 import { useRouter } from "next/navigation";
+import BugIcon from "@/components/icons/bug";
+
+const sidebarItems = [
+  {
+    title: "Dashboard",
+    href: "/dashboard/index",
+    icon: <DashboardIcon className="size-5" />,
+  },
+  {
+    title: "Perfil",
+    href: "/dashboard/profile",
+    icon: <UserIcon className="size-5" />,
+  },
+  {
+    title: "Configuración",
+    href: "/dashboard/configuration",
+    icon: <ConfigIcon className="size-5" />,
+  },
+  {
+    title: "Reportes",
+    href: "/dashboard/reports",
+    icon: <FileIcon className="size-5" />,
+  },
+  {
+    title: "Estadísticas",
+    href: "/dashboard/statistics",
+    icon: <StatsIcon02 className="size-5" />,
+  },
+  {
+    title: "Atajos de teclado ",
+    href: "/dashboard/shortcuts",
+    icon: <ShortcutsIcon className="size-5" />,
+  },
+  {
+    title: "Ayuda",
+    href: "/dashboard/help",
+    icon: <BugIcon className="size-5" />,
+  },
+];
 
 export default function DashboardPage({ children }) {
   const router = useRouter();
@@ -37,7 +76,7 @@ export default function DashboardPage({ children }) {
     <ProtectedRoute>
       <main className="flex">
         <aside
-          className={`border-r dark:border-light-gray border-dark-gray bg-white dark:bg-dark-background px-2 max-md:hidden md:sticky z-10 duration-100 ${
+          className={`border-r dark:border-light-gray border-dark-gray bg-white dark:bg-dark-background px-2 max-md:hidden md:sticky z-10 duration-300 ${
             isMenuOpen ? "w-64" : "w-16"
           }`}
         >
@@ -46,7 +85,7 @@ export default function DashboardPage({ children }) {
           >
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`transition-transform duration-300 transform ${
+              className={`${
                 isMenuOpen ? "-rotate-90" : "-rotate-90"
               } hover:bg-light-gray/5 hover:dark:bg-white/10 p-3 rounded-md my-4`}
             >
@@ -54,100 +93,27 @@ export default function DashboardPage({ children }) {
             </button>
           </div>
 
-          <ul className="flex flex-col gap-2 [&>li]:cursor-pointer [&>li]:text-sm [&>li]:rounded-md [&>li]:flex [&>li]:gap-2 [&>li]:items-center [&>li]:transition-all [&>li]:duration-300 [&>li]:p-3">
-            <li
-              onClick={() => router.push("/dashboard")}
-              className="hover:bg-light-gray/5 hover:dark:bg-white/10"
-            >
-              <div>
-                <DashboardIcon className="size-5" />
-              </div>
-              <span
-                className={`text-sm transition-opacity duration-300 ${
-                  isMenuOpen ? "block" : "hidden"
-                }`}
+          <ul className="flex flex-col gap-2 [&>li]:cursor-pointer [&>li]:text-sm [&>li]:rounded-md [&>li]:flex [&>li]:gap-2 [&>li]:items-center [&>li]:p-3">
+            {sidebarItems.map((item, index) => (
+              <li
+                key={index}
+                onClick={() => router.push(`${item.href}`)}
+                className="hover:bg-light-gray/15 hover:dark:bg-white/10"
               >
-                Dashboard
-              </span>
-            </li>
-            <li
-              onClick={() => router.push("/dashboard/profile")}
-              className="hover:bg-light-gray/5 hover:dark:bg-white/10"
-            >
-              <div>
-                <UserIcon className="size-5" />
-              </div>
-              <span
-                className={`text-sm transition-opacity duration-300 ${
-                  isMenuOpen ? "block" : "hidden"
-                }`}
-              >
-                Perfil
-              </span>
-            </li>
-            <li
-              onClick={() => router.push("/dashboard/configuration")}
-              className="hover:bg-light-gray/5 hover:dark:bg-white/10"
-            >
-              <div>
-                <ConfigIcon className="size-5" />
-              </div>
-              <span
-                className={`text-sm transition-opacity duration-300 ${
-                  isMenuOpen ? "block" : "hidden"
-                }`}
-              >
-                Configuración
-              </span>
-            </li>
-            <li
-              onClick={() => router.push("/dashboard/reports")}
-              className="hover:bg-light-gray/5 hover:dark:bg-white/10"
-            >
-              <div>
-                <FileIcon className="size-5" />
-              </div>
-              <span
-                className={`text-sm transition-opacity duration-300 ${
-                  isMenuOpen ? "block" : "hidden"
-                }`}
-              >
-                Reportes
-              </span>
-            </li>
-            <li
-              onClick={() => router.push("/dashboard/statistics")}
-              className="hover:bg-light-gray/5 hover:dark:bg-white/10"
-            >
-              <div>
-                <StatsIcon02 className="size-5" />
-              </div>
-              <span
-                className={`text-sm transition-opacity duration-300 ${
-                  isMenuOpen ? "block" : "hidden"
-                }`}
-              >
-                Estadísticas
-              </span>
-            </li>
-            <li
-              onClick={() => router.push("/dashboard/users")}
-              className="hover:bg-light-gray/5 hover:dark:bg-white/10"
-            >
-              <div>
-                <UsersIcon className="size-5" />
-              </div>
-              <span
-                className={`text-sm transition-opacity duration-300 ${
-                  isMenuOpen ? "block" : "hidden"
-                }`}
-              >
-                Usuarios
-              </span>
-            </li>
+                <div>{item.icon}</div>
+                <span
+                  className={`text-sm text-nowrap ${isMenuOpen ? "block" : "hidden"}`}
+                >
+                  {item.title}
+                </span>
+              </li>
+            ))}
           </ul>
         </aside>
-        {children}
+
+        <section className="w-full h-full min-h-[calc(100dvh-20dvh)] p-5 max-md:pb-32">
+          {children}
+        </section>
       </main>
     </ProtectedRoute>
   );

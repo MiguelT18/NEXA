@@ -1,10 +1,10 @@
 import "@fontsource/roboto";
 import "./globals.css";
-import Navbar from "@/components/ui/Navbar";
+import Navbar from "@/components/ui/pure/Navbar";
 import ThemeProvider from "@/hooks/useTheme";
-import { AvatarProvider } from "@/hooks/useAvatar";
-import Footer from "@/components/ui/Footer";
+import Footer from "@/components/ui/pure/Footer";
 import { AuthProvider } from "@/hooks/useAuth";
+import NotificationProvider from "@/hooks/useNotification";
 
 export const metadata = {
   title: "Nexa AI",
@@ -16,13 +16,13 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body className="antialiased dark:bg-dark-background dark:text-white bg-white text-dark-gray flex flex-col min-h-dvh relative">
         <ThemeProvider>
-          <AvatarProvider>
+          <NotificationProvider>
             <AuthProvider>
               <Navbar />
               {children}
               <Footer />
             </AuthProvider>
-          </AvatarProvider>
+          </NotificationProvider>
         </ThemeProvider>
       </body>
     </html>

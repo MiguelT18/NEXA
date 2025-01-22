@@ -18,8 +18,8 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (data) => {
     try {
-      const response = await apiService.post("/add_user", data);
-      return { success: true, message: response.message };
+      const response = await apiService.post("/register", data);
+      return { success: true, message: response.message, user: response.user };
     } catch (error) {
       return { success: false, message: error.message };
     }

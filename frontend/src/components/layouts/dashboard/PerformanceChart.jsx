@@ -62,15 +62,15 @@ export default function PerformanceChart() {
   };
 
   return (
-    <Card className="mt-6 max-w-[700px] relative">
-      <CardHeader className="max-w-[70%]">
+    <Card className="mt-6 max-w-[700px] relative border-dark-gray/25 dark:border-light-gray">
+      <CardHeader className="p-4 md:max-w-[70%]">
         <CardTitle className="leading-6">Visualiza tu Rendimiento</CardTitle>
-        <CardDescription>
+        <CardDescription className="dark:text-difuminate-text-dark text-difuminate-text-light">
           Selecciona el intervalo de tiempo que deseas visualizar.
         </CardDescription>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="p-4">
         <Select value={interval} onValueChange={(value) => setInterval(value)}>
           <SelectTrigger className="w-[180px] mb-10 md:mb-4 md:absolute top-5 right-5">
             <SelectValue placeholder="Intervalo" />

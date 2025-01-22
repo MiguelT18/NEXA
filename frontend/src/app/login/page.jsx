@@ -6,6 +6,9 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { CloseEyeIcon, OpenEyeIcon } from "@/components/icons";
+import { useNotification } from "@/hooks/useNotification";
+import { ColorizedButton } from "@/components/ui/pure/Buttons";
 
 export default function LoginPage() {
   const {
@@ -14,23 +17,18 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm();
 
+  const { showNotification } = useNotification();
   const { login, user } = useAuth();
   const router = useRouter();
 
-  const [error, setError] = useState(null);
-
-  if (error) {
-    setTimeout(() => {
-      setError(null);
-    }, 3000);
-  }
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const onSubmit = async (data) => {
     const { success, message } = await login(
       data.email_or_username,
       data.password
     );
-    if (!success) setError(message);
+    if (!success) showNotification(message, "error");
     else router.push("/");
   };
 
@@ -47,10 +45,10 @@ export default function LoginPage() {
       >
         <BrandLogo className="w-14 h-auto mx-auto" />
 
-        <h1 className="text-center text-md uppercase font-black font-sans mt-4">
+        <h1 className="text-center text-md uppercase font-black font-sans mt-2">
           Iniciar Sesión
         </h1>
-        <p className="dark:text-difuminate-text-dark text-difuminate-text-light text-sm text-center mb-2">
+        <p className="dark:text-difuminate-text-dark text-difuminate-text-light text-sm text-center mb-5">
           Inicia sesión en Nexa AI para comenzar a operar.
         </p>
 
@@ -80,19 +78,24 @@ export default function LoginPage() {
             )}
           </label>
 
-          <label
-            htmlFor="password"
-            className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
-          >
+          <label htmlFor="password" className="flex flex-col">
             Contraseña:
-            <input
-              type="password"
-              id="password"
-              autoComplete="off"
-              {...register("password", {
-                required: "La contraseña es obligatoria.",
-              })}
-            />
+            <div className="flex items-center gap-2 w-full [&>input]:w-full [&>input]:rounded-md [&>input]:p-2 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray">
+              <input
+                type={isPasswordVisible ? "text" : "password"}
+                id="password"
+                autoComplete="off"
+                {...register("password", {
+                  required: "La contraseña es obligatoria.",
+                })}
+              />
+              <span
+                onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                className="h-full w-fit block p-2.5 rounded-md dark:border-light-gray border cursor-pointer transition-all hover:border-black"
+              >
+                {isPasswordVisible ? <OpenEyeIcon /> : <CloseEyeIcon />}
+              </span>
+            </div>
             {errors.password && (
               <p className="text-red-500 text-xs">{errors.password.message}</p>
             )}
@@ -107,14 +110,11 @@ export default function LoginPage() {
           </label>
         </div>
 
-        <button
-          type="submit"
-          className="bg-secondary-color hover:bg-secondary-color/80 dark:bg-primary-color hover:dark:bg-primary-color/60 w-full p-2 rounded-md mb-2 text-white transition-all"
-        >
+        <ColorizedButton width="full" type="submit">
           Iniciar Sesión
-        </button>
+        </ColorizedButton>
 
-        <span className="w-full inline-block text-sm text-center mt-2 [&>a]:dark:text-difuminate-text-dark [&>a]:text-difuminate-text-light dark:text-white text-black transition-all">
+        <span className="w-full inline-block text-sm text-center mt-4 [&>a]:dark:text-difuminate-text-dark [&>a]:text-difuminate-text-light dark:text-white text-black transition-all">
           ¿No tienes una cuenta?{" "}
           <Link
             href="/register"
@@ -124,24 +124,22 @@ export default function LoginPage() {
           </Link>
         </span>
 
-        <span className="w-full inline-block text-sm text-center mt-2 dark:text-difuminate-text-dark text-difuminate-text-light [&>a]:dark:text-white [&>a]:text-black transition-all">
+        <span className="w-full inline-block text-sm text-center mt-2 [&>a]:dark:text-difuminate-text-dark [&>a]:text-difuminate-text-light dark:text-white text-black transition-all">
           ¿Olvidaste tu contraseña?{" "}
           <Link
-            href="/reset-password"
+            onClick={() =>
+              showNotification(
+                "No se puede restablecer la contraseña en este momento.",
+                "error"
+              )
+            }
+            href="#"
             className="hover:underline hover:dark:text-primary-color hover:text-secondary-color"
           >
             Restablecer contraseña
           </Link>
         </span>
       </form>
-
-      {error && (
-        <p
-          className={`text-white bg-red-500 dark:bg-red-500/50 px-6 py-2 rounded-md absolute top-5 right-5`}
-        >
-          <strong>Error:</strong> {error}
-        </p>
-      )}
     </main>
   );
 }

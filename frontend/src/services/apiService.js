@@ -51,4 +51,4 @@ class apiService {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default new apiService("http://localhost:5000");
+export default new apiService("http://127.0.0.1:5000");

@@ -1,5 +1,6 @@
 import React from "react";
 import { CheckIcon } from "@/components/icons/index";
+import { PrimaryButton } from "@/components/ui/pure/Buttons";
 
 const plans = [
   {
@@ -43,7 +44,7 @@ const gradients = [
   "bg-gradient-to-r from-purple-600 to-red-500", // Premium
 ];
 
-export default function PricingPage() {
+export default function Plans() {
   return (
     <main className="container min-h-[80dvh] mx-auto px-4 flex items-center py-12">
       <section className="h-full w-full grid gap-10 grid-cols-[repeat(auto-fit,_minmax(290px,1fr))] max-md:pb-24">
@@ -81,9 +82,7 @@ export default function PricingPage() {
                   </ul>
                 </div>
 
-                <button className="mt-auto bg-black text-white dark:bg-white dark:text-black w-full rounded-md py-2">
-                  Seleccionar plan
-                </button>
+                <PrimaryButton>Seleccionar plan</PrimaryButton>
               </div>
             </article>
           );

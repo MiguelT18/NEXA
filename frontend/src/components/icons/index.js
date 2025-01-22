@@ -24,8 +24,20 @@ import TwitterIcon from "./twitter";
 import InstagramIcon from "./instagram";
 import BalanceWalletIcon from "./balanceWallet";
 import TrendingUpIcon from "./trendingUp";
+import CloseIcon from "./close";
+import OpenEyeIcon from "./openEye";
+import CloseEyeIcon from "./closeEye";
+import EmptyIcon from "./empty";
+import ShortcutsIcon from "./shortcuts";
+import InfoIcon from "./info";
 
 export {
+  InfoIcon,
+  ShortcutsIcon,
+  EmptyIcon,
+  CloseEyeIcon,
+  OpenEyeIcon,
+  CloseIcon,
   TrendingUpIcon,
   BalanceWalletIcon,
   InstagramIcon,

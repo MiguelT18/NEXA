@@ -1,6 +1,8 @@
 from app.models.base import BaseMixin
 from app.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from app.utils.user_utils import generate_random_password
+
 
 class User(BaseMixin, db.Model):
     """
@@ -20,15 +22,16 @@ class User(BaseMixin, db.Model):
     Relaciones:
     - person: Relación con el modelo Person, que permite acceder a la información de la persona asociada.
     """
-    __tablename__ = 'users'
 
-    person_id = db.Column(db.Integer, db.ForeignKey('persons.id'), nullable=True)
+    __tablename__ = "users"
+
+    person_id = db.Column(db.Integer, db.ForeignKey("persons.id"), nullable=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
-    photo = db.Column(db.Integer, default=0)  # Cambiado a entero con valor por defecto 0
+    photo = db.Column(db.String(255), nullable=True)
 
-    person = db.relationship('Person', backref=db.backref('user', uselist=False))
+    person = db.relationship("Person", backref=db.backref("user", uselist=False))
 
     def __init__(self, person, username, email, password, photo=0):
         """
@@ -43,7 +46,7 @@ class User(BaseMixin, db.Model):
         self.person = person
         self.username = username
         self.email = email
-        self.set_password(password)  # Generar el hash al inicializar
+        self.set_password(generate_random_password())  # Generar el hash al inicializar
         self.photo = photo  # Asignar el indicador de foto
 
     def set_password(self, password):

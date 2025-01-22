@@ -9,7 +9,8 @@ export default function ProtectedRoute({ children }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      router.push("/login");
+      // router.push("/login");
+      console.log("Inicio de sesión");
     }
   }, [router]);
 

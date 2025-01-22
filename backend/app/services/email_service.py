@@ -1,5 +1,6 @@
 from app.utils.email_utils import send_email
 
+
 def send_welcome_email(to_email, name):
     """
     Servicio para enviar un correo de bienvenida.
@@ -18,6 +19,7 @@ def send_welcome_email(to_email, name):
     """
     send_email(to_email, subject, body)
     return "Correo enviado con éxito"
+
 
 def send_user_credentials_email(to_email, name, username, password):
     """

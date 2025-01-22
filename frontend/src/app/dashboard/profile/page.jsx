@@ -1,29 +1,21 @@
 "use client";
 
-import Loader from "@/components/ui/Loader";
-import {
-  CalendarIcon,
-  ClockIcon,
-  CloudUploadIcon,
-  TrashIcon,
-} from "@/components/icons/index";
+import Loader from "@/components/ui/pure/Loader";
+import { CalendarIcon, ClockIcon, TrashIcon } from "@/components/icons/index";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import avatars from "@/utils/avatars";
 import Image from "next/image";
 import DefaultAvatar from "@/images/avatars/default-avatar.png";
-import { useRouter } from "next/navigation";
 import apiService from "@/services/apiService";
+import { useNotification } from "@/hooks/useNotification";
+import { DestructiveButton, PrimaryButton } from "@/components/ui/pure/Buttons";
 
 export default function UserProfile() {
-  const router = useRouter();
+  const { showNotification } = useNotification();
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedAvatar, setSelectedAvatar] = useState(null);
 
   const { register, handleSubmit, setValue, reset } = useForm();
 
@@ -34,17 +26,20 @@ export default function UserProfile() {
 
       try {
         if (token && id) {
-          const response = await apiService.get(`/get_user/${id}`, {
-            Authorization: `Bearer ${token}`,
-          });
-          setUser(response);
+          const response = await apiService.get("/get_user");
+
+          setUser(response.user); // Set user data after successful fetch
+
+          setLoading(false); // End loading when data is received
         } else {
-          router.push("/");
+          showNotification(
+            "No se encontró ningún usuario autenticado",
+            "error"
+          );
         }
       } catch (error) {
-        console.error("Error al obtener los datos del usuario:", error);
-      } finally {
-        setLoading(false);
+        console.error("Error fetching user data:", error);
+        setLoading(false); // End loading if there's an error
       }
     };
 
@@ -55,193 +50,69 @@ export default function UserProfile() {
     const token = localStorage.getItem("token");
     const id = localStorage.getItem("userId");
 
-    if (!token || !id) {
-      router.push("/");
-      return;
-    }
-
-    // Filtrar valores null/undefined/empty y validar campos requeridos
     const filteredData = Object.fromEntries(
-      Object.entries(data).filter(
-        ([_, value]) =>
-          value && typeof value === "string" && value.trim() !== ""
-      )
+      Object.entries(data).filter(([_, value]) => value.trim() !== "")
     );
 
     if (Object.keys(filteredData).length === 0) {
-      setError("Por favor llena al menos un campo del formulario.");
-      setTimeout(() => setError(null), 3000);
+      showNotification("Por favor, llena al menos un campo.", "error");
       return;
     }
 
-    // Validar formato de email si está presente
-    if (
-      filteredData.email &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(filteredData.email)
-    ) {
-      setError("Por favor ingresa un correo electrónico válido");
-      setTimeout(() => setError(null), 3000);
-      return;
-    }
+    showNotification(
+      "En este momento no se puede actualizar el perfil.",
+      "error"
+    );
 
-    setLoading(true);
-    try {
-      const response = await apiService.post(
-        `/update_user/${id}`,
-        filteredData,
-        {
-          Authorization: `Bearer ${token}`,
-        }
-      );
-
-      // Actualizar estado sólo si la petición fue exitosa
-      setUser((prevUser) => ({
-        ...prevUser,
-        ...filteredData,
-        updated_at: new Date().toISOString(),
-      }));
-
-      setSuccess(response.message);
-      reset();
-
-      setTimeout(() => setSuccess(null), 3000);
-    } catch (error) {
-      setError(
-        error.response?.data?.message || "Error al actualizar el perfil"
-      );
-      setTimeout(() => setError(null), 3000);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      setIsModalOpen(false);
-    }
-  };
-
-  const handleAvatarSelect = (avatar) => {
-    setSelectedAvatar(avatar);
-  };
-
-  const handleConfirmAvatar = async () => {
-    if (selectedAvatar) {
-      const token = localStorage.getItem("token");
-      const id = localStorage.getItem("userId");
-
-      try {
-        setLoading(true);
-        const response = await apiService.post(
-          `/update_user/${id}`,
-          { avatar: selectedAvatar },
-          {
-            Authorization: `Bearer ${token}`,
-          }
-        );
-
-        setUser((prev) => ({
-          ...prev,
-          avatar: selectedAvatar,
-        }));
-
-        setSuccess(response.message || "Avatar actualizado correctamente");
-        setTimeout(() => setSuccess(null), 3000);
-      } catch (error) {
-        setError(
-          error.response?.data?.message || "Error al actualizar el avatar"
-        );
-        setTimeout(() => setError(null), 3000);
-      } finally {
-        setLoading(false);
-        setIsModalOpen(false);
-      }
-    }
-  };
-
-  const handleRemoveAvatar = async () => {
-    const token = localStorage.getItem("token");
-    const id = localStorage.getItem("userId");
-
-    try {
-      setLoading(true);
-      const response = await apiService.post(
-        `/update_user/${id}`,
-        { avatar: null },
-        {
-          Authorization: `Bearer ${token}`,
-        }
-      );
-
-      setUser((prev) => ({
-        ...prev,
-        avatar: null,
-      }));
-
-      setSuccess(response.message || "Avatar eliminado correctamente");
-      setTimeout(() => setSuccess(null), 3000);
-    } catch (error) {
-      setError(error.response?.data?.message || "Error al eliminar el avatar");
-      setTimeout(() => setError(null), 3000);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleCancelAvatar = () => {
-    setIsModalOpen(false);
+    console.log(token, id);
   };
 
   return (
     <>
-      <section className="w-full min-h-[calc(100dvh-14dvh)] p-5 max-md:pb-28 relative">
-        <h1 className="text-lg font-sans font-bold">Perfil de Usuario</h1>
+      <>
+        <h1 className="text-lg font-sans font-bold">Perfil del Usuario</h1>
 
         <div className="border border-dark-gray dark:border-dark-gray w-full p-4 rounded-lg mt-5">
           <h2 className="text-md font-bold mb-2 max-md:text-center">
-            Información Personal
+            Información personal
           </h2>
           <p className="text-sm max-md:text-center text-difuminate-text-light dark:text-difuminate-text-dark">
-            Actualiza tu información de perfil y personaliza tu cuenta.
+            Actualiza tu información personal y personaliza tu cuenta.
           </p>
 
           <div className="mt-5 flex max-md:flex-col md:items-center gap-5">
-            <Image
-              src={user?.avatar || DefaultAvatar}
-              alt={user?.avatar ? "Avatar selected" : "Default Avatar"}
-              width={250}
-              height={250}
-              className="size-32 object-cover aspect-square rounded-full max-md:mx-auto"
-            />
+            {loading ? (
+              <div className="size-32 rounded-full flex justify-center items-center">
+                <Loader className="rounded-[inherit]" />
+              </div>
+            ) : (
+              <Image
+                src={DefaultAvatar}
+                alt="Avatar"
+                width={250}
+                height={250}
+                className="size-32 object-cover aspect-square rounded-full max-md:mx-auto"
+              />
+            )}
 
             <div className="md:space-y-4 max-md:flex max-md:items-center max-md:justify-evenly">
-              <button
-                onClick={() => setIsModalOpen(true)}
-                type="button"
-                className="dark:hover:bg-white/80 bg-black text-white dark:bg-white dark:text-black p-2 rounded-md transition-all"
-              >
-                Cambiar foto
-              </button>
-              <button
-                onClick={handleRemoveAvatar}
-                type="button"
-                className="flex items-center border hover:border-red-700/80 hover:text-red-700/80 border-red-500 text-red-500 rounded-md p-2 transition-all"
-              >
+              <PrimaryButton type="button">Cambiar foto</PrimaryButton>
+              <DestructiveButton type="button">
                 <TrashIcon /> Eliminar
-              </button>
+              </DestructiveButton>
             </div>
           </div>
 
           <div className="mt-5 p-5 rounded-lg border border-dark-gray dark:border-dark-gray">
             <div className="flex max-md:flex-col-reverse max-md:gap-4 justify-between items-start">
-              <div className="flex flex-col gap-1 w-full md:max-w-[45%]">
+              <div className="flex flex-col gap-2 w-full md:max-w-[45%]">
                 {loading ? (
                   <div className="w-full h-[30px] overflow-hidden rounded-lg">
                     <Loader />
                   </div>
                 ) : (
                   <h2 className="text-md font-bold font-sans">
-                    {user.name} {user.last_name}
+                    {user ? `${user.name} ${user.last_name}` : "-"}
                   </h2>
                 )}
                 {loading ? (
@@ -250,7 +121,7 @@ export default function UserProfile() {
                   </div>
                 ) : (
                   <span className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
-                    @{user.username}
+                    {user ? `@${user.username}` : "-"}
                   </span>
                 )}
               </div>
@@ -266,15 +137,14 @@ export default function UserProfile() {
                   Correo electrónico
                 </h3>
                 {loading ? (
-                  <div className="w-full max-w-[80%] h-[30px] overflow-hidden rounded-lg mt-1">
+                  <div className="w-full max-w-[90%] h-[30px] overflow-hidden rounded-lg mt-1">
                     <Loader />
                   </div>
                 ) : (
-                  <span className="text-sm">{user.email}</span>
+                  <span className="text-sm">{user?.email}</span>
                 )}
               </div>
 
-              {/* TODO: Agregar el país como columna en la bd */}
               <div>
                 <h3 className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                   País
@@ -284,17 +154,17 @@ export default function UserProfile() {
 
               <div className="flex items-center gap-2">
                 <CalendarIcon className="size-5 text-difuminate-text-light dark:text-difuminate-text-dark" />
-                <div>
+                <div className="w-full">
                   <h3 className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                     Cuenta creada
                   </h3>
                   {loading ? (
-                    <div className="w-full max-w-[80%] h-[30px] overflow-hidden rounded-lg mt-1">
+                    <div className="w-full max-w-[90%] h-[30px] overflow-hidden rounded-lg mt-1">
                       <Loader />
                     </div>
                   ) : (
                     <span className="text-sm">
-                      {user.created_at
+                      {user?.created_at
                         ? new Date(user.created_at).toLocaleString("es-ES", {
                             day: "numeric",
                             month: "long",
@@ -310,17 +180,17 @@ export default function UserProfile() {
 
               <div className="flex items-center gap-2">
                 <ClockIcon className="size-5 text-difuminate-text-light dark:text-difuminate-text-dark" />
-                <div>
+                <div className="w-full">
                   <h3 className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                     Última modificación
                   </h3>
                   {loading ? (
-                    <div className="w-full max-w-[80%] h-[30px] overflow-hidden rounded-lg mt-1">
+                    <div className="w-full max-w-[90%] h-[30px] overflow-hidden rounded-lg mt-1">
                       <Loader />
                     </div>
                   ) : (
                     <span className="text-sm">
-                      {user.updated_at
+                      {user?.updated_at
                         ? new Date(user.updated_at).toLocaleString("es-ES", {
                             day: "numeric",
                             month: "long",
@@ -358,7 +228,7 @@ export default function UserProfile() {
               </label>
             </div>
 
-            <div className="w-full flex max-md:flex-col gap-4 mt-5 [&>label]:w-full [&>label]:flex [&>label]:flex-col [&>label>input]:w-full [&>label>input]:rounded-md [&>label>input]:p-2 [&>label>input]:dark:bg-dark-background [&>label>input]:bg-white [&>label>input]:border [&>label>input]:border-dark-gray [&>label>input]:dark:border-light-gray [&>label>input]:mt-1">
+            <div className="w-full flex max-md:flex-col gap-4 mt-5 mb-5 [&>label]:w-full [&>label]:flex [&>label]:flex-col [&>label>input]:w-full [&>label>input]:rounded-md [&>label>input]:p-2 [&>label>input]:dark:bg-dark-background [&>label>input]:bg-white [&>label>input]:border [&>label>input]:border-dark-gray [&>label>input]:dark:border-light-gray [&>label>input]:mt-1">
               <label htmlFor="username">
                 Nombre de usuario:
                 <input
@@ -379,113 +249,60 @@ export default function UserProfile() {
               </label>
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className={`dark:hover:bg-white/80 bg-black text-white dark:bg-white dark:text-black p-2 mt-5 rounded-md transition-all ${
-                loading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              {loading ? "Guardando..." : "Guardar cambios"}
-            </button>
+            <PrimaryButton type="submit">Guardar cambios</PrimaryButton>
           </form>
         </div>
-      </section>
+      </>
 
-      {/* MODAL DE SUBIDA DE IMAGEN */}
+      {/* Avatar Selection Modal */}
       <div
-        onClick={handleBackdropClick}
-        className={`w-full min-h-dvh bg-black/50 z-30 fixed top-0 left-0 flex justify-center items-center transition-opacity duration-100 ${
-          isModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        // onClick={handleBackdropClick}
+        className={`w-full min-h-dvh bg-black/50 z-30 fixed top-0 left-0 flex justify-center items-center transition-opacity duration-1000 ${
+          !true ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
       >
-        <article
-          className={`bg-white dark:bg-dark-background border-dark-gray border rounded-lg p-6 w-[90%] h-fit max-w-2xl transform transition-all duration-300 ${
-            isModalOpen ? "scale-100" : "scale-0"
-          }`}
-        >
-          <h1 className="text-md font-black font-sans mb-4">
-            Seleccionar Avatar
-          </h1>
-
-          <div>
-            <h2 className="text-sm mb-2">Avatares disponibles</h2>
-            <div>
-              <div className="grid justify-items-center gap-4 grid-cols-[repeat(auto-fit,_minmax(40px,1fr))] sm:grid-cols-[repeat(auto-fit,_minmax(56px,1fr))] md:grid-cols-[repeat(auto-fit,_minmax(80px,1fr))]">
-                {avatars.map((avatar, index) => (
-                  <div
-                    key={index}
-                    className={`overflow-hidden rounded-full cursor-pointer transition-all border-2 ${
-                      selectedAvatar === avatar
-                        ? "border-black/30 dark:border-white/80"
-                        : "hover:border-dark-gray border-black/30 hover:dark:border-white/80"
-                    }`}
-                    tabIndex={0}
-                    onClick={() => handleAvatarSelect(avatar)}
-                  >
-                    <Image
-                      src={avatar}
-                      alt="Default avatar"
-                      width={250}
-                      height={250}
-                      className="size-10 sm:size-14 md:size-20 object-cover aspect-square"
-                    />
-                  </div>
-                ))}
+        <div className="relative p-5 max-w-[320px] w-full bg-white dark:bg-dark-background rounded-xl">
+          <h3 className="text-lg text-center font-sans">
+            Selecciona un avatar
+          </h3>
+          <div className="flex justify-between items-center mt-4 flex-wrap gap-4">
+            {avatars.map((item, idx) => (
+              <div
+                key={idx}
+                className={`relative flex justify-center items-center cursor-pointer rounded-xl overflow-hidden transition-all ease-in-out ${
+                  !true ? "scale-125" : ""
+                }`}
+                // onClick={() => handleAvatarSelect(item)}
+              >
+                <Image
+                  src={item}
+                  alt="avatar"
+                  width={100}
+                  height={100}
+                  className="object-cover aspect-square"
+                />
               </div>
-            </div>
+            ))}
           </div>
 
-          <div>
-            <h2 className="text-sm mt-6 mb-4">Subir imagen personalizada</h2>
-
-            <div className="flex items-center justify-center w-full">
-              <label
-                htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer border-dark-gray hover:bg-light-gray/20 p-4"
-              >
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <CloudUploadIcon className="size-12 text-difuminate-text-light dark:text-difuminate-text-dark" />
-                  <p className="mb-2 text-sm text-difuminate-text-light dark:text-difuminate-text-dark text-center">
-                    <span className="font-semibold">Click para subir</span> o
-                    arrastra y suelta tu imagen
-                  </p>
-                  <p className="text-xs text-difuminate-text-light dark:text-difuminate-text-dark text-center">
-                    SVG, PNG, JPG or GIF (MAX. 512x512px)
-                  </p>
-                </div>
-                <input id="dropzone-file" type="file" className="hidden" />
-              </label>
-            </div>
-
-            <div className="mt-5 flex justify-between gap-4 [&>button]:py-2 [&>button]:rounded-md">
-              <button
-                onClick={handleCancelAvatar}
-                className="border dark:border-dark-gray hover:border-black dark:text-difuminate-text-dark hover:dark:text-white hover:dark:border-white/50 transition-all w-full"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleConfirmAvatar}
-                className="bg-black hover:bg-black/90 text-white dark:bg-white dark:text-black hover:dark:bg-white/80 transition-all w-full"
-              >
-                Confirmar
-              </button>
-            </div>
+          <div className="flex justify-evenly gap-4 mt-5">
+            <button
+              // onClick={handleCancelAvatar}
+              type="button"
+              className="bg-red-500 text-white w-full p-2 rounded-md"
+            >
+              Cancelar
+            </button>
+            <button
+              // onClick={handleConfirmAvatar}
+              type="button"
+              className="bg-green-500 text-white w-full p-2 rounded-md"
+            >
+              Confirmar
+            </button>
           </div>
-        </article>
+        </div>
       </div>
-
-      {error && (
-        <p className="absolute bottom-8 right-8 text-white bg-red-600 dark:bg-red-800 px-4 py-2 rounded-md">
-          {error}
-        </p>
-      )}
-      {success && (
-        <p className="absolute bottom-8 right-8 text-white bg-green-600 dark:bg-green-800 px-4 py-2 rounded-md">
-          {success}
-        </p>
-      )}
     </>
   );
 }
