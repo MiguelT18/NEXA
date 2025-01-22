@@ -47,7 +47,7 @@ export default function Faq() {
         <article
           onClick={() => handleToggle(index)}
           key={index}
-          className="rounded-md border border-difuminate-text-dark dark:border-light-gray p-4 cursor-pointer"
+          className="rounded-md border border-dark-gray/25 dark:border-light-gray p-4 cursor-pointer"
         >
           <div className="flex justify-between items-center gap-6">
             <h3 className="text-sm font-bold">{faq.question}</h3>

@@ -47,8 +47,8 @@ export default function RecentActivity() {
           <div className="transition-all hover:bg-light-gray/15 hover:dark:bg-dark-gray p-2 rounded-md cursor-pointer">
             <InfoIcon />
           </div>
-          <div className="scale-0 group-hover:scale-100 transition transform duration-100 ml-5 mb-2 absolute max-sm:w-[240px] max-md:w-[360px] md:w-max max-w-[600px] bottom-full -left-5 bg-black text-white dark:bg-white dark:text-black p-2 rounded-lg">
-            <p>
+          <div className="opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100 transition transform duration-300 ml-5 mb-2 absolute max-sm:w-[240px] backdrop-blur-sm max-md:w-[360px] md:w-max max-w-[600px] bottom-full -left-5 bg-black/70 text-white dark:bg-white/70 dark:text-black p-2 rounded-lg">
+            <p className="text-pretty">
               El historial almacena un máximo de 50 actividades. Las actividades
               más antiguas se eliminarán automáticamente de manera ascendente a
               medida que se agreguen nuevas.

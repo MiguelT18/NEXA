@@ -2,13 +2,17 @@
 
 import React from "react";
 import SwitchButton from "@/components/ui/pure/SwitchButton";
+import { PrimaryButton } from "@/components/ui/pure/Buttons";
+import { useNotification } from "@/hooks/useNotification";
 
 export default function Configuration() {
+  const { showNotification } = useNotification();
+
   return (
     <>
       <h1 className="text-lg font-sans font-bold">Configuración</h1>
 
-      <article className="border border-dark-gray dark:border-dark-gray w-full p-4 rounded-lg mt-5">
+      <article className="border border-dark-gray/25 dark:border-light-gray w-full p-4 rounded-lg mt-5">
         <div>
           <h2 className="text-md font-bold">Seguridad de la Cuenta</h2>
           <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
@@ -29,7 +33,7 @@ export default function Configuration() {
         </div>
       </article>
 
-      <article className="border border-dark-gray dark:border-dark-gray w-full p-4 rounded-lg mt-5">
+      <article className="border border-dark-gray/25 dark:border-light-gray w-full p-4 rounded-lg mt-5">
         <div>
           <h2 className="text-md font-bold">Notificaciones</h2>
           <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
@@ -60,14 +64,14 @@ export default function Configuration() {
         </div>
       </article>
 
-      <article className="border border-dark-gray w-full p-4 rounded-lg mt-5">
-        <h2 className="text-md font-bold mb-2">Cambiar Contraseña</h2>
+      <article className="border border-dark-gray/25 dark:border-light-gray w-full p-4 rounded-lg mt-5">
+        <h2 className="text-md font-bold">Cambiar Contraseña</h2>
         <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
           Actualiza tu contraseña para mantener tu cuenta segura.
         </p>
 
         <form>
-          <div className="w-full space-y-4 my-5 [&>label]:w-full [&>label]:flex [&>label]:flex-col [&>label>input]:w-full [&>label>input]:rounded-md [&>label>input]:p-2 [&>label>input]:dark:bg-dark-background [&>label>input]:bg-white [&>label>input]:border [&>label>input]:border-dark-gray [&>label>input]:dark:border-light-gray [&>label>input]:mt-2">
+          <div className="w-full space-y-4 my-5 [&>label]:w-full [&>label]:flex [&>label]:flex-col [&>label>input]:w-full [&>label>input]:rounded-md [&>label>input]:p-2 [&>label>input]:dark:bg-dark-background [&>label>input]:bg-white [&>label>input]:border [&>label>input]:border-dark-gray/25 [&>label>input]:dark:border-light-gray [&>label>input]:mt-2">
             <label htmlFor="currentPassword">
               Contraseña actual:
               <input type="password" />
@@ -84,9 +88,16 @@ export default function Configuration() {
             </label>
           </div>
 
-          <button className="dark:hover:bg-white/80 bg-black text-white dark:bg-white dark:text-black p-2 rounded-md transition-all">
+          <PrimaryButton
+            onClick={() =>
+              showNotification(
+                "Falta agregar interacción a este botón.",
+                "info"
+              )
+            }
+          >
             Cambiar contraseña
-          </button>
+          </PrimaryButton>
         </form>
       </article>
     </>

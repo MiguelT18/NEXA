@@ -30,8 +30,10 @@ import CloseEyeIcon from "./closeEye";
 import EmptyIcon from "./empty";
 import ShortcutsIcon from "./shortcuts";
 import InfoIcon from "./info";
+import HandCoinIcon from "./handCoin";
 
 export {
+  HandCoinIcon,
   InfoIcon,
   ShortcutsIcon,
   EmptyIcon,

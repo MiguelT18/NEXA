@@ -1,10 +1,14 @@
+import { useNotification } from "@/hooks/useNotification";
 import React, { useState } from "react";
 
 export default function SwitchButton() {
+  const { showNotification } = useNotification();
+
   const [isActive, setIsActive] = useState(false);
 
   const handleClick = () => {
     setIsActive(!isActive);
+    showNotification("Falta agregar interacción a este botón.", "info");
   };
 
   return (

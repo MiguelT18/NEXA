@@ -25,7 +25,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="dark:bg-dark-background bg-white block px-4 w-full z-20 max-md:fixed max-md:bottom-0 max-md:border-t md:border-b border-dark-gray dark:border-light-gray dark:border-background-light">
+    <nav className="dark:bg-dark-background bg-white block px-4 w-full z-20 max-md:fixed max-md:bottom-0 max-md:border-t md:border-b border-dark-gray/25 dark:border-light-gray">
       {/* Desktop Navbar */}
       <div className="max-md:hidden flex justify-around items-center min-h-[10dvh]">
         <Link

@@ -72,7 +72,7 @@ export default function UserProfile() {
       <>
         <h1 className="text-lg font-sans font-bold">Perfil del Usuario</h1>
 
-        <div className="border border-dark-gray dark:border-dark-gray w-full p-4 rounded-lg mt-5">
+        <div className="border border-dark-gray/25 dark:border-light-gray w-full p-4 rounded-lg mt-5">
           <h2 className="text-md font-bold mb-2 max-md:text-center">
             Información personal
           </h2>
@@ -96,14 +96,32 @@ export default function UserProfile() {
             )}
 
             <div className="md:space-y-4 max-md:flex max-md:items-center max-md:justify-evenly">
-              <PrimaryButton type="button">Cambiar foto</PrimaryButton>
-              <DestructiveButton type="button">
+              <PrimaryButton
+                type="button"
+                onClick={() =>
+                  showNotification(
+                    "Falta agregar interacción a este botón.",
+                    "info"
+                  )
+                }
+              >
+                Cambiar foto
+              </PrimaryButton>
+              <DestructiveButton
+                type="button"
+                onClick={() =>
+                  showNotification(
+                    "Falta agregar interacción a este botón.",
+                    "info"
+                  )
+                }
+              >
                 <TrashIcon /> Eliminar
               </DestructiveButton>
             </div>
           </div>
 
-          <div className="mt-5 p-5 rounded-lg border border-dark-gray dark:border-dark-gray">
+          <div className="mt-5 p-5 rounded-lg border border-dark-gray/25 dark:border-light-gray">
             <div className="flex max-md:flex-col-reverse max-md:gap-4 justify-between items-start">
               <div className="flex flex-col gap-2 w-full md:max-w-[45%]">
                 {loading ? (
@@ -207,7 +225,7 @@ export default function UserProfile() {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="w-full flex max-md:flex-col gap-4 mt-5 [&>label]:w-full [&>label]:flex [&>label]:flex-col [&>label>input]:w-full [&>label>input]:rounded-md [&>label>input]:p-2 [&>label>input]:dark:bg-dark-background [&>label>input]:bg-white [&>label>input]:border [&>label>input]:border-dark-gray [&>label>input]:dark:border-light-gray [&>label>input]:mt-1">
+            <div className="w-full flex max-md:flex-col gap-4 mt-5 [&>label]:w-full [&>label]:flex [&>label]:flex-col [&>label>input]:w-full [&>label>input]:rounded-md [&>label>input]:p-2 [&>label>input]:dark:bg-dark-background [&>label>input]:bg-white [&>label>input]:border [&>label>input]:border-dark-gray [&>label>input]:mt-1 [&>label>input]:border-dark-gray/25 [&>label>input]:dark:border-light-gray">
               <label htmlFor="name">
                 Nombres:
                 <input
@@ -228,7 +246,7 @@ export default function UserProfile() {
               </label>
             </div>
 
-            <div className="w-full flex max-md:flex-col gap-4 mt-5 mb-5 [&>label]:w-full [&>label]:flex [&>label]:flex-col [&>label>input]:w-full [&>label>input]:rounded-md [&>label>input]:p-2 [&>label>input]:dark:bg-dark-background [&>label>input]:bg-white [&>label>input]:border [&>label>input]:border-dark-gray [&>label>input]:dark:border-light-gray [&>label>input]:mt-1">
+            <div className="w-full flex max-md:flex-col gap-4 mt-5 mb-5 [&>label]:w-full [&>label]:flex [&>label]:flex-col [&>label>input]:w-full [&>label>input]:rounded-md [&>label>input]:p-2 [&>label>input]:dark:bg-dark-background [&>label>input]:bg-white [&>label>input]:border [&>label>input]:border-dark-gray [&>label>input]:mt-1 [&>label>input]:border-dark-gray/25 [&>label>input]:dark:border-light-gray">
               <label htmlFor="username">
                 Nombre de usuario:
                 <input

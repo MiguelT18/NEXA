@@ -119,7 +119,7 @@ export default function Home() {
               través del globo y ejecuta operaciones con precisión.
             </p>
 
-            <div className="lg:max-w-[80%] border-difuminate-text-dark dark:border-light-gray border p-2 rounded-md overflow-x-hidden mt-4">
+            <div className="lg:max-w-[80%] border-dark-gray/25 dark:border-light-gray border p-2 rounded-md overflow-x-hidden mt-4">
               <MarketTicker />
             </div>
           </div>
@@ -153,7 +153,7 @@ export default function Home() {
             return (
               <article
                 key={index}
-                className="border-difuminate-text-dark dark:border-light-gray border rounded-md p-4 w-full relative overflow-hidden"
+                className="border-dark-gray/25 dark:border-light-gray border rounded-md p-4 w-full relative overflow-hidden"
               >
                 <Icon className="size-12 text-secondary-color dark:text-primary-color" />
                 <h3 className="text-md font-semibold font-sans mb-2 mt-4">

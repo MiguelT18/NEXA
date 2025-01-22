@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
 import { CheckIcon } from "@/components/icons/index";
 import { PrimaryButton } from "@/components/ui/pure/Buttons";
+import { useNotification } from "@/hooks/useNotification";
 
 const plans = [
   {
@@ -38,13 +41,9 @@ const plans = [
   },
 ];
 
-const gradients = [
-  "bg-gradient-to-r from-green-400 to-blue-500", // Básico
-  "bg-gradient-to-r from-blue-500 to-purple-600", // Pro
-  "bg-gradient-to-r from-purple-600 to-red-500", // Premium
-];
-
 export default function Plans() {
+  const { showNotification } = useNotification();
+
   return (
     <main className="container min-h-[80dvh] mx-auto px-4 flex items-center py-12">
       <section className="h-full w-full grid gap-10 grid-cols-[repeat(auto-fit,_minmax(290px,1fr))] max-md:pb-24">
@@ -52,7 +51,7 @@ export default function Plans() {
           return (
             <article
               key={index}
-              className="border dark:border-light-gray border-dark-gray rounded-lg flex flex-col"
+              className="border border-dark-gray/25 dark:border-light-gray rounded-lg flex flex-col"
             >
               <div
                 className={`h-3 w-full rounded-t-[inherit] ${
@@ -82,7 +81,16 @@ export default function Plans() {
                   </ul>
                 </div>
 
-                <PrimaryButton>Seleccionar plan</PrimaryButton>
+                <PrimaryButton
+                  onClick={() =>
+                    showNotification(
+                      "Falta agregar interacción a este botón.",
+                      "info"
+                    )
+                  }
+                >
+                  Seleccionar plan
+                </PrimaryButton>
               </div>
             </article>
           );

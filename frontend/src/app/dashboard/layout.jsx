@@ -11,7 +11,7 @@ import {
   ShortcutsIcon,
 } from "@/components/icons/index";
 import DashboardIcon from "@/components/icons/dashboard";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import BugIcon from "@/components/icons/bug";
 
 const sidebarItems = [
@@ -54,12 +54,13 @@ const sidebarItems = [
 
 export default function DashboardPage({ children }) {
   const router = useRouter();
+  const pathname = usePathname();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.ctrlKey && event.key === "b") {
+      if (event.key === "e") {
         event.preventDefault();
         setIsMenuOpen((prev) => !prev);
       }
@@ -76,7 +77,7 @@ export default function DashboardPage({ children }) {
     <ProtectedRoute>
       <main className="flex">
         <aside
-          className={`border-r dark:border-light-gray border-dark-gray bg-white dark:bg-dark-background px-2 max-md:hidden md:sticky z-10 duration-300 ${
+          className={`border-r border-dark-gray/25 dark:border-light-gray bg-white dark:bg-dark-background px-2 max-md:hidden md:sticky z-10 duration-300 ${
             isMenuOpen ? "w-64" : "w-16"
           }`}
         >
@@ -98,7 +99,7 @@ export default function DashboardPage({ children }) {
               <li
                 key={index}
                 onClick={() => router.push(`${item.href}`)}
-                className="hover:bg-light-gray/15 hover:dark:bg-white/10"
+                className={`hover:bg-light-gray/15 hover:dark:bg-white/10 ${pathname === item.href ? "bg-light-gray/15 dark:bg-white/10" : ""}`}
               >
                 <div>{item.icon}</div>
                 <span

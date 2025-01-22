@@ -5,6 +5,7 @@ import {
   ArrowIcon,
   TrendingUpIcon,
   BalanceWalletIcon,
+  HandCoinIcon,
 } from "@/components/icons";
 import PerformanceChart from "@/components/layouts/dashboard/PerformanceChart";
 import OrderHistory from "@/components/layouts/dashboard/OrderHistory";
@@ -14,21 +15,18 @@ const iconMap = {
   "trending-up": TrendingUpIcon,
   arrow: ArrowIcon,
   "balance-wallet": BalanceWalletIcon,
+  "hand-coin": HandCoinIcon,
 };
 
 const userDashboard = [
-  { title: "Balance", icon: "trending-up", value: "$ 50 000" },
-  {
-    title: "Disponible",
-    icon: "balance-wallet",
-    value: "$ 3 500",
-  },
+  { title: "Balance", icon: "balance-wallet", value: "$ 50 000" },
+  { title: "Disponible", icon: "hand-coin", value: "$ 3 500" },
   {
     title: "Evaluación de Rendimiento",
     icon: "trending-up",
     value: "Positivo",
   },
-  { title: "Operaciones Totales", icon: "trending-up", value: 5 },
+  { title: "Operaciones Totales", icon: "arrow", value: 5 },
 ];
 
 export default function Dashboard() {

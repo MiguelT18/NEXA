@@ -44,7 +44,7 @@ export default function RegisterPage() {
   }, [router]);
 
   return (
-    <main className="bg-gradient-light-section dark:bg-gradient-dark-section flex-grow flex justify-center items-center max-md:px-4 max-md:pb-16 relative">
+    <main className="bg-light-gray/15 dark:bg-dark-gray flex-grow flex justify-center items-center max-md:px-4 max-md:pb-16 relative">
       <form
         method="POST"
         onSubmit={handleSubmit(onSubmit)}
