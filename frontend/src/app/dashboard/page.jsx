@@ -73,7 +73,6 @@ export default function Dashboard() {
       </div>
 
       <PerformanceChart />
-
       <OrderHistory />
     </section>
   );

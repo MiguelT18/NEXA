@@ -5,6 +5,12 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+backend/.mypy_cache/
+backend/.pytest_cache/
+backend/.coverage
+backend/db.sqlite3
+backend/migrations/__pycache__/
+backend/*.sqlite3
 
 # FRONTEND
 # dependencies
@@ -20,27 +26,30 @@ yarn.lock
 !.yarn/versions
 
 # testing
-/coverage
+frontend/coverage/
 
 # next.js
 frontend/.next/
+frontend/out/
+frontend/.turbo/
+frontend/.swc/
+frontend/.next/cache/
+frontend/.eslintcache
 
-/out/
-
-# production
-/build
+# production builds
+frontend/build/
 
 # misc
 .DS_Store
 *.pem
 
-# debug
+# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files
 .env*
 .env.local
 
@@ -54,7 +63,7 @@ next-env.d.ts
 # Logs
 *.log
 
-# Temporal files
+# Temporary files
 *.tmp
 *.temp
 *.bak
@@ -77,5 +86,6 @@ next-env.d.ts
 *.h5
 *.pickle
 
+# Configuración de proyecto
 *.code-workspace
 Thumbs.db

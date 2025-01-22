@@ -44,21 +44,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = async () => {
-    try {
-      const response = await apiService.get("/logout");
-
-      // Eliminar los tokens y el id del usuario de localStorage
-      if (response.status === 200) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        setUser(null);
-      } else {
-        return { success: false, message: response.message };
-      }
-    } catch (error) {
-      return { success: false, message: error.message };
-    }
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    setUser(null);
   };
 
   return (
