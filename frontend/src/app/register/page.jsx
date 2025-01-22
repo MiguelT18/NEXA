@@ -142,8 +142,13 @@ export default function RegisterPage() {
               {...register("password", {
                 required: "Tu contraseña es obligatoria.",
                 minLength: {
-                  value: 6,
-                  message: "La contraseña debe tener al menos 6 caracteres.",
+                  value: 8,
+                  message: "La contraseña debe tener al menos 8 caracteres.",
+                },
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                  message:
+                    "La contraseña debe incluir mayúsculas, minúsculas y números.",
                 },
               })}
             />

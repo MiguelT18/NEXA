@@ -22,12 +22,8 @@ import CloudUploadIcon from "./cloudUpload";
 import FacebookIcon from "./facebook";
 import TwitterIcon from "./twitter";
 import InstagramIcon from "./instagram";
-import BalanceWalletIcon from "./balanceWallet";
-import TrendingUpIcon from "./trendingUp";
 
 export {
-  TrendingUpIcon,
-  BalanceWalletIcon,
   InstagramIcon,
   TwitterIcon,
   FacebookIcon,

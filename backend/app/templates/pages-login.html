@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Login - Data Learning System</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Enlace al favicon desde la carpeta static/img/ -->
+  <link href="{{ url_for('static', filename='img/favicon.png') }}" rel="icon">
+
+  <!-- Enlace al icono de Apple desde la carpeta static/img/ -->
+  <link href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/css/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/quill/css/quill.snow.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/quill/css/quill.bubble.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/simple-datatables/style.css') }}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <main class="bg-success">
+    <div class="container">
+
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+              <div class="d-flex justify-content-center py-4">
+                <a href="/" class="logo d-flex align-items-center w-auto">
+                  <img src="{{ url_for('static', filename='img/logo.png') }}" alt="">
+                  <span class="d-none d-lg-block">NEXA</span>
+                </a>
+              </div><!-- End Logo -->
+
+              <div class="card mb-3">
+
+                <div class="card-body">
+
+                  <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">Inicia Sesión en Tu Cuenta</h5>
+                    <p class="text-center small">Ingresa tu nombre de usuario y contraseña para iniciar sesión</p>
+                  </div>
+
+                  <form id="loginForm" class="row g-3 needs-validation" novalidate onsubmit="return validateLoginForm();">
+
+                    <div class="col-12">
+                      <label for="yourUsername" class="form-label">Nombre de Usuario</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend">@</span>
+                        <input type="text" name="username" class="form-control" id="yourUsername" required minlength="5" pattern="^[a-zA-Z0-9_]+$" title="El nombre de usuario debe tener al menos 5 caracteres y contener solo letras, números y guiones bajos.">
+                        <div class="invalid-feedback">Por favor, ingresa tu nombre de usuario (¡al menos 5 caracteres).</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourPassword" class="form-label">Contraseña</label>
+                      <input type="password" name="password" class="form-control" id="yourPassword" required minlength="8" title="La contraseña debe tener al menos 8 caracteres.">
+                      <div class="invalid-feedback">Por favor, ingresa tu contraseña. Debe tener al menos 8 caracteres.</div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe" required>
+                        <label class="form-check-label" for="rememberMe">Recuérdame</label>
+                        <div class="invalid-feedback">Debes marcar esta casilla para continuar.</div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <button class="btn btn-outline-dark w-100" type="button" onclick="submitLoginForm();">Iniciar Sesión</button>
+                    </div>
+
+                    <div class="alert alert-light text-white bg-info alert-dismissible fade show d-none" id="alertMessage" role="alert">
+                        <span id="alertText"></span>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <div class="col-12">
+                      <p class="small mb-0">¿No tienes una cuenta? <a href="{{ url_for('auth.register_view') }}">Crea una cuenta</a></p>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+              
+
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main><!-- End #main -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bx bx-up-arrow-alt"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='vendor/apexcharts/apexcharts.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/chart.js/chart.umd.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/echarts/echarts.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/quill/quill.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/simple-datatables/simple-datatables.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/tinymce/tinymce.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js') }}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+  <script>
+  function validateLoginForm() {
+      const form = document.getElementById('loginForm');
+      const username = document.getElementById('yourUsername');
+      const password = document.getElementById('yourPassword');
+      const rememberMe = document.getElementById('rememberMe');
+      const alertMessage = document.getElementById('alertMessage');
+      const alertText = document.getElementById('alertText');
+
+      // Limpiar mensajes de alerta
+      alertMessage.classList.add('d-none');
+      alertText.innerText = '';
+
+      // Validar el formulario
+      if (!form.checkValidity()) {
+          // Si el formulario no es válido, mostrar los mensajes de error
+          if (username.validity.valueMissing) {
+              username.classList.add('is-invalid');
+          } else {
+              username.classList.remove('is-invalid');
+          }
+
+          if (password.validity.valueMissing) {
+              password.classList.add('is-invalid');
+          } else {
+              password.classList.remove('is-invalid');
+          }
+
+          if (!rememberMe.checked) {
+              rememberMe.classList.add('is-invalid');
+          } else {
+              rememberMe.classList.remove('is-invalid');
+          }
+
+          // Mostrar mensaje de alerta si hay un error
+          alertText.innerText = 'Por favor, complete todos los campos requeridos.';
+          alertMessage.classList.remove('d-none');
+          return false; // Evitar el envío del formulario
+      }
+
+      // Si todo está bien, permitir el envío del formulario
+      return true;
+  }
+
+  function submitLoginForm() {
+    if (validateLoginForm()) {
+        // Crear objeto FormData con el formulario
+        const formData = new FormData(document.getElementById('loginForm'));
+
+        fetch("{{ url_for('auth.login_send') }}", {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const alertMessage = document.getElementById('alertMessage');
+            const alertText = document.getElementById('alertText');
+            alertMessage.classList.remove('d-none'); // Mostrar el div de alertas
+
+            if (data.message) {
+                alertMessage.classList.remove('bg-danger');
+                alertMessage.classList.add('bg-info');
+                alertText.innerText = data.message; // Mostrar mensaje de éxito
+
+                // Redirigir a la vista /index
+                setTimeout(() => {
+                    window.location.href = "/index"; // Ajusta esta ruta según la estructura de tu aplicación
+                }, 2000); // Retraso opcional para que el usuario pueda ver el mensaje
+            } else if (data.error) {
+                alertMessage.classList.remove('bg-info');
+                alertMessage.classList.add('bg-danger');
+                alertText.innerText = data.error; // Mostrar mensaje de error
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const alertMessage = document.getElementById('alertMessage');
+            alertMessage.classList.remove('d-none');
+            alertMessage.classList.remove('bg-info');
+            alertMessage.classList.add('bg-danger');
+            alertText.innerText = 'Error al enviar el formulario. Por favor, inténtelo de nuevo más tarde.';
+        });
+    }
+  }
+  </script>
+
+</body>
+
+</html>

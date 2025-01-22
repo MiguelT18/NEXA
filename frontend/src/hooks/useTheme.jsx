@@ -6,7 +6,6 @@ const ThemeContext = createContext();
 
 export default function ThemeProvider({ children }) {
   const [theme, setTheme] = useState("light");
-  const [isMounted, setIsMounted] = useState(false);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -21,11 +20,7 @@ export default function ThemeProvider({ children }) {
     const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
     document.documentElement.classList.add(savedTheme);
-
-    setIsMounted(true);
   }, []);
-
-  if (!isMounted) return null;
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

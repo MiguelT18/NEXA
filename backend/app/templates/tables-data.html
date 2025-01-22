@@ -1,0 +1,102 @@
+{% extends 'layout-master.html' %}
+{% block title %}List Users - Data learning System{% endblock %}
+  {% block content %}
+    <div class="pagetitle">
+      <h1>List Data</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/index">Home</a></li>
+          <li class="breadcrumb-item">Tables</li>
+          <li class="breadcrumb-item active">Data</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Table Users</h5>
+              {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-light text-white bg-info alert-dismissible fade show" role="alert">
+                          {{message}}
+                          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+              {% endwith %}
+
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Date Register</th>
+                    <th scope="col">Date Update</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for user in users: %}
+                    <tr>
+                        {% if user.status ==1 %}
+                        <td>{{ loop.index }}</td>
+                        <td>{{ user.name}}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>
+                          {% if user.role == 1 %}
+                              Employee
+                          {% elif user.role == 2 %}
+                              Admin
+                          {% else %}
+                              Otro
+                          {% endif %}
+                        </td>
+                        <td>{{ user.date_created }}</td>
+                        <td>{{ user.date_modified }}</td>
+                        <td>
+                            <a class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ user.idUser }}">Delete</a>
+                            <a href="{{ url_for('auth.get_user', id=user.id) }}" class="btn btn-outline-success" >Update</a>
+                            <div class="modal fade" id="deleteModal{{ user.idUser }}" tabindex="-1">
+                              <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title">Confirmar Eliminación</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <a href="{{ url_for('auth.delete_user', id=user.id) }}" class="btn btn-outline-danger">Eliminar</a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div><!-- Fin del modal específico para cada usuario -->
+                        </td>
+                        
+                        {% endif %}
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endblock %}

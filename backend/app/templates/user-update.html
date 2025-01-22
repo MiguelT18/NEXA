@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Update - Data Learning System</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Enlace al favicon desde la carpeta static/img/ -->
+  <link href="{{ url_for('static', filename='img/favicon.png') }}" rel="icon">
+
+  <!-- Enlace al icono de Apple desde la carpeta static/img/ -->
+  <link href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/css/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/quill/css/quill.snow.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/quill/css/quill.bubble.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/simple-datatables/style.css') }}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+
+<body>
+
+  <main>
+    <div class="container">
+
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+              <div class="d-flex justify-content-center py-4">
+                <a href="#" class="logo d-flex align-items-center w-auto">
+                  <img src="{{ url_for('static', filename='img/logo.png') }}" alt="">
+                  <span class="d-none d-lg-block">NEXA</span>
+                </a>
+              </div><!-- End Logo -->
+
+              <div class="card mb-3">
+
+                <div class="card-body">
+
+                  <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">Actualizar Información</h5>
+                    <p class="text-center small">Ingresa los detalles para actualizar el usuario</p>
+                  </div>
+
+                  <form class="row g-3 needs-validation" action="{{ url_for('auth.update_user', id=user.0) }}" method="post" novalidate onsubmit="return validateUserUpdateForm();">
+                    <div class="col-12">
+                      <label for="yourName" class="form-label">Nombre</label>
+                      <input type="text" name="name" class="form-control" id="yourName" value="{{ user.name }}" required pattern="[A-Za-z ]+" title="Solo se permiten letras y espacios.">
+                      <div class="invalid-feedback">Por favor, ingresa tu nombre.</div>
+                    </div>
+                    <div class="col-12">
+                      <label for="yourLastName" class="form-label">Apellido</label>
+                      <input type="text" name="lastName" class="form-control" id="yourLastName" value="{{ user.last_name }}" required pattern="[A-Za-z ]+" title="Solo se permiten letras y espacios.">
+                      <div class="invalid-feedback">Por favor, ingresa tu apellido.</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourEmail" class="form-label">Correo Electrónico</label>
+                      <input type="email" name="email" class="form-control" id="yourEmail" value="{{ user.email }}" required pattern="[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+" title="Por favor, ingresa un correo electrónico válido.">
+                      <div class="invalid-feedback">Por favor, ingresa un correo electrónico válido.</div>
+                    </div>
+                    <div class="col-12">
+                        <label for="yourUsername" class="form-label">Nombre de Usuario</label>
+                        <input type="text" name="username" class="form-control" id="yourUsername" value="{{ user.username }}" required pattern="\w+" title="Solo se permiten caracteres alfanuméricos y guiones bajos.">
+                        <div class="invalid-feedback">Por favor, ingresa un nombre de usuario válido.</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="phoneNumber" class="form-label">Número de Teléfono</label>
+                      <input type="text" name="phoneNumber" class="form-control" id="phoneNumber" value="{{ user.phone_number }}" required pattern="^\d{10}$" title="El número de teléfono debe tener 10 dígitos.">
+                      <div class="invalid-feedback">Por favor, ingresa un número de teléfono válido (10 dígitos).</div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="yourRole" class="form-label">Rol</label>
+                        <select name="role" class="form-select" id="yourRole" required>
+                            <option value="1" {% if user.role == 1 %}selected{% endif %}>Empleado</option>
+                            <option value="2" {% if user.role == 2 %}selected{% endif %}>Admin</option>
+                        </select>
+                        <div class="invalid-feedback">Por favor, selecciona un rol.</div>
+                    </div>
+                    <div class="col-12">
+                      <button class="btn btn-outline-success w-100" type="submit">Actualizar Registro</button>
+                    </div>
+                    <div class="alert alert-light text-white bg-info alert-dismissible fade show d-none" id="alertMessage" role="alert">
+                        <span id="alertText"></span>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+              
+
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main><!-- End #main -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bx bx-up-arrow-alt"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='vendor/apexcharts/apexcharts.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/chart.js/chart.umd.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/echarts/echarts.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/quill/quill.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/simple-datatables/simple-datatables.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/tinymce/tinymce.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js') }}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+  <script>
+  function validateUserUpdateForm() {
+      const form = document.querySelector('form');
+      const alertMessage = document.getElementById('alertMessage');
+      const alertText = document.getElementById('alertText');
+
+      // Limpiar mensajes de alerta
+      alertMessage.classList.add('d-none');
+      alertText.innerText = '';
+
+      // Validar el formulario
+      if (!form.checkValidity()) {
+          // Si el formulario no es válido, mostrar los mensajes de error
+          Array.from(form.elements).forEach(element => {
+              if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
+                  if (!element.checkValidity()) {
+                      element.classList.add('is-invalid');
+                  } else {
+                      element.classList.remove('is-invalid');
+                  }
+              }
+          });
+
+          // Mostrar mensaje de alerta si hay un error
+          alertText.innerText = 'Por favor, completa todos los campos requeridos correctamente.';
+          alertMessage.classList.remove('d-none');
+          return false; // Evitar el envío del formulario
+      }
+
+      // Si todo está bien, permitir el envío del formulario
+      // Aquí puedes agregar la lógica para enviar el formulario usando fetch
+      fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form)
+      })
+      .then(response => response.json())
+      .then(data => {
+          alertMessage.classList.remove('d-none'); // Mostrar el div de alertas
+
+          if (data.message) {
+              alertMessage.classList.remove('bg-danger');
+              alertMessage.classList.add('bg-info');
+              alertText.innerText = data.message; // Mostrar mensaje de éxito
+          } else if (data.error) {
+              alertMessage.classList.remove('bg-info');
+              alertMessage.classList.add('bg-danger');
+              alertText.innerText = data.error; // Mostrar mensaje de error
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          alertMessage.classList.remove('d-none');
+          alertMessage.classList.remove('bg-info');
+          alertMessage.classList.add('bg-danger');
+          alertText.innerText = 'Error al enviar el formulario. Por favor, inténtelo de nuevo más tarde.';
+      });
+
+      return false; // Evitar el envío del formulario por defecto
+  }
+  </script>
+
+</body>
+
+</html>

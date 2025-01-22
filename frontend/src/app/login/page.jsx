@@ -28,7 +28,7 @@ export default function LoginPage() {
   const onSubmit = async (data) => {
     const { success, message } = await login(
       data.email_or_username,
-      data.password,
+      data.password
     );
     if (!success) setError(message);
     else router.push("/");
@@ -121,6 +121,16 @@ export default function LoginPage() {
             className="hover:underline hover:dark:text-primary-color hover:text-secondary-color"
           >
             Crea una cuenta
+          </Link>
+        </span>
+
+        <span className="w-full inline-block text-sm text-center mt-2 dark:text-difuminate-text-dark text-difuminate-text-light [&>a]:dark:text-white [&>a]:text-black transition-all">
+          ¿Olvidaste tu contraseña?{" "}
+          <Link
+            href="/reset-password"
+            className="hover:underline hover:dark:text-primary-color hover:text-secondary-color"
+          >
+            Restablecer contraseña
           </Link>
         </span>
       </form>
