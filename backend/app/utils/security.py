@@ -2,13 +2,23 @@ import jwt
 from functools import wraps
 from flask import request, jsonify
 from app.config import Config
+from datetime import datetime, timedelta
 
 
-def generate_token(user_id):
+def generate_token(user_id, username):
     """
-    Genera un token JWT para el usuario.
+    Genera un token JWT para el usuario con una expiración de 2 horas.
+
+    :param user_id: ID del usuario para el que se genera el token.
+    :param username: Nombre de usuario para incluir en el token.
+    :return: Token JWT codificado.
     """
-    payload = {"user_id": user_id}
+    expiration = datetime.now() + timedelta(hours=2)  # Establecer la expiración a 2 horas
+    payload = {
+        "user_id": user_id,
+        "username": username,
+        "exp": expiration  # Agregar el tiempo de expiración al payload
+    }
     return jwt.encode(payload, Config.SECRET_KEY, algorithm="HS256")
 
 

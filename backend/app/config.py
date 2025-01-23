@@ -35,5 +35,5 @@ class Config:
     # Configuración de correo SMTP
     SMTP_SERVER = os.getenv('SMTP_SERVER', 'smtp.gmail.com')
     SMTP_PORT = int(os.getenv('SMTP_PORT', 587))
-    SMTP_USERNAME = os.getenv('SMTP_USERNAME', 'tu_correo@gmail.com')
-    SMTP_PASSWORD = os.getenv('SMTP_PASSWORD', 'tu_contraseña')
+    SMTP_USERNAME = os.getenv('SMTP_USERNAME', 'axelmiranda.845@gmail.com')
+    SMTP_PASSWORD = os.getenv('SMTP_PASSWORD', "wgzy jufx jokq pzno")

@@ -1,8 +1,8 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from app.services.email_service import send_welcome_email, send_user_credentials_email
 from app.utils.response_utils import create_response
 from app.schemas.user_schema import UserSchema
-from app.services.user_service import get_user_by_email, create_user, get_user_by_id, get_user_by_username
+from app.services.user_service import get_user_by_email, create_user, get_user_by_username, get_user
 from app.utils.security import generate_token, token_required
 from app.utils.user_utils import generate_random_password, generate_username
 
@@ -75,10 +75,16 @@ def login():
 
     user = get_user_by_username(username)  # Cambiar a búsqueda por nombre de usuario
     if user and user.check_password(password):
-        if user.status == 1:  # Verificar que el estado del usuario sea activo
-            token = generate_token(user.id)
-            return jsonify({"message": "Inicio de sesión exitoso", "token": token}), 200
-        return jsonify({"message": "Usuario inactivo"}), 403  # Usuario inactivo
+        token = generate_token(user.id, user.username)
+
+        # Guardar en la sesión
+        session['token'] = token
+        session['username'] = username
+        session['name'] = user.name  # Asegúrate de que el atributo 'name' esté disponible
+        session['user_id'] = user.id
+
+        return jsonify({"message": "Inicio de sesión exitoso", "token": token}), 200
+
     return jsonify({"message": "Credenciales incorrectas"}), 401  # Credenciales incorrectas
 
 
@@ -87,10 +93,30 @@ def login():
 def profile():
     """
     Ruta para obtener la información del perfil del usuario autenticado.
+
+    Esta ruta extrae el ID del usuario del token y utiliza el servicio para obtener
+    la información del usuario, incluyendo sus atributos y la información de la persona asociada.
+
+    :return: Un mensaje de éxito y los datos del usuario si se encuentra,
+             o un mensaje de error si el usuario no se encuentra.
     """
-    user_id = request.headers.get("user_id")  # Simulado; debe extraerse del token
-    user = get_user_by_id(user_id)
+    user_id = request.headers.get("user_id")  # Extraer el ID del usuario del encabezado
+    user = get_user(user_id)  # Llamar al servicio para obtener el usuario
     if user:
-        user_schema = UserSchema()
-        return jsonify({"user": user_schema.dump(user)}), 200
-    return jsonify({"message": "Usuario no encontrado"}), 404
+        return jsonify({"user": user}), 200  # Devolver la información del usuario
+    return jsonify({"message": "Usuario no encontrado"}), 404  # Usuario no encontrado
+
+@user_bp.route('/logout', methods=['POST'])
+@token_required
+def logout():
+    """
+    Ruta para cerrar la sesión del usuario autenticado.
+
+    Esta ruta elimina la información del usuario de la sesión actual.
+
+    :return: Un mensaje de éxito indicando que la sesión se ha cerrado.
+    """
+    # Limpiar la sesión
+    session.clear()  # Eliminar toda la información de la sesión
+
+    return jsonify({"message": "Sesión cerrada con éxito."}), 200
