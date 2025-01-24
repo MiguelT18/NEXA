@@ -7,7 +7,6 @@ import Faq from "@/components/ui/pure/Faq";
 import { useTheme } from "@/hooks/useTheme";
 import MarketTicker from "@/components/ui/pure/MarketTicker";
 import Loader from "@/components/ui/pure/Loader";
-import Link from "next/link";
 import { useNotification } from "@/hooks/useNotification";
 import { ColorizedButton, SecondaryButton } from "@/components/ui/pure/Buttons";
 

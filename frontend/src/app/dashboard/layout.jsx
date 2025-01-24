@@ -6,7 +6,6 @@ import {
   UserIcon,
   ConfigIcon,
   FileIcon,
-  StatsIcon02,
   TriangleArrowIcon,
   ShortcutsIcon,
 } from "@/components/icons/index";

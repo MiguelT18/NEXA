@@ -50,14 +50,14 @@ export default function Help() {
 
           <label
             htmlFor="subject"
-            className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
+            className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray [&>input]:border-light-gray/25"
           >
             Asunto
             <input type="text" placeholder="Descripción breve del problema" />
           </label>
           <label
             htmlFor="subject"
-            className="flex flex-col [&>textarea]:rounded-md [&>textarea]:p-2 [&>textarea]:mt-1 [&>textarea]:bg-transparent [&>textarea]:border [&>textarea]:dark:border-light-gray [&>textarea]:resize-none"
+            className="flex flex-col [&>textarea]:rounded-md [&>textarea]:p-2 [&>textarea]:mt-1 [&>textarea]:bg-transparent [&>textarea]:border [&>textarea]:dark:border-light-gray [&>textarea]:border-light-gray/25 [&>textarea]:resize-none"
           >
             Descripción
             <textarea name="" id="subject" cols="30" rows="8"></textarea>

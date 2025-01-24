@@ -2,14 +2,28 @@
 
 import { useTheme } from "@/hooks/useTheme";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FacebookIcon, TwitterIcon, InstagramIcon } from "@/icons/index";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
   const { theme } = useTheme();
 
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    if (pathname === "/market") {
+      setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
+  }, [pathname]);
+
   return (
-    <footer className="dark:bg-dark-background bg-white py-6 w-full border-t border-dark-gray/25 dark:border-light-gray dark:border-background-light max-md:hidden flex justify-around items-center">
+    <footer
+      className={`${isVisible ? "" : "hidden"} dark:bg-dark-background bg-white py-6 w-full border-t border-dark-gray/25 dark:border-light-gray dark:border-background-light max-md:hidden flex justify-around items-center`}
+    >
       <Link
         href="/"
         className={`font-black font-sans uppercase text-[28px] inline-block ${

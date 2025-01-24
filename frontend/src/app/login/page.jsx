@@ -55,7 +55,7 @@ export default function LoginPage() {
         <div className="flex flex-col gap-2 [&>label]:w-full mb-2">
           <label
             htmlFor="email_or_username"
-            className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray"
+            className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:border-light-gray/25 [&>input]:dark:border-light-gray"
           >
             Correo o nombre de usuario:
             <input
@@ -80,7 +80,7 @@ export default function LoginPage() {
 
           <label htmlFor="password" className="flex flex-col">
             Contraseña:
-            <div className="flex items-center gap-2 w-full [&>input]:w-full [&>input]:rounded-md [&>input]:p-2 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray">
+            <div className="flex items-center gap-2 w-full [&>input]:w-full [&>input]:rounded-md [&>input]:p-2 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray [&>input]:border-light-gray/25">
               <input
                 type={isPasswordVisible ? "text" : "password"}
                 id="password"
@@ -91,7 +91,7 @@ export default function LoginPage() {
               />
               <span
                 onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                className="h-full w-fit block p-2.5 rounded-md dark:border-light-gray border cursor-pointer transition-all hover:border-black"
+                className="h-full w-fit block p-2.5 rounded-md dark:border-light-gray border cursor-pointer transition-all hover:border-black border-light-gray/25"
               >
                 {isPasswordVisible ? <OpenEyeIcon /> : <CloseEyeIcon />}
               </span>
