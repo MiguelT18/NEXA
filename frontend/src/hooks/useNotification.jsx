@@ -73,9 +73,9 @@ export default function NotificationProvider({ children }) {
       {children}
       {notifications.length > 0 && (
         <div className="fixed flex flex-col gap-2 max-md:w-max max-md:right-1/2 max-md:translate-x-1/2 max-md:top-5 md:bottom-5 md:right-5">
-          {notifications.map((notification) => (
+          {notifications.map((notification, index) => (
             <div
-              key={notification.id}
+              key={index}
               className={`w-fit max-w-[340px] flex justify-between items-center gap-2 backdrop-blur-sm p-2 rounded-lg max-md:flex-row-reverse ${getNotificationStyle(notification.type)}`}
             >
               <span
