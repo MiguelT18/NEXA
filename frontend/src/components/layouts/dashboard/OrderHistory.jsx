@@ -23,7 +23,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { InfoIcon } from "@/components/icons";
+import { ArrowIcon, InfoIcon } from "@/components/icons";
 
 const historyData = [
   {
@@ -31,40 +31,40 @@ const historyData = [
     currency: "BTC/USD",
     type: "Compra",
     amount: "0.5",
-    price: "$30.000",
-    state: 0,
+    price: "30 000",
+    result: "10 324",
   },
   {
     date: "2023-06-02",
     currency: "ETH/USD",
     type: "Venta",
     amount: "2",
-    price: "$1.800",
-    state: 2,
+    price: "1 800",
+    result: "5 432",
   },
   {
     date: "2023-06-03",
     currency: "BTC/USD",
     type: "Venta",
     amount: "0.3",
-    price: "$31.000",
-    state: 1,
+    price: "31 000",
+    result: "2 034",
   },
   {
     date: "2023-06-04",
     currency: "XRP/USD",
     type: "Compra",
-    amount: "1000",
-    price: "$0.5",
-    state: 1,
+    amount: "1 000",
+    price: "0.5",
+    result: "2 543",
   },
   {
     date: "2023-06-05",
     currency: "ETH/USD",
     type: "Compra",
     amount: "1.5",
-    price: "$1.900",
-    state: 2,
+    price: "1 900",
+    result: "432",
   },
 ];
 
@@ -98,7 +98,6 @@ export default function OrderHistory() {
             <TableHead>Tipo</TableHead>
             <TableHead>Cantidad</TableHead>
             <TableHead>Precio</TableHead>
-            <TableHead>Estado</TableHead>
             <TableHead>Resultado</TableHead>
           </TableRow>
         </TableHeader>
@@ -106,13 +105,25 @@ export default function OrderHistory() {
           {historyData.map((operation, index) => (
             <TableRow
               key={index}
-              className="border-dark-gray/25 dark:border-light-gray"
+              className="border-dark-gray/25 dark:border-light-gray cursor-pointer"
             >
               <TableCell>{operation.date}</TableCell>
               <TableCell>{operation.currency}</TableCell>
-              <TableCell>{operation.type}</TableCell>
+              <TableCell
+                className={`${operation.type === "Compra" ? "text-green-500" : "text-red-500"}`}
+              >
+                {operation.type}
+              </TableCell>
               <TableCell>{operation.amount}</TableCell>
-              <TableCell>{operation.price}</TableCell>
+              <TableCell>$ {operation.price}</TableCell>
+              <TableCell
+                className={`flex items-center gap-2 ${operation.price > operation.result ? "text-green-500" : "text-red-500"}`}
+              >
+                <ArrowIcon
+                  className={`${operation.price > operation.result ? "" : "rotate-180"}`}
+                />
+                $ {operation.result}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
