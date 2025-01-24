@@ -36,11 +36,6 @@ const sidebarItems = [
     icon: <FileIcon className="size-5" />,
   },
   {
-    title: "Estadísticas",
-    href: "/dashboard/statistics",
-    icon: <StatsIcon02 className="size-5" />,
-  },
-  {
     title: "Atajos de teclado ",
     href: "/dashboard/shortcuts",
     icon: <ShortcutsIcon className="size-5" />,

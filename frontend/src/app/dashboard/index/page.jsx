@@ -36,44 +36,46 @@ export default function Dashboard() {
     <>
       <h1 className="text-lg font-sans font-bold">Dashboard</h1>
 
-      <div className="grid gap-8 grid-cols-[repeat(auto-fill,_minmax(240px,1fr))] mt-5">
-        {userDashboard.map((item, index) => {
-          const Icon = iconMap[item.icon];
+      <div className="flex items-center max-lg:flex-col gap-5">
+        <div className="max-lg:w-full lg:w-1/2 grid gap-8 grid-cols-[repeat(auto-fill,_minmax(200px,1fr))] mt-5">
+          {userDashboard.map((item, index) => {
+            const Icon = iconMap[item.icon];
 
-          return (
-            <article
-              key={index}
-              className="border border-dark-gray/25 dark:border-light-gray rounded-md p-4 w-full"
-            >
-              <div className="flex justify-between items-center">
-                <h3 className="text-sm font-sans font-semibold">
-                  {item.title}
-                </h3>
-                <div>
-                  <Icon
-                    className={`size-5 ${(index === 1) | (index === 2) ? "text-secondary-color" : ""}`}
-                  />
-                </div>
-              </div>
-
-              <h1
-                className={`text-lg font-bold ${
-                  (index === 1) | (index === 2) ? "text-secondary-color" : ""
-                }`}
+            return (
+              <article
+                key={index}
+                className="border border-dark-gray/25 dark:border-light-gray rounded-md p-4 w-full md:h-[150px]"
               >
-                {item.value}
-              </h1>
-              {item.percentage && (
-                <span className="text-sm text-secondary-color font-bold">
-                  {item.percentage}
-                </span>
-              )}
-            </article>
-          );
-        })}
-      </div>
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-sm font-sans font-semibold">
+                    {item.title}
+                  </h3>
+                  <div>
+                    <Icon
+                      className={`size-5 ${(index === 1) | (index === 2) ? "text-secondary-color" : ""}`}
+                    />
+                  </div>
+                </div>
 
-      <PerformanceChart />
+                <h1
+                  className={`text-lg font-bold ${
+                    (index === 1) | (index === 2) ? "text-secondary-color" : ""
+                  }`}
+                >
+                  {item.value}
+                </h1>
+                {item.percentage && (
+                  <span className="text-sm text-secondary-color font-bold">
+                    {item.percentage}
+                  </span>
+                )}
+              </article>
+            );
+          })}
+        </div>
+
+        <PerformanceChart />
+      </div>
 
       <div className="relative">
         <div className="flex md:flex-row max-md:flex-col mt-5 bg-light-gray/15 dark:bg-light-gray max-md:w-full md:w-fit rounded-lg [&>button]:px-4 [&>button]:py-2">

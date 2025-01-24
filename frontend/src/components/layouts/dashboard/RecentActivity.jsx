@@ -52,10 +52,6 @@ export default function RecentActivity() {
               El historial almacena un máximo de 50 actividades. Las actividades
               más antiguas se eliminarán automáticamente de manera ascendente a
               medida que se agreguen nuevas.
-              <span className="inline-block mt-2 font-bold">
-                Puede descargar un comprobante de la actividad que desee en
-                formato PDF para mantener un registro seguro y accesible.
-              </span>
             </p>
           </div>
         </div>

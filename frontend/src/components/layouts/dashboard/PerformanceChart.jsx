@@ -24,16 +24,16 @@ import {
 const fullChartData = [
   { month: "Enero", desktop: 8000 },
   { month: "Febrero", desktop: 1200 },
-  { month: "Marzo", desktop: 1400 },
+  { month: "Marzo", desktop: 5500 },
   { month: "Abril", desktop: 1600 },
-  { month: "Mayo", desktop: 20000 },
-  { month: "Junio", desktop: 21000 },
-  { month: "Julio", desktop: 25000 },
-  { month: "Agosto", desktop: 30000 },
-  { month: "Septiembre", desktop: 34000 },
-  { month: "Octubre", desktop: 38000 },
-  { month: "Noviembre", desktop: 42000 },
-  { month: "Diciembre", desktop: 57000 },
+  { month: "Mayo", desktop: 18000 },
+  { month: "Junio", desktop: 10250 },
+  { month: "Julio", desktop: 18000 },
+  { month: "Agosto", desktop: 25000 },
+  { month: "Septiembre", desktop: 18000 },
+  { month: "Octubre", desktop: 22000 },
+  { month: "Noviembre", desktop: 30520 },
+  { month: "Diciembre", desktop: 50000 },
 ];
 
 export default function PerformanceChart() {
@@ -62,8 +62,8 @@ export default function PerformanceChart() {
   };
 
   return (
-    <Card className="mt-6 max-w-[700px] relative border-dark-gray/25 dark:border-light-gray">
-      <CardHeader className="p-4 md:max-w-[70%]">
+    <Card className="w-full lg:w-1/2 mt-6 relative border-dark-gray/25 dark:border-light-gray">
+      <CardHeader className="p-4 md:max-w-[60%]">
         <CardTitle className="leading-6">Visualiza tu Rendimiento</CardTitle>
         <CardDescription className="dark:text-difuminate-text-dark text-difuminate-text-light">
           Selecciona el intervalo de tiempo que deseas visualizar.
@@ -72,7 +72,7 @@ export default function PerformanceChart() {
 
       <CardContent className="p-4">
         <Select value={interval} onValueChange={(value) => setInterval(value)}>
-          <SelectTrigger className="w-[180px] mb-10 md:mb-4 md:absolute top-5 right-5">
+          <SelectTrigger className="w-[180px] mb-5 xl:mb-4 xl:absolute top-5 right-5">
             <SelectValue placeholder="Intervalo" />
           </SelectTrigger>
           <SelectContent>
