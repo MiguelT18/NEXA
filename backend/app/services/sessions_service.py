@@ -1,18 +1,30 @@
+from flask import request
 from app.models.user_sessions import UserSessions
 from app.extensions import db
 from datetime import datetime
+from app.utils.sessions_utils import get_client_ip, get_user_agent
 
-def create_session(user_id, token, ip_address, user_agent, expires_at):
+def create_session(user_id, token, expires_at):
     """
     Crea una nueva sesión para un usuario.
 
-    :param user_id: ID del usuario para el que se crea la sesión.
-    :param token: Token de sesión único.
-    :param ip_address: Dirección IP del usuario.
-    :param user_agent: Información del dispositivo o navegador del usuario.
-    :param expires_at: Fecha y hora de expiración de la sesión.
+    Esta función captura automáticamente la dirección IP y el User-Agent del cliente
+    a partir de los encabezados de la solicitud y crea una nueva entrada en la tabla
+    de sesiones de usuario.
+
+    :param user_id: ID del usuario para el que se crea la sesión (int).
+    :param token: Token de sesión único que se asigna al usuario (str).
+    :param expires_at: Fecha y hora de expiración de la sesión (datetime).
+    
     :return: La nueva instancia de UserSessions creada.
     """
+    # Capturar la IP del cliente usando la función de utilidades
+    ip_address = get_client_ip()
+
+    # Capturar el User-Agent usando la función de utilidades
+    user_agent = get_user_agent()
+
+    # Crear la nueva sesión
     new_session = UserSessions(
         user_id=user_id,
         token=token,

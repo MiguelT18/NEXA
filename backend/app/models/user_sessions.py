@@ -16,8 +16,8 @@ class UserSessions(BaseMixin, db.Model):
     __tablename__ = "user_sessions"
     
     # Columnas heredadas de BaseMixin: id, date_created, date_modified, status
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
-    token = db.Column(db.String(512), nullable=False, unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    token = db.Column(db.String(255), nullable=False, unique=True)
     ip_address = db.Column(db.String(45), nullable=True)  # IPv4 o IPv6
     user_agent = db.Column(db.Text, nullable=True)  # Información del dispositivo/navegador
     expires_at = db.Column(db.DateTime, nullable=False)  # Fecha y hora de expiración

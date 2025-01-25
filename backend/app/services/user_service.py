@@ -3,7 +3,7 @@ from app.models.person import Person
 from app.extensions import db
 from datetime import datetime
 
-def create_user(username, email, password, name, last_name):
+def create_user(username, email, password, name, last_name, photo=None, role='usuario'):
     """
     Crea un nuevo usuario en la base de datos y una nueva persona asociada.
 
@@ -12,7 +12,8 @@ def create_user(username, email, password, name, last_name):
     :param password: Contraseña en texto plano para el nuevo usuario.
     :param name: Nombre de la persona asociada al usuario.
     :param last_name: Apellido de la persona asociada al usuario.
-    
+    :param photo: Foto del usuario como datos binarios (opcional).
+    :param role: Rol del usuario (por defecto 'usuario').
     :return: La instancia del nuevo usuario creado.
     """
     # Crear una nueva instancia de Person
@@ -25,7 +26,9 @@ def create_user(username, email, password, name, last_name):
     user = User(
         username=username,
         email=email,
-        person=person  # Asumimos que 'person' es una nueva instancia de Person
+        person=person,  # Asumimos que 'person' es una nueva instancia de Person
+        photo=photo,
+        role=role
     )
     
     user.set_password(password)  # Generar el hash de la contraseña
@@ -51,6 +54,9 @@ def get_user(user_id):
         "email": user.email,
         "photo": user.photo,
         "status": user.status,
+        "role": user.role,
+        "date_created": user.date_created,
+        "date_modified": user.date_modified,
         "person": {
             "id": user.person.id,
             "name": user.person.name,
@@ -98,6 +104,7 @@ def list_users(status=1):
             "email": user.email,
             "photo": user.photo,
             "status": user.status,
+            "role": user.role,
             "date_created": user.date_created,
             "date_modified": user.date_modified,
             "person": {
@@ -143,39 +150,40 @@ def change_user_password(user_id, new_password):
     db.session.commit()
     return True
 
-def update_user_data(user_id, username=None, email=None, photo=None, name=None, last_name=None):
+def update_user_data(user_id, username=None, email=None, photo=None, name=None, last_name=None, role=None):
     """
     Actualiza los datos del usuario y de la persona asociada.
 
-    :param user_id: ID del usuario cuyas datos serán actualizados.
+    :param user_id: ID del usuario cuyos datos serán actualizados.
     :param username: Nuevo nombre de usuario (opcional).
     :param email: Nuevo correo electrónico (opcional).
-    :param photo: Nueva URL de la foto del usuario (opcional).
+    :param photo: Nueva foto del usuario como datos binarios (opcional).
     :param name: Nuevo nombre de la persona asociada (opcional).
     :param last_name: Nuevo apellido de la persona asociada (opcional).
+    :param role: Nuevo rol del usuario (opcional).
     :return: True si los datos fueron actualizados correctamente, False si el usuario no existe.
     """
-    user = User.query.filter_by(id=user_id).join(User.person).first()  # Usar join para cargar la relación
+    user = User.query.filter_by(id=user_id).join(User.person).first()
     if not user:
-        return False  # Usuario no encontrado
+        return False
 
-    # Actualizar los campos del usuario solo si se proporcionan nuevos valores
-    if username is not None:
+    if username:
         user.username = username
-    if email is not None:
+    if email:
         user.email = email
-    if photo is not None:
-        user.photo = photo  # Asegúrate de que el modelo User tenga un campo 'photo'
+    if photo:
+        user.photo = photo
+    if role:
+        user.role = role
 
-    # Actualizar los campos de la persona asociada solo si se proporcionan nuevos valores
-    if user.person:  # Verificar que la persona asociada exista
-        if name is not None:
+    if user.person:
+        if name:
             user.person.name = name
-        if last_name is not None:
+        if last_name:
             user.person.last_name = last_name
 
-    user.date_modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Actualizar la fecha de modificación
-    db.session.commit()  # Confirmar los cambios en la base de datos
+    user.date_modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    db.session.commit()
     return True
 
 def update_profile(user_id, username=None, email=None, photo=None, name=None, last_name=None, phone_number=None, city=None, address=None, birthdate=None):
@@ -223,4 +231,20 @@ def update_profile(user_id, username=None, email=None, photo=None, name=None, la
 
     user.date_modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Actualizar la fecha de modificación
     db.session.commit()  # Confirmar los cambios en la base de datos
+    return True
+
+def remove_user_photo(user_id):
+    """
+    Elimina la foto de un usuario y actualiza la fecha de modificación.
+
+    :param user_id: ID del usuario cuya foto será eliminada.
+    :return: True si la foto fue eliminada correctamente, False si el usuario no existe.
+    """
+    user = User.query.get(user_id)
+    if not user:
+        return False  # Usuario no encontrado
+
+    user.photo = None  # Establecer el campo photo como None
+    user.date_modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Actualizar la fecha de modificación
+    db.session.commit()  # Guardar los cambios en la base de datos
     return True
