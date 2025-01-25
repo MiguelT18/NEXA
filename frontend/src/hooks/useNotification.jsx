@@ -1,72 +1,72 @@
-"use client";
+"use client"
 
-import { CloseIcon } from "@/components/icons";
+import { CloseIcon } from "@/components/icons"
 import React, {
   useState,
   createContext,
   useContext,
   useRef,
   useEffect,
-} from "react";
+} from "react"
 
-const NotificationContext = createContext();
+const NotificationContext = createContext()
 
 export function useNotification() {
-  return useContext(NotificationContext);
+  return useContext(NotificationContext)
 }
 
 export default function NotificationProvider({ children }) {
-  const [notifications, setNotifications] = useState([]);
-  const timeoutRefs = useRef({}); // Objeto para almacenar los timeouts por ID
+  const [notifications, setNotifications] = useState([])
+  const timeoutRefs = useRef({}) // Objeto para almacenar los timeouts por ID
 
   const showNotification = (text, type = "info", id = Date.now()) => {
     setNotifications((prevNotifications) => [
       ...prevNotifications,
       { id, text, type },
-    ]);
-  };
+    ])
+  }
 
   useEffect(() => {
     if (notifications.length > 0) {
-      const currentNotification = notifications[0];
-      const duration = 10000;
+      const currentNotification = notifications[0]
+      const duration = 10000
 
       if (!timeoutRefs.current[currentNotification.id]) {
         // Verificar si ya existe un timeout
         timeoutRefs.current[currentNotification.id] = setTimeout(() => {
           setNotifications((prevNotifications) =>
             prevNotifications.filter((n) => n.id !== currentNotification.id)
-          );
-          delete timeoutRefs.current[currentNotification.id]; // Limpiar el timeout del objeto
-        }, duration);
+          )
+          delete timeoutRefs.current[currentNotification.id] // Limpiar el timeout del objeto
+        }, duration)
       }
     }
 
     return () => {
       // Limpieza al desmontar o al cambiar las notificaciones
-      Object.values(timeoutRefs.current).forEach(clearTimeout);
-      timeoutRefs.current = {};
-    };
-  }, [notifications]);
+      Object.values(timeoutRefs.current).forEach(clearTimeout)
+      timeoutRefs.current = {}
+    }
+  }, [notifications])
 
   const getNotificationStyle = (type) => {
     switch (type) {
       case "error":
-        return "bg-red-700/65 text-white";
+        return "bg-red-700/65 text-white"
       case "success":
-        return "bg-green-700/65 text-white";
+        return "bg-green-700/65 text-white"
       default:
-        return "dark:bg-white/70 dark:text-black bg-black/70 text-white";
+        return "dark:bg-white/70 dark:text-black bg-black/70 text-white"
     }
-  };
+  }
 
   const handleCloseNotification = (id) => {
-    clearTimeout(timeoutRefs.current[id]);
-    delete timeoutRefs.current[id];
+    clearTimeout(timeoutRefs.current[id])
+    delete timeoutRefs.current[id]
     setNotifications((prevNotifications) =>
       prevNotifications.filter((n) => n.id !== id)
-    );
-  };
+    )
+  }
 
   return (
     <NotificationContext.Provider value={{ showNotification }}>
@@ -90,5 +90,5 @@ export default function NotificationProvider({ children }) {
         </div>
       )}
     </NotificationContext.Provider>
-  );
+  )
 }

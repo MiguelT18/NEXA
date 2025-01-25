@@ -1,6 +1,6 @@
-import React from "react";
+import React from "react"
 
-const TwitterIcon = ({ props }) => {
+const TwitterIcon = ({ ...props }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +26,7 @@ const TwitterIcon = ({ props }) => {
         mask="url(#ipTTwitter0)"
       ></path>
     </svg>
-  );
-};
+  )
+}
 
-export default TwitterIcon;
+export default TwitterIcon
