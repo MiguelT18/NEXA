@@ -34,8 +34,10 @@ import HandCoinIcon from "./handCoin";
 import SearchIcon from "./search";
 import PlusIcon from "./plus";
 import MinusIcon from "./minus";
+import AlertIcon from "./alert";
 
 export {
+  AlertIcon,
   MinusIcon,
   PlusIcon,
   SearchIcon,

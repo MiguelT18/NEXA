@@ -29,7 +29,7 @@ export default function NotificationProvider({ children }) {
   useEffect(() => {
     if (notifications.length > 0) {
       const currentNotification = notifications[0]
-      const duration = 10000
+      const duration = 3000;
 
       if (!timeoutRefs.current[currentNotification.id]) {
         // Verificar si ya existe un timeout

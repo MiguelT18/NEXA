@@ -13,8 +13,7 @@ export default function Market() {
 
     if (!chartRef.current) {
       chartRef.current = createChart(container, {
-        width: container.offsetWidth, // Usar offsetWidth para dimensiones consistentes
-        height: 500,
+        width: container.offsetWidth,
       });
 
       const newSeries = chartRef.current.addCandlestickSeries({
@@ -34,14 +33,14 @@ export default function Market() {
         textColor: theme === "light" ? "#000" : "#d1d4dc",
       },
       grid: {
-        vertLines: { color: theme === "light" ? "#ccc" : "#444" },
-        horzLines: { color: theme === "light" ? "#ccc" : "#444" },
+        vertLines: { color: theme === "light" ? "#d1d4dc" : "#27272A" },
+        horzLines: { color: theme === "light" ? "#d1d4dc" : "#27272A" },
       },
     });
 
     const handleResize = () => {
       chartRef.current.applyOptions({
-        width: container.offsetWidth, // Asegurarse de usar el ancho dinámico correcto
+        width: container.offsetWidth,
       });
     };
 
@@ -57,10 +56,5 @@ export default function Market() {
     };
   }, [theme]);
 
-  return (
-    <div
-      ref={chartContainerRef}
-      className="h-[500px] w-full" // Ancho y altura explícitos
-    />
-  );
+  return <div ref={chartContainerRef} className="size-full min-h-[550px]" />;
 }

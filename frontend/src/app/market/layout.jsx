@@ -3,11 +3,13 @@
 import { TriangleArrowIcon } from "@/components/icons";
 import CurrenciesTab from "@/components/layouts/market/CurrenciesTab";
 import ToolsTab from "@/components/layouts/market/ToolsTab";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function layout({ children }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("currencies");
+
+  const menuRef = useRef(null);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -17,16 +19,25 @@ export default function layout({ children }) {
       }
     };
 
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
     window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   return (
     <main className="relative">
       <aside
+        ref={menuRef}
         className={`absolute h-full z-10 border-r border-dark-gray/25 dark:border-light-gray bg-white dark:bg-dark-background px-2 max-md:hidden duration-300 ${
           isMenuOpen ? "w-64" : "w-16"
         }`}

@@ -1,7 +1,7 @@
 "use client";
 
 import ProtectedRoute from "@/components/layouts/ProtectedRoute";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   UserIcon,
   ConfigIcon,
@@ -50,6 +50,8 @@ export default function DashboardPage({ children }) {
   const router = useRouter();
   const pathname = usePathname();
 
+  const menuRef = useRef(null);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -60,10 +62,18 @@ export default function DashboardPage({ children }) {
       }
     };
 
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
     window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -71,6 +81,7 @@ export default function DashboardPage({ children }) {
     <ProtectedRoute>
       <main className="flex">
         <aside
+          ref={menuRef}
           className={`border-r border-dark-gray/25 dark:border-light-gray bg-white dark:bg-dark-background px-2 max-md:hidden md:sticky z-10 duration-300 ${
             isMenuOpen ? "w-64" : "w-16"
           }`}
