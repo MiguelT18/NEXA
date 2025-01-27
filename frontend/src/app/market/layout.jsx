@@ -25,9 +25,9 @@ export default function layout({ children }) {
   }, []);
 
   return (
-    <main>
+    <main className="relative">
       <aside
-        className={`fixed h-full border-r border-dark-gray/25 dark:border-light-gray bg-white dark:bg-dark-background px-2 max-md:hidden z-10 duration-300 ${
+        className={`absolute h-full z-10 border-r border-dark-gray/25 dark:border-light-gray bg-white dark:bg-dark-background px-2 max-md:hidden duration-300 ${
           isMenuOpen ? "w-64" : "w-16"
         }`}
       >

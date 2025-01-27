@@ -32,8 +32,12 @@ import ShortcutsIcon from "./shortcuts";
 import InfoIcon from "./info";
 import HandCoinIcon from "./handCoin";
 import SearchIcon from "./search";
+import PlusIcon from "./plus";
+import MinusIcon from "./minus";
 
 export {
+  MinusIcon,
+  PlusIcon,
   SearchIcon,
   HandCoinIcon,
   InfoIcon,

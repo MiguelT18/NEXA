@@ -2,32 +2,19 @@
 
 import { useTheme } from "@/hooks/useTheme"
 import Link from "next/link"
-import React, { useEffect, useState } from "react"
-import { FacebookIcon, TwitterIcon, InstagramIcon } from "@/icons/index"
-import { usePathname, useRouter } from "next/navigation"
+import React from "react";
+import { FacebookIcon, TwitterIcon, InstagramIcon } from "@/icons/index";
 
 export default function Footer() {
-  const pathname = usePathname()
-  const { theme } = useTheme()
-
-  const [isVisible, setIsVisible] = useState(true)
-
-  useEffect(() => {
-    if (pathname === "/market") {
-      setIsVisible(false)
-    } else {
-      setIsVisible(true)
-    }
-  }, [pathname])
+  const { theme } = useTheme();
 
   return (
-    <footer
-      className={`${isVisible ? "" : "hidden"} dark:bg-dark-background bg-white w-full min-h-[10dvh] border-t border-dark-gray/25 dark:border-light-gray dark:border-background-light max-md:hidden flex justify-around items-center`}
-    >
+    <footer className="dark:bg-dark-background bg-white w-full min-h-[10dvh] border-t border-dark-gray/25 dark:border-light-gray dark:border-background-light max-md:hidden flex justify-around items-center">
       <Link
         href="/"
-        className={`font-black font-sans uppercase text-[28px] inline-block ${theme === "light" ? "text-gradient-light" : "text-gradient-dark"
-          }`}
+        className={`font-black font-sans uppercase text-[28px] inline-block ${
+          theme === "light" ? "text-gradient-light" : "text-gradient-dark"
+        }`}
       >
         NEXA AI
       </Link>
@@ -42,5 +29,5 @@ export default function Footer() {
         contacto@nexaai.com
       </span>
     </footer>
-  )
+  );
 }
