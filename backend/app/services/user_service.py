@@ -70,12 +70,35 @@ def get_user(user_id):
 
 def get_user_by_email(email):
     """
-    Obtiene un usuario por correo electrónico y verifica que esté activo.
+    Obtiene un usuario por correo electrónico y verifica que esté activo,
+    incluyendo la información de la persona asociada.
 
     :param email: Correo electrónico del usuario a buscar.
-    :return: La instancia del usuario si se encuentra y está activo (status = 1), None en caso contrario.
+    :return: Un diccionario con la información del usuario y de la persona asociada si se encuentra y está activo (status = 1), None en caso contrario.
     """
-    return User.query.filter_by(email=email, status=1).first()  # Filtrar por correo electrónico y status = 1
+    user = User.query.filter_by(email=email, status=1).join(User.person).first()  # Filtrar por correo electrónico y status = 1 con join
+    if not user:
+        return None  # Usuario no encontrado o inactivo
+
+    return {
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "photo": user.photo,
+        "status": user.status,
+        "role": user.role,
+        "date_created": user.date_created,
+        "date_modified": user.date_modified,
+        "person": {
+            "id": user.person.id,
+            "name": user.person.name,
+            "last_name": user.person.last_name,
+            "phone_number": user.person.phone_number,
+            "address": user.person.address,
+            "city": user.person.city,
+            "birthdate": user.person.birthdate
+        }
+    }
 
 def get_user_by_username(username):
     """
@@ -248,3 +271,21 @@ def remove_user_photo(user_id):
     user.date_modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Actualizar la fecha de modificación
     db.session.commit()  # Guardar los cambios en la base de datos
     return True
+
+def reset_user_password(email, new_password):
+    """
+    Restablece la contraseña de un usuario si se ha olvidado la anterior.
+
+    :param email: Correo electrónico del usuario que solicita el restablecimiento de la contraseña.
+    :param new_password: Nueva contraseña proporcionada para el usuario.
+    :return: True si la contraseña fue actualizada correctamente, None si el usuario no existe o está inactivo.
+    """
+    user = User.query.filter_by(email=email, status=1).first()  # Buscar usuario activo por correo electrónico
+    if not user:
+        return None  # Usuario no encontrado o inactivo
+
+    user.set_password(new_password)  # Actualizar el hash de la nueva contraseña
+    user.date_modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Actualizar la fecha de modificación
+    db.session.commit()  # Guardar los cambios en la base de datos
+
+    return True  # Indicar que la contraseña fue actualizada correctamente

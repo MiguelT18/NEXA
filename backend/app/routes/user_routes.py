@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify, session
-from app.services.email_service import send_welcome_email, send_user_credentials_email
+from app.services.email_service import send_welcome_email, send_user_credentials_email, send_new_password_email
 from app.utils.response_utils import create_response
 from app.schemas.user_schema import UserSchema
-from app.services.user_service import get_user_by_email, create_user, get_user_by_username, get_user, delete_user_by_status, update_profile, list_users, remove_user_photo
+from app.services.user_service import get_user_by_email, create_user, get_user_by_username, get_user, delete_user_by_status, update_profile, list_users, remove_user_photo, change_user_password, reset_user_password
 from app.utils.security import generate_token, token_required
 from app.utils.user_utils import generate_random_password, generate_username
 from app.services.sessions_service import create_session
@@ -249,3 +249,75 @@ def remove_photo():
         return create_response(message="Foto eliminada exitosamente", status=200)
     else:
         return create_response(message="Usuario no encontrado", status=404)
+
+@user_bp.route('/change_password', methods=['PUT'])
+def change_password():
+    """
+    Ruta para cambiar la contraseña de un usuario.
+
+    El ID del usuario se obtiene del encabezado de la solicitud.
+    La nueva contraseña y la confirmación se obtienen del cuerpo de la solicitud en formato JSON.
+    Utiliza el servicio 'change_user_password' para actualizar la contraseña.
+    Utiliza 'create_response' de 'response_utils' para estandarizar las respuestas.
+
+    :return: Respuesta JSON con un mensaje de éxito o error y el código de estado correspondiente.
+    """
+    user_id = request.headers.get('user_id')
+    if not user_id:
+        return create_response(message="No se proporcionó user_id", status=400)
+
+    data = request.json
+    new_password = data.get('new_password')
+    confirm_password = data.get('confirm_password')
+
+    # Validar que se haya proporcionado una nueva contraseña
+    if not new_password:
+        return create_response(message="No se proporcionó nueva contraseña", status=400)
+
+    # Validar que la nueva contraseña tenga al menos 6 caracteres
+    if len(new_password) < 6:
+        return create_response(message="La nueva contraseña debe tener al menos 6 caracteres", status=400)
+
+    # Validar que la confirmación de la contraseña coincida
+    if new_password != confirm_password:
+        return create_response(message="Las contraseñas no coinciden", status=400)
+
+    result = change_user_password(int(user_id), new_password)  # Llamar al servicio para cambiar la contraseña
+    if result:
+        return create_response(message="Contraseña cambiada exitosamente", status=200)
+    else:
+        return create_response(message="Usuario no encontrado", status=404)
+
+@user_bp.route('/reset_password', methods=['PUT'])
+def reset_password():
+    """
+    Ruta para restablecer la contraseña de un usuario.
+
+    El correo electrónico del usuario se obtiene del cuerpo de la solicitud en formato JSON.
+    Se genera una nueva contraseña y se actualiza en la base de datos.
+    Utiliza el servicio 'reset_user_password' para actualizar la contraseña.
+    Utiliza 'create_response' de 'response_utils' para estandarizar las respuestas.
+
+    :return: Respuesta JSON con un mensaje de éxito o error y el código de estado correspondiente.
+    """
+    data = request.json
+    email = data.get('email')
+
+    # Validar que se haya proporcionado un correo electrónico
+    if not email:
+        return create_response(message="No se proporcionó correo electrónico", status=400)
+
+    # Generar una nueva contraseña
+    new_password = generate_random_password()
+
+    # Llamar al servicio para restablecer la contraseña
+    result = reset_user_password(email, new_password)
+    if result is None:
+        return create_response(message="Usuario no encontrado o inactivo", status=404)
+
+    # Enviar la nueva contraseña por correo electrónico
+    user_data = get_user_by_email(email)  # Obtener el usuario
+    if user_data:
+        send_new_password_email(email, user_data['person']['name'], new_password)  # Enviar el correo con la nueva contraseña
+
+    return create_response(message="Contraseña restablecida exitosamente. Se ha enviado un correo con la nueva contraseña.", status=200)
