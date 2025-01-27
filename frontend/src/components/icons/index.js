@@ -35,8 +35,10 @@ import SearchIcon from "./search";
 import PlusIcon from "./plus";
 import MinusIcon from "./minus";
 import AlertIcon from "./alert";
+import SendIcon from "./send";
 
 export {
+  SendIcon,
   AlertIcon,
   MinusIcon,
   PlusIcon,
