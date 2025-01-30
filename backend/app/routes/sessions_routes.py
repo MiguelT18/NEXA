@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify
 from datetime import datetime, timedelta
-from services.sessions_service import create_session, get_user_sessions, deactivate_session, deactivate_all_sessions
-from schemas.sessions_schema import UserSessionSchema
-from utils.response_utils import create_response
-from utils.security import token_required  # Importar el decorador
+from app.services.sessions_service import create_session, get_user_sessions, deactivate_session, deactivate_all_sessions
+from app.schemas.sessions_schema import UserSessionSchema
+from app.utils.response_utils import create_response
+from app.utils.security import token_required  # Importar el decorador
 
 # Crear un Blueprint para manejar las rutas de sesiones con un prefijo de API
 user_sessions_bp = Blueprint('user_sessions', __name__, url_prefix='/api/sessions')

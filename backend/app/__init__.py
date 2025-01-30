@@ -1,6 +1,7 @@
 from flask import Flask
 from app.extensions import db, migrate, cors
 from app.routes.user_routes import user_bp
+from app.routes.sessions_routes import user_sessions_bp  # Importar el blueprint de sesiones
 from app.config import Config  # Asegúrate de importar la clase de configuración
 
 def create_app():
@@ -20,5 +21,6 @@ def create_app():
 
     # Registrar blueprints
     app.register_blueprint(user_bp)
+    app.register_blueprint(user_sessions_bp)  # Registrar el blueprint de sesiones
 
     return app

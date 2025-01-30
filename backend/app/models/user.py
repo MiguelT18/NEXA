@@ -28,7 +28,7 @@ class User(BaseMixin, db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
     photo = db.Column(db.LargeBinary)  # Cambiado a BLOB para almacenar imágenes
-    role = db.Column(db.String(20), default='usuario', nullable=True)  # Asignar rol por defecto
+    role = db.Column(db.String(20), server_default='usuario', nullable=True)  # Asignar rol por defecto
 
     person = db.relationship('Person', backref=db.backref('user', uselist=False))
 

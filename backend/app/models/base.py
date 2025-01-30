@@ -15,7 +15,7 @@ class BaseMixin(db.Model):
     __abstract__ = True
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
+    date_created = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    date_modified = db.Column(db.DateTime, server_default=db.func.current_timestamp(),
                                            onupdate=db.func.current_timestamp())
-    status = db.Column(db.Integer, default=1)
+    status = db.Column(db.Integer, server_default="1", nullable=False)
