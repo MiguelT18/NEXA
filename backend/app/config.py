@@ -1,15 +1,11 @@
 import os
 
-
 class Config:
     """
     Configuración de la aplicación Flask, incluida la configuración de correo.
     """
-
-    SECRET_KEY = os.getenv("SECRET_KEY", "super-secret-key")
-    SQLALCHEMY_DATABASE_URI = os.getenv(
-        "DATABASE_URL", "mysql://root:2025@localhost/dbbot"
-    )
+    SECRET_KEY = os.getenv('SECRET_KEY', 'super-secret-key')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'mysql://root:Univalle@localhost/dbbot')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # Habilita el modo de depuración de Flask. Esto es útil para el desarrollo ya que proporciona
     # errores detallados y reinicia automáticamente el servidor cuando se realizan cambios en el código.
@@ -28,16 +24,16 @@ class Config:
     # Esto es crucial para la seguridad en formularios y peticiones POST para evitar ataques maliciosos.
     CSRF_ENABLED = True
     # Carpeta estática donde se almacenan los archivos estáticos como CSS, JavaScript e imágenes.
-    STATIC_FOLDER = "/static"
+    STATIC_FOLDER = '/static'
 
     # Carpeta de archivos dentro de la carpeta estática. Utilizada para almacenar archivos subidos por los usuarios u otros archivos necesarios.
-    FILES_FOLDER = os.path.join(STATIC_FOLDER, "files")
+    FILES_FOLDER = os.path.join(STATIC_FOLDER, 'files')
 
     # Ruta para guardar las imágenes de perfil de los usuarios.
-    UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "img")
+    UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'img')
 
     # Configuración de correo SMTP
-    SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com")
-    SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
-    SMTP_USERNAME = os.getenv("SMTP_USERNAME", "tu_correo@gmail.com")
-    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "tu_contraseña")
+    SMTP_SERVER = os.getenv('SMTP_SERVER', 'smtp.gmail.com')
+    SMTP_PORT = int(os.getenv('SMTP_PORT', 587))
+    SMTP_USERNAME = os.getenv('SMTP_USERNAME', 'axelmiranda.845@gmail.com')
+    SMTP_PASSWORD = os.getenv('SMTP_PASSWORD', "wgzy jufx jokq pzno")

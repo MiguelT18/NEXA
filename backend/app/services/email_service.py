@@ -1,6 +1,5 @@
 from app.utils.email_utils import send_email
 
-
 def send_welcome_email(to_email, name):
     """
     Servicio para enviar un correo de bienvenida.
@@ -19,7 +18,6 @@ def send_welcome_email(to_email, name):
     """
     send_email(to_email, subject, body)
     return "Correo enviado con éxito"
-
 
 def send_user_credentials_email(to_email, name, username, password):
     """
@@ -44,3 +42,25 @@ def send_user_credentials_email(to_email, name, username, password):
     """
     send_email(to_email, subject, body)
     return "Correo con credenciales enviado con éxito"
+
+def send_new_password_email(to_email, name, new_password):
+    """
+    Servicio para enviar la nueva contraseña del usuario por correo electrónico.
+
+    Args:
+        to_email (str): Dirección de correo del destinatario.
+        name (str): Nombre del usuario.
+        new_password (str): Nueva contraseña del usuario.
+
+    Returns:
+        str: Mensaje de éxito.
+    """
+    subject = "Restablecimiento de contraseña"
+    body = f"""
+    <h1>Hola, {name}!</h1>
+    <p>Se ha restablecido tu contraseña. Aquí está tu nueva contraseña:</p>
+    <p><strong>Nueva Contraseña:</strong> {new_password}</p>
+    <p>Te recomendamos que cambies tu contraseña después de iniciar sesión.</p>
+    """
+    send_email(to_email, subject, body)
+    return "Correo con la nueva contraseña enviado con éxito"

@@ -1,8 +1,6 @@
 from app.models.base import BaseMixin
 from app.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.utils.user_utils import generate_random_password
-
 
 class User(BaseMixin, db.Model):
     """
@@ -17,23 +15,24 @@ class User(BaseMixin, db.Model):
     - username: Nombre de usuario único (cadena, obligatorio).
     - email: Correo electrónico único (cadena, obligatorio).
     - password_hash: Hash de la contraseña (cadena, obligatorio).
-    - photo: Indicador de si el usuario tiene foto (entero, 0 = no, 1 = sí, por defecto 0).
+    - photo: Imagen del usuario (BLOB).
+    - role: Rol del usuario (cadena, opcional).
 
     Relaciones:
     - person: Relación con el modelo Person, que permite acceder a la información de la persona asociada.
     """
+    __tablename__ = 'users'
 
-    __tablename__ = "users"
-
-    person_id = db.Column(db.Integer, db.ForeignKey("persons.id"), nullable=True)
+    person_id = db.Column(db.Integer, db.ForeignKey('persons.id'), nullable=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
-    photo = db.Column(db.String(255), nullable=True)
+    photo = db.Column(db.LargeBinary)  # Cambiado a BLOB para almacenar imágenes
+    role = db.Column(db.String(20), server_default='usuario', nullable=True)  # Asignar rol por defecto
 
-    person = db.relationship("Person", backref=db.backref("user", uselist=False))
+    person = db.relationship('Person', backref=db.backref('user', uselist=False))
 
-    def __init__(self, person, username, email, password, photo=0):
+    def __init__(self, person, username, email, password, photo=None, role='usuario'):
         """
         Inicializa una instancia de User con una persona asociada y genera el hash de la contraseña.
 
@@ -41,13 +40,15 @@ class User(BaseMixin, db.Model):
         :param username: Nombre de usuario único.
         :param email: Correo electrónico único.
         :param password: Contraseña del usuario.
-        :param photo: Indicador de si el usuario tiene foto (0 = no, 1 = sí, por defecto 0).
+        :param photo: Imagen del usuario (BLOB, opcional).
+        :param role: Rol del usuario (cadena, opcional, por defecto 'usuario').
         """
         self.person = person
         self.username = username
         self.email = email
-        self.set_password(generate_random_password())  # Generar el hash al inicializar
-        self.photo = photo  # Asignar el indicador de foto
+        self.set_password(password)  # Generar el hash al inicializar
+        self.photo = photo  # Asignar la imagen del usuario
+        self.role = role  # Asignar el rol del usuario
 
     def set_password(self, password):
         """

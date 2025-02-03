@@ -1,7 +1,6 @@
 import random
 import string
 
-
 def generate_random_password(length=12):
     """
     Genera una contraseña aleatoria.
@@ -10,8 +9,7 @@ def generate_random_password(length=12):
     :return: Una cadena que representa la contraseña aleatoria generada.
     """
     characters = string.ascii_letters + string.digits + string.punctuation
-    return "".join(random.choices(characters, k=length))
-
+    return ''.join(random.choices(characters, k=length))
 
 def generate_username(last_name):
     """
