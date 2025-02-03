@@ -36,8 +36,8 @@ export default function Dashboard() {
     <>
       <h1 className="text-lg font-sans font-bold">Dashboard</h1>
 
-      <div className="flex items-center max-lg:flex-col gap-5">
-        <div className="max-lg:w-full lg:w-1/2 grid gap-8 grid-cols-[repeat(auto-fill,_minmax(200px,1fr))] mt-5">
+      <div className="flex flex-row-reverse items-center max-lg:flex-col gap-5">
+        <div className="max-lg:w-full lg:w-1/2 grid md:grid-cols-2 gap-8 mt-5">
           {userDashboard.map((item, index) => {
             const Icon = iconMap[item.icon];
 

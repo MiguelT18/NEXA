@@ -1,10 +1,9 @@
 "use client";
 
-import { SendIcon } from "@/components/icons";
+import React from "react";
 import Market from "@/components/layouts/market/Market";
 import MarketChat from "@/components/layouts/market/MarketChat";
 import MarketMenu from "@/components/layouts/market/MarketMenu";
-import React from "react";
 
 export default function MarketPage() {
   return (
@@ -24,7 +23,7 @@ export default function MarketPage() {
             <Market />
           </article>
 
-          <article className="w-full flex-1 border border-dark-gray/25 dark:border-light-gray rounded-md py-2 overflow-y-auto">
+          <article className="w-full flex-1 border border-dark-gray/25 dark:border-light-gray rounded-md overflow-y-auto">
             <MarketChat />
           </article>
         </div>

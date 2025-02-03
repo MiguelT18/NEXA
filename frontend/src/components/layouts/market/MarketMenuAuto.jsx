@@ -1,5 +1,4 @@
 import React from "react";
-import { AlertIcon, RobotWinkIcon } from "@/components/icons";
 import SwitchButton from "@/components/ui/pure/SwitchButton";
 import {
   Select,
@@ -8,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import AutoIcon from "@/components/icons/auto";
+import { AlertIcon, RobotWinkIcon, AutoIcon } from "@/components/icons";
 
 export default function MarketMenuAuto() {
   return (

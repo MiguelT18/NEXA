@@ -8,10 +8,11 @@ import {
   FileIcon,
   TriangleArrowIcon,
   ShortcutsIcon,
+  BugIcon,
+  DashboardIcon,
 } from "@/components/icons/index";
-import DashboardIcon from "@/components/icons/dashboard";
 import { usePathname, useRouter } from "next/navigation";
-import BugIcon from "@/components/icons/bug";
+import SideMenu from "@/components/ui/pure/SideMenu";
 
 const sidebarItems = [
   {
@@ -52,42 +53,10 @@ export default function DashboardPage({ children }) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === "e") {
-        event.preventDefault();
-        setIsMenuOpen((prev) => !prev);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
   return (
     <ProtectedRoute>
-      <main className="flex">
-        <aside
-          className={`border-r border-dark-gray/25 dark:border-light-gray bg-white dark:bg-dark-background px-2 max-md:hidden md:sticky z-10 duration-300 ${
-            isMenuOpen ? "w-64" : "w-16"
-          }`}
-        >
-          <div
-            className={`flex ${isMenuOpen ? "justify-end" : "justify-center rotate-180"}`}
-          >
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`${
-                isMenuOpen ? "-rotate-90" : "-rotate-90"
-              } hover:bg-light-gray/5 hover:dark:bg-white/10 p-3 rounded-md my-4`}
-            >
-              <TriangleArrowIcon className="size-5" />
-            </button>
-          </div>
-
+      <main className="flex relative">
+        <SideMenu setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen}>
           <ul className="flex flex-col gap-2 [&>li]:cursor-pointer [&>li]:text-sm [&>li]:rounded-md [&>li]:flex [&>li]:gap-2 [&>li]:items-center [&>li]:p-3">
             {sidebarItems.map((item, index) => (
               <li
@@ -104,9 +73,9 @@ export default function DashboardPage({ children }) {
               </li>
             ))}
           </ul>
-        </aside>
+        </SideMenu>
 
-        <section className="w-full h-full min-h-[calc(100dvh-20dvh)] p-5 max-md:pb-32">
+        <section className="w-full h-full min-h-[calc(100dvh-20dvh)] md:pl-20 p-5 max-md:pb-32">
           {children}
         </section>
       </main>
