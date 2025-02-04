@@ -2,8 +2,9 @@ from app.models.user import User
 from app.models.person import Person
 from app.extensions import db
 from datetime import datetime
+from app.utils.user_utils import convert_blob_to_base64, load_default_image  # Importar las funciones
 
-def create_user(username, email, password, name, last_name, photo=None, role='usuario'):
+def create_user(username, email, password, name, last_name, photo=None, role='cliente'):
     """
     Crea un nuevo usuario en la base de datos y una nueva persona asociada.
 
@@ -13,7 +14,7 @@ def create_user(username, email, password, name, last_name, photo=None, role='us
     :param name: Nombre de la persona asociada al usuario.
     :param last_name: Apellido de la persona asociada al usuario.
     :param photo: Foto del usuario como datos binarios (opcional).
-    :param role: Rol del usuario (por defecto 'usuario').
+    :param role: Rol del usuario (por defecto 'cliente').
     :return: La instancia del nuevo usuario creado.
     """
     # Crear una nueva instancia de Person
@@ -22,12 +23,16 @@ def create_user(username, email, password, name, last_name, photo=None, role='us
         last_name=last_name
     )
     
+    # Cargar la imagen por defecto si no se proporciona una
+    if photo is None:
+        photo = load_default_image()  # Asignar la imagen por defecto
+
     # Crear una nueva instancia de User
     user = User(
         username=username,
         email=email,
         person=person,  # Asumimos que 'person' es una nueva instancia de Person
-        photo=photo,
+        photo=photo,  # Usar la imagen proporcionada o la por defecto
         role=role
     )
     
@@ -52,7 +57,7 @@ def get_user(user_id):
         "id": user.id,
         "username": user.username,
         "email": user.email,
-        "photo": user.photo,
+        "photo": convert_blob_to_base64(user.photo),  # Usar la función de utilidades para convertir a base64
         "status": user.status,
         "role": user.role,
         "date_created": user.date_created,
@@ -84,7 +89,7 @@ def get_user_by_email(email):
         "id": user.id,
         "username": user.username,
         "email": user.email,
-        "photo": user.photo,
+        "photo": convert_blob_to_base64(user.photo),  # Convertir la foto a base64
         "status": user.status,
         "role": user.role,
         "date_created": user.date_created,
@@ -125,7 +130,7 @@ def list_users(status=1):
             "id": user.id,
             "username": user.username,
             "email": user.email,
-            "photo": user.photo,
+            "photo": convert_blob_to_base64(user.photo),
             "status": user.status,
             "role": user.role,
             "date_created": user.date_created,

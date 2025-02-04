@@ -7,11 +7,17 @@
       "@/icons/*": [
         "./src/components/icons/*"
       ],
+      "@/data/*": [
+        "./public/data/*"
+      ],
       "@/images/*": [
         "./public/images/*"
       ],
       "@/logos/*": [
         "./public/images/logos/*"
+      ],
+      "@/services/*": [
+        "./src/services/*"
       ]
     }
   }
