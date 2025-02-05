@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import HeroImg from "@/images/hero-image-01.jpg";
-import * as Icons from "@/components/icons/index";
+import { GlobalIcons } from "@/components/icons";
 import Faq from "@/components/ui/pure/Faq";
 import { useTheme } from "@/hooks/useTheme";
 import MarketTicker from "@/components/ui/pure/MarketTicker";
@@ -11,12 +11,12 @@ import { useNotification } from "@/hooks/useNotification";
 import { ColorizedButton, SecondaryButton } from "@/components/ui/pure/Buttons";
 
 const iconMap = {
-  "robot-wink": Icons.RobotWinkIcon,
-  binary: Icons.BinaryIcon,
-  stats: Icons.StatsIcon01,
-  padlock: Icons.PadlockIcon,
-  thunder: Icons.ThunderIcon,
-  processor: Icons.ProcessorIcon,
+  "robot-wink": GlobalIcons.RobotWinkIcon,
+  binary: GlobalIcons.BinaryIcon,
+  stats: GlobalIcons.StatsIcon01,
+  padlock: GlobalIcons.PadlockIcon,
+  thunder: GlobalIcons.ThunderIcon,
+  processor: GlobalIcons.ProcessorIcon,
 };
 
 const benefits = [
@@ -146,7 +146,7 @@ export default function Home() {
           ejecución automatizadas en todo el mundo.
         </p>
 
-        <div className="mt-5 grid justify-items-center gap-8 grid-cols-[repeat(auto-fit,_minmax(290px,1fr))]">
+        <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {benefits.map((benefit, index) => {
             const Icon = iconMap[benefit.icon];
             return (

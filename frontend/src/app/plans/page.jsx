@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { CheckIcon } from "@/components/icons/index";
+import { GlobalIcons } from "@/components/icons/index";
 import { PrimaryButton } from "@/components/ui/pure/Buttons";
 import { useNotification } from "@/hooks/useNotification";
 
@@ -73,7 +73,7 @@ export default function Plans() {
                     {plan.features.map((feature, index) => (
                       <li key={index} className="flex items-center gap-4">
                         <div className="text-green-500 size-5">
-                          <CheckIcon />
+                          <GlobalIcons.CheckIcon />
                         </div>
                         <span className="inline-block text-sm">{feature}</span>
                       </li>

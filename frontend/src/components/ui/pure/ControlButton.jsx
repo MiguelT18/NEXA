@@ -1,5 +1,4 @@
-import { MinusIcon, PlusIcon } from "@/components/icons";
-import React from "react";
+import { GlobalIcons } from "@/components/icons";
 import { useForm } from "react-hook-form";
 
 export default function ControlButton({ isFloatValue = false }) {
@@ -31,7 +30,7 @@ export default function ControlButton({ isFloatValue = false }) {
         type="button"
         className="transition-all hover:dark:bg-light-gray hover:bg-light-gray/15 rounded-l-[inherit] border-r border-dark-gray/25 dark:border-light-gray"
       >
-        <MinusIcon className="size-5 m-auto" />
+        <GlobalIcons.MinusIcon className="size-5 m-auto" />
       </button>
 
       <input
@@ -45,7 +44,7 @@ export default function ControlButton({ isFloatValue = false }) {
         type="button"
         className="transition-all hover:dark:bg-light-gray hover:bg-light-gray/15 rounded-r-[inherit] border-l border-dark-gray/25 dark:border-light-gray"
       >
-        <PlusIcon className="size-5 m-auto" />
+        <GlobalIcons.PlusIcon className="size-5 m-auto" />
       </button>
     </form>
   );

@@ -1,21 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import {
-  ArrowIcon,
-  TrendingUpIcon,
-  BalanceWalletIcon,
-  HandCoinIcon,
-} from "@/components/icons";
+import { GlobalIcons } from "@/components/icons";
 import PerformanceChart from "@/components/layouts/dashboard/PerformanceChart";
 import OrderHistory from "@/components/layouts/dashboard/OrderHistory";
 import RecentActivty from "@/components/layouts/dashboard/RecentActivity";
 
 const iconMap = {
-  "trending-up": TrendingUpIcon,
-  arrow: ArrowIcon,
-  "balance-wallet": BalanceWalletIcon,
-  "hand-coin": HandCoinIcon,
+  "trending-up": GlobalIcons.TrendingUpIcon,
+  arrow: GlobalIcons.ArrowIcon,
+  "balance-wallet": GlobalIcons.BalanceWalletIcon,
+  "hand-coin": GlobalIcons.HandCoinIcon,
 };
 
 const userDashboard = [

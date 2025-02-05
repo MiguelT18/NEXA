@@ -3,7 +3,7 @@
 import { useTheme } from "@/hooks/useTheme"
 import Link from "next/link"
 import React from "react";
-import { FacebookIcon, TwitterIcon, InstagramIcon } from "@/icons/index";
+import { GlobalIcons } from "@/components/icons/index";
 
 export default function Footer() {
   const { theme } = useTheme();
@@ -20,9 +20,9 @@ export default function Footer() {
       </Link>
 
       <div className="flex items-center gap-4 [&>div]:size-8 [&>div]:text-black/60 [&>div]:dark:text-white">
-        <FacebookIcon className="size-6 cursor-pointer text-light-gray/65 dark:text-white/80 hover:text-black hover:dark:text-white/50 transition-all" />
-        <TwitterIcon className="size-6 cursor-pointer text-light-gray/65 dark:text-white/80 hover:text-black hover:dark:text-white/50 transition-all" />
-        <InstagramIcon className="size-6 cursor-pointer text-light-gray/65 dark:text-white/80 hover:text-black hover:dark:text-white/50 transition-all" />
+        <GlobalIcons.FacebookIcon className="size-6 cursor-pointer text-light-gray/65 dark:text-white/80 hover:text-black hover:dark:text-white/50 transition-all" />
+        <GlobalIcons.TwitterIcon className="size-6 cursor-pointer text-light-gray/65 dark:text-white/80 hover:text-black hover:dark:text-white/50 transition-all" />
+        <GlobalIcons.InstagramIcon className="size-6 cursor-pointer text-light-gray/65 dark:text-white/80 hover:text-black hover:dark:text-white/50 transition-all" />
       </div>
 
       <span className="inline-block text-sm text-difuminate-text-light dark:text-difuminate-text-dark cursor-pointer transition-all hover:underline">

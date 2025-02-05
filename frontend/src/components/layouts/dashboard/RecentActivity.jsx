@@ -1,5 +1,4 @@
-import { EmptyIcon } from "@/components/icons";
-import React from "react";
+import { GlobalIcons } from "@/components/icons";
 import {
   Pagination,
   PaginationContent,
@@ -86,7 +85,7 @@ export default function RecentActivity() {
           ))
         ) : (
           <div className="w-full min-h-[270px] flex items-center flex-col justify-center space-y-2 h-full">
-            <EmptyIcon className="size-10 mx-auto text-difuminate-text-light dark:text-difuminate-text-dark" />
+            <GlobalIcons.EmptyIcon className="size-10 mx-auto text-difuminate-text-light dark:text-difuminate-text-dark" />
             <p className="block w-fit mx-auto text-center text-difuminate-text-light dark:text-difuminate-text-dark">
               No hay operaciones recientes
             </p>

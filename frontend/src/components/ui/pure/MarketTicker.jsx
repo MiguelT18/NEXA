@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ArrowIcon } from "@/components/icons/index";
+import { GlobalIcons } from "@/components/icons/index";
 
 const markets = [
   { name: "BTC/USD", price: 43250.2 },
@@ -20,7 +20,7 @@ export default function MarketTicker() {
           ...market,
           price: market.price * (1 + (Math.random() - 0.5) * 0.002),
           trending: Math.random() > 0.5,
-        })),
+        }))
       );
     }, 2000);
 
@@ -38,9 +38,9 @@ export default function MarketTicker() {
             >
               ${market.price.toFixed(2)}
               {market.trending ? (
-                <ArrowIcon className="ml-1 inline size-4" />
+                <GlobalIcons.ArrowIcon className="ml-1 inline size-4" />
               ) : (
-                <ArrowIcon className="ml-1 inline size-4 rotate-180" />
+                <GlobalIcons.ArrowIcon className="ml-1 inline size-4 rotate-180" />
               )}
             </span>
           </div>
@@ -55,9 +55,9 @@ export default function MarketTicker() {
             >
               ${market.price.toFixed(2)}
               {market.trending ? (
-                <ArrowIcon className="ml-1 inline size-4" />
+                <GlobalIcons.ArrowIcon className="ml-1 inline size-4" />
               ) : (
-                <ArrowIcon className="ml-1 inline size-4 rotate-180" />
+                <GlobalIcons.ArrowIcon className="ml-1 inline size-4 rotate-180" />
               )}
             </span>
           </div>

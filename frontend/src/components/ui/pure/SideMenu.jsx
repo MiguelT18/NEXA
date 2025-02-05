@@ -1,6 +1,6 @@
 "use client";
 
-import { TriangleArrowIcon } from "@/components/icons";
+import { GlobalIcons } from "@/components/icons";
 import { useEffect, useRef } from "react";
 
 export default function SideMenu({ isMenuOpen, setIsMenuOpen, children }) {
@@ -45,7 +45,7 @@ export default function SideMenu({ isMenuOpen, setIsMenuOpen, children }) {
             isMenuOpen ? "-rotate-90" : "-rotate-90"
           } hover:bg-light-gray/5 hover:dark:bg-white/10 p-3 rounded-md my-4`}
         >
-          <TriangleArrowIcon className="size-5" />
+          <GlobalIcons.TriangleArrowIcon className="size-5" />
         </button>
       </div>
 

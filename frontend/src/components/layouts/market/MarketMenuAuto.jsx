@@ -1,4 +1,3 @@
-import React from "react";
 import SwitchButton from "@/components/ui/pure/SwitchButton";
 import {
   Select,
@@ -7,14 +6,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AlertIcon, RobotWinkIcon, AutoIcon } from "@/components/icons";
+import { GlobalIcons } from "@/components/icons";
 
 export default function MarketMenuAuto() {
   return (
     <article className="border border-dark-gray/25 dark:border-light-gray rounded-md p-4 mt-4">
       <div className="flex justify-between items-center">
         <h3 className="flex items-center gap-2 text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
-          <RobotWinkIcon />
+          <GlobalIcons.RobotWinkIcon />
           Bot de Trading
         </h3>
 
@@ -24,13 +23,13 @@ export default function MarketMenuAuto() {
       <div className="bg-light-gray/15 dark:bg-light-gray rounded-lg mt-5 [&>button]:p-2 [&>button]:w-1/2">
         <button className="transition-all hover:dark:bg-dark-gray hover:bg-light-gray/15 rounded-l-[inherit] gap-2">
           <span className="flex items-center justify-center gap-2">
-            <AlertIcon className="size-4" />
+            <GlobalIcons.AlertIcon className="size-4" />
             Alertas
           </span>
         </button>
         <button className="transition-all hover:dark:bg-dark-gray hover:bg-light-gray/15 rounded-r-[inherit]">
           <span className="flex items-center justify-center gap-2">
-            <AutoIcon className="size-4" />
+            <GlobalIcons.AutoIcon className="size-4" />
             Automático
           </span>
         </button>

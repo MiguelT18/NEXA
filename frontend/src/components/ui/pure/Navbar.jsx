@@ -1,28 +1,23 @@
 "use client"
 
 import React from "react"
-import {
-  MoonRisingIcon,
-  SunRisingIcon,
-  MenuIcon,
-  UserIcon,
-} from "@/components/icons/index"
-import Link from "next/link"
-import { useTheme } from "@/hooks/useTheme"
-import Image from "next/image"
-import DefaultAvatar from "@/images/avatars/default-avatar.png"
-import { useAuth } from "@/hooks/useAuth"
-import { useNotification } from "@/hooks/useNotification"
+import { GlobalIcons } from "@/components/icons/index";
+import Link from "next/link";
+import { useTheme } from "@/hooks/useTheme";
+import Image from "next/image";
+import DefaultAvatar from "@/images/avatars/default-avatar.png";
+import { useAuth } from "@/hooks/useAuth";
+import { useNotification } from "@/hooks/useNotification";
 
 export default function Navbar() {
-  const { showNotification } = useNotification()
+  const { showNotification } = useNotification();
 
-  const { user } = useAuth()
-  const { theme, toggleTheme } = useTheme()
+  const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = () => {
-    showNotification("Imposible cerrar sesión en este momento", "error")
-  }
+    showNotification("Imposible cerrar sesión en este momento", "error");
+  };
 
   return (
     <nav className="dark:bg-dark-background bg-white block px-4 w-full z-20 max-md:fixed max-md:bottom-0 max-md:border-t md:border-b border-dark-gray/25 dark:border-light-gray">
@@ -30,8 +25,9 @@ export default function Navbar() {
       <div className="max-md:hidden flex justify-around items-center min-h-[10dvh]">
         <Link
           href="/"
-          className={`font-black font-sans uppercase text-[28px] inline-block ${theme === "light" ? "text-gradient-light" : "text-gradient-dark"
-            }`}
+          className={`font-black font-sans uppercase text-[28px] inline-block ${
+            theme === "light" ? "text-gradient-light" : "text-gradient-dark"
+          }`}
         >
           NEXA AI
         </Link>
@@ -69,16 +65,16 @@ export default function Navbar() {
             onClick={toggleTheme}
           >
             {theme === "dark" ? (
-              <MoonRisingIcon className="text-black dark:text-white size-6" />
+              <GlobalIcons.MoonRisingIcon className="text-black dark:text-white size-6" />
             ) : (
-              <SunRisingIcon className="text-black dark:text-white size-6" />
+              <GlobalIcons.SunRisingIcon className="text-black dark:text-white size-6" />
             )}
           </li>
 
           <li className="relative group">
             {!user ? (
               <div className="hover:bg-light-gray/15 hover:dark:bg-white/10 p-2 rounded-md transition-all">
-                <UserIcon className="size-6" />
+                <GlobalIcons.UserIcon className="size-6" />
               </div>
             ) : avatar ? (
               <div className="hover:bg-light-gray/15 hover:dark:bg-white/10 p-2 rounded-md transition-all">
@@ -155,17 +151,17 @@ export default function Navbar() {
       <ul className="md:hidden dark:bg-background w-full flex justify-around max-sm:justify-between items-center min-h-[10dvh]">
         <li onClick={toggleTheme}>
           {theme === "dark" ? (
-            <MoonRisingIcon className="text-black dark:text-white size-8" />
+            <GlobalIcons.MoonRisingIcon className="text-black dark:text-white size-8" />
           ) : (
-            <SunRisingIcon className="text-black dark:text-white size-8" />
+            <GlobalIcons.SunRisingIcon className="text-black dark:text-white size-8" />
           )}
         </li>
         <li>
-          <MenuIcon className="size-6" />
+          <GlobalIcons.MenuIcon className="size-6" />
         </li>
         <li>
           {!user ? (
-            <UserIcon className="size-9" />
+            <GlobalIcons.UserIcon className="size-9" />
           ) : avatar ? (
             <img src={avatar} alt="Avatar" className="w-9 h-9 rounded-full" />
           ) : (
@@ -180,5 +176,5 @@ export default function Navbar() {
         </li>
       </ul>
     </nav>
-  )
+  );
 }

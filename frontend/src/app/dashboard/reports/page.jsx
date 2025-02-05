@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import OrderHistory from "@/components/layouts/dashboard/OrderHistory";
 import RecentActivty from "@/components/layouts/dashboard/RecentActivity";
 
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { GlobalIcons } from "@/components/icons";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PrimaryButton, SecondaryButton } from "@/components/ui/pure/Buttons";
-import { FileIcon } from "@/components/icons";
 import { useNotification } from "@/hooks/useNotification";
 
 export default function ReportsGenerator() {
@@ -54,7 +53,7 @@ export default function ReportsGenerator() {
                       "text-muted-foreground border-dark-gray/25 dark:border-light-gray"
                   )}
                 >
-                  <CalendarIcon />
+                  <GlobalIcons.CalendarIcon />
                   {date ? format(date, "PPP") : <span>Pick a date</span>}
                 </Button>
               </PopoverTrigger>
@@ -86,7 +85,7 @@ export default function ReportsGenerator() {
                       "text-muted-foreground border-dark-gray/25 dark:border-light-gray"
                   )}
                 >
-                  <CalendarIcon />
+                  <GlobalIcons.CalendarIcon />
                   {date ? format(date, "PPP") : <span>Pick a date</span>}
                 </Button>
               </PopoverTrigger>
@@ -157,7 +156,7 @@ export default function ReportsGenerator() {
               )
             }
           >
-            <FileIcon />
+            <GlobalIcons.FileIcon />
             Descargar PDF
           </PrimaryButton>
           <SecondaryButton
@@ -168,7 +167,7 @@ export default function ReportsGenerator() {
               )
             }
           >
-            <FileIcon />
+            <GlobalIcons.FileIcon />
             Descargar Excel
           </SecondaryButton>
         </div>

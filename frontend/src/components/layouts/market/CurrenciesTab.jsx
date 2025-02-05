@@ -1,4 +1,4 @@
-import { SearchIcon, TriangleSolidArrowIcon } from "@/components/icons";
+import { GlobalIcons } from "@/components/icons";
 import React from "react";
 
 const currencies = [
@@ -51,7 +51,7 @@ export default function CurrenciesTab({ isVisible }) {
     <div className={`mt-5 ${!isVisible ? "hidden" : ""}`}>
       <div className="relative">
         <div className="absolute inset-y-0 start-0 flex items-center pl-3 pointer-events-none">
-          <SearchIcon className="size-6 text-gray-500 dark:text-gray-400" />
+          <GlobalIcons.SearchIcon className="size-6 text-gray-500 dark:text-gray-400" />
         </div>
         <input
           type="search"
@@ -74,7 +74,7 @@ export default function CurrenciesTab({ isVisible }) {
                 <span>({currency.percentage.toPrecision(3)}%)</span>
               </p>
 
-              <TriangleSolidArrowIcon
+              <GlobalIcons.TriangleSolidArrowIcon
                 className={`size-4 ${currency.trending === "up" ? "text-green-500" : "text-red-500 rotate-180"}`}
               />
             </div>

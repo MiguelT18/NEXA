@@ -1,16 +1,8 @@
 "use client";
 
 import ProtectedRoute from "@/components/layouts/ProtectedRoute";
-import React, { useState, useEffect, useRef } from "react";
-import {
-  UserIcon,
-  ConfigIcon,
-  FileIcon,
-  TriangleArrowIcon,
-  ShortcutsIcon,
-  BugIcon,
-  DashboardIcon,
-} from "@/components/icons/index";
+import { useState } from "react";
+import { GlobalIcons } from "@/components/icons/index";
 import { usePathname, useRouter } from "next/navigation";
 import SideMenu from "@/components/ui/pure/SideMenu";
 
@@ -18,32 +10,32 @@ const sidebarItems = [
   {
     title: "Dashboard",
     href: "/dashboard/index",
-    icon: <DashboardIcon className="size-5" />,
+    icon: <GlobalIcons.DashboardIcon className="size-5" />,
   },
   {
     title: "Perfil",
     href: "/dashboard/profile",
-    icon: <UserIcon className="size-5" />,
+    icon: <GlobalIcons.UserIcon className="size-5" />,
   },
   {
     title: "Configuración",
     href: "/dashboard/configuration",
-    icon: <ConfigIcon className="size-5" />,
+    icon: <GlobalIcons.ConfigIcon className="size-5" />,
   },
   {
     title: "Reportes",
     href: "/dashboard/reports",
-    icon: <FileIcon className="size-5" />,
+    icon: <GlobalIcons.FileIcon className="size-5" />,
   },
   {
     title: "Atajos de teclado ",
     href: "/dashboard/shortcuts",
-    icon: <ShortcutsIcon className="size-5" />,
+    icon: <GlobalIcons.ShortcutsIcon className="size-5" />,
   },
   {
     title: "Ayuda",
     href: "/dashboard/help",
-    icon: <BugIcon className="size-5" />,
+    icon: <GlobalIcons.BugIcon className="size-5" />,
   },
 ];
 

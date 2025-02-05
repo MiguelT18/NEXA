@@ -7,7 +7,7 @@ import MarketMenu from "@/components/layouts/market/MarketMenu";
 
 export default function MarketPage() {
   return (
-    <main className="min-h-[80dvh] flex flex-col">
+    <main className="md:min-h-[80dvh] flex flex-col">
       <nav className="w-full overflow-hidden border border-dark-gray/25 dark:border-light-gray rounded-md p-4">
         <ul className="flex gap-4 items-center">
           <li>BOOM500</li>
@@ -17,21 +17,22 @@ export default function MarketPage() {
         </ul>
       </nav>
 
-      <section className="h-full grid grid-cols-[1fr_auto] md:gap-4 py-5">
-        <div className="w-full flex flex-col gap-5">
-          <article className="w-full p-2 rounded-lg border border-dark-gray/25 dark:border-light-gray">
+      <section className="flex-1 grid grid-cols-[1fr_auto] md:gap-4 py-5">
+        <div className="flex flex-col gap-5">
+          <article className="relative w-full h-[550px] rounded-lg border border-dark-gray/25 dark:border-light-gray">
             <Market />
           </article>
 
-          <article className="w-full flex-1 border border-dark-gray/25 dark:border-light-gray rounded-md overflow-y-auto">
+          <article className="flex-1 border border-dark-gray/25 dark:border-light-gray rounded-md overflow-y-auto">
             <MarketChat />
           </article>
         </div>
 
-        <aside className="w-full max-w-[400px]">
+        <aside className="w-full max-lg:max-w-[300px] lg:max-w-[400px]">
           <MarketMenu />
         </aside>
       </section>
     </main>
   );
 }
+

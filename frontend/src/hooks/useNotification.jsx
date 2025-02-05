@@ -1,6 +1,6 @@
 "use client";
 
-import { CloseIcon } from "@/components/icons/index";
+import { GlobalIcons } from "@/components/icons/index";
 import React, {
   useState,
   createContext,
@@ -75,7 +75,7 @@ export default function NotificationProvider({ children }) {
                 onClick={() => handleCloseNotification(notification.id)}
                 className="block cursor-pointer transition-all hover:dark:bg-light-gray/30 p-2 rounded-md"
               >
-                <CloseIcon />
+                <GlobalIcons.CloseIcon />
               </span>
             </div>
           ))}

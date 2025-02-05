@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { TriangleArrowIcon } from "@/components/icons/index";
+import { GlobalIcons } from "@/components/icons/index";
 
 const faqItems = [
   {
@@ -51,7 +52,7 @@ export default function Faq() {
         >
           <div className="flex justify-between items-center gap-6">
             <h3 className="text-sm font-bold">{faq.question}</h3>
-            <TriangleArrowIcon
+            <GlobalIcons.TriangleArrowIcon
               className={`max-md:size-4 size-6 min-w-[24px] transform transition-transform duration-300 ${
                 openIndex === index ? "rotate-180" : "rotate-0"
               }`}

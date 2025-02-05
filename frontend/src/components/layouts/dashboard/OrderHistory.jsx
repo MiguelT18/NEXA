@@ -23,7 +23,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { ArrowIcon, InfoIcon } from "@/components/icons";
+import { GlobalIcons } from "@/components/icons";
 
 const historyData = [
   {
@@ -119,7 +119,7 @@ export default function OrderHistory() {
               <TableCell
                 className={`flex items-center gap-2 ${operation.price > operation.result ? "text-green-500" : "text-red-500"}`}
               >
-                <ArrowIcon
+                <GlobalIcons.ArrowIcon
                   className={`${operation.price > operation.result ? "" : "rotate-180"}`}
                 />
                 $ {operation.result}

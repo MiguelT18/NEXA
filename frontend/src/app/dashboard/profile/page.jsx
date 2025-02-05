@@ -1,8 +1,8 @@
 "use client";
 
 import Loader from "@/components/ui/pure/Loader";
-import { CalendarIcon, ClockIcon, TrashIcon } from "@/components/icons/index";
-import React, { useState, useEffect } from "react";
+import { GlobalIcons } from "@/components/icons/index";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import avatars from "@/utils/avatars";
 import Image from "next/image";
@@ -116,7 +116,7 @@ export default function UserProfile() {
                   )
                 }
               >
-                <TrashIcon /> Eliminar
+                <GlobalIcons.TrashIcon /> Eliminar
               </DestructiveButton>
             </div>
           </div>
@@ -171,7 +171,7 @@ export default function UserProfile() {
               </div>
 
               <div className="flex items-center gap-2">
-                <CalendarIcon className="size-5 text-difuminate-text-light dark:text-difuminate-text-dark" />
+                <GlobalIcons.CalendarIcon className="size-5 text-difuminate-text-light dark:text-difuminate-text-dark" />
                 <div className="w-full">
                   <h3 className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                     Cuenta creada
@@ -197,7 +197,7 @@ export default function UserProfile() {
               </div>
 
               <div className="flex items-center gap-2">
-                <ClockIcon className="size-5 text-difuminate-text-light dark:text-difuminate-text-dark" />
+                <GlobalIcons.ClockIcon className="size-5 text-difuminate-text-light dark:text-difuminate-text-dark" />
                 <div className="w-full">
                   <h3 className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                     Última modificación

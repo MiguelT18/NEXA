@@ -1,7 +1,7 @@
 import { ArrowIcon } from "@/components/icons";
+import { GlobalIcons } from "@/components/icons";
 import ControlButton from "@/components/ui/pure/ControlButton";
 import { Checkbox } from "@radix-ui/react-checkbox";
-import React from "react";
 
 export default function MarketMenuManual() {
   return (
@@ -56,11 +56,11 @@ export default function MarketMenuManual() {
 
       <div className="space-y-4 pt-2 [&>button]:w-full [&>button]:p-2 [&>button]:text-white [&>button]:rounded-md">
         <button className="bg-green-500 dark:bg-green-700 hover:dark:dark:bg-green-700/70 hover:bg-green-500/90 transition-all flex items-center justify-center gap-2">
-          <ArrowIcon className="size-4" />
+          <GlobalIcons.ArrowIcon className="size-4" />
           Comprar
         </button>
         <button className="bg-red-500 dark:bg-red-700 hover:dark:bg-red-700/70 hover:bg-red-500/90 transition-all flex items-center justify-center gap-2">
-          <ArrowIcon className="size-4 rotate-180" />
+          <GlobalIcons.ArrowIcon className="size-4 rotate-180" />
           Vender
         </button>
       </div>

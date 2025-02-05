@@ -2,11 +2,11 @@
 
 import BrandLogo from "@/images/logos/variant-01";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
-import { CloseEyeIcon, OpenEyeIcon } from "@/components/icons";
+import { GlobalIcons } from "@/components/icons";
 import { useNotification } from "@/hooks/useNotification";
 import { ColorizedButton } from "@/components/ui/pure/Buttons";
 
@@ -93,7 +93,11 @@ export default function LoginPage() {
                 onClick={() => setIsPasswordVisible(!isPasswordVisible)}
                 className="h-full w-fit block p-2.5 rounded-md dark:border-light-gray border cursor-pointer transition-all hover:border-black border-light-gray/25"
               >
-                {isPasswordVisible ? <OpenEyeIcon /> : <CloseEyeIcon />}
+                {isPasswordVisible ? (
+                  <GlobalIcons.OpenEyeIcon />
+                ) : (
+                  <GlobalIcons.CloseEyeIcon />
+                )}
               </span>
             </div>
             {errors.password && (

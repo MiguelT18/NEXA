@@ -41,7 +41,7 @@ export default function layout({ children }) {
         {activeTab === "tools" && <ToolsTab isVisible={isMenuOpen} />}
       </SideMenu>
 
-      <section className="w-full h-full min-h-[calc(100dvh-20dvh)] md:pl-20 p-5 max-md:pb-32">
+      <section className="w-full h-full min-h-[calc(100dvh-20dvh)] md:pl-20 p-5 max-md:pb-24">
         {children}
       </section>
     </main>
