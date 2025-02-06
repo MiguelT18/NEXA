@@ -1,20 +1,3 @@
-// tool icons
-import CrossIcon from "./lib/tools/cross";
-import DotIcon from "./lib/tools/dot";
-import CursorArrowIcon from "./lib/tools/arrow";
-import EraserIcon from "./lib/tools/eraser";
-import TrendLineIcon from "./lib/tools/trendLine";
-import RayIcon from "./lib/tools/ray";
-import InfoLineIcon from "./lib/tools/infoLine";
-import ExtendedLineIcon from "./lib/tools/extendedLine";
-import TrendAngleIcon from "./lib/tools/trendAngle";
-import HorizontalLineIcon from "./lib/tools/horizontalLine";
-import HorizontalRayIcon from "./lib/tools/horizontalRay";
-import VerticalLineIcon from "./lib/tools/verticalLine";
-import CrossLineIcon from "./lib/tools/crossLine";
-import ParallelChannelIcon from "./lib/tools/parallelChannel";
-import FlatTopBottomIcon from "./lib/tools/flatTopBottom";
-
 // general icons
 import MoonRisingIcon from "./lib/global/moonRising";
 import SunRisingIcon from "./lib/global/sunRising";
@@ -58,27 +41,6 @@ import AutoIcon from "./lib/global/auto";
 import BugIcon from "./lib/global/bug";
 import DashboardIcon from "./lib/global/dashboard";
 import TriangleSolidArrowIcon from "./lib/global/triangleSolidArrow";
-
-const MarketToolIcons = {
-  // cursors
-  CrossIcon,
-  DotIcon,
-  CursorArrowIcon,
-  EraserIcon,
-  // lines
-  TrendLineIcon,
-  RayIcon,
-  InfoLineIcon,
-  ExtendedLineIcon,
-  TrendAngleIcon,
-  HorizontalLineIcon,
-  HorizontalRayIcon,
-  VerticalLineIcon,
-  CrossLineIcon,
-  // channels
-  ParallelChannelIcon,
-  FlatTopBottomIcon,
-};
 
 const GlobalIcons = {
   TriangleSolidArrowIcon,
@@ -125,4 +87,4 @@ const GlobalIcons = {
   TriangleArrowIcon,
 };
 
-export { MarketToolIcons, GlobalIcons };
+export { GlobalIcons };
