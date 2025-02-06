@@ -1,3 +1,89 @@
+# === BACKEND ===
 venv/
 __pycache__/
 .env
+*.pyc
+*.pyo
+*.pyd
+backend/.mypy_cache/
+backend/.pytest_cache/
+backend/.coverage
+backend/db.sqlite3
+backend/migrations/__pycache__/
+backend/*.sqlite3
+
+# === FRONTEND ===
+
+## Dependencias
+node_modules/
+package-lock.json
+.pnp
+.pnp.*
+yarn.lock
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+## Testing
+frontend/coverage/
+
+## Next.js
+frontend/.next/
+frontend/out/
+frontend/.turbo/
+frontend/.swc/
+frontend/.next/cache/
+frontend/.eslintcache
+
+## Builds de producción
+frontend/build/
+
+## Archivos misceláneos
+.DS_Store
+*.pem
+
+## Logs y archivos temporales
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+## Archivos de entorno
+.env*
+.env.local
+
+## Vercel
+.vercel
+
+## TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+## Archivos de editores e IDEs
+.vscode/
+.idea/
+*.iml
+*.sublime-workspace
+*.sublime-project
+
+## Bases de datos
+*.sqlite3
+*.db
+
+## Modelos de lenguaje o entrenamiento
+*.model
+*.h5
+*.pickle
+
+## Configuración de proyectos
+*.code-workspace
+Thumbs.db
+
