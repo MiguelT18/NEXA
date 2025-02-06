@@ -1,8 +1,8 @@
 """Corrigiendo valores por defecto en BaseMixin
 
-Revision ID: a7e41af2aa69
+Revision ID: ab76734d740e
 Revises: 
-Create Date: 2025-01-30 18:08:37.719494
+Create Date: 2025-02-04 11:10:36.644341
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a7e41af2aa69'
+revision = 'ab76734d740e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -37,7 +37,7 @@ def upgrade():
     sa.Column('email', sa.String(length=100), nullable=False),
     sa.Column('password_hash', sa.String(length=200), nullable=False),
     sa.Column('photo', sa.LargeBinary(), nullable=True),
-    sa.Column('role', sa.String(length=20), nullable=True),
+    sa.Column('role', sa.String(length=20), server_default='cliente', nullable=True),
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('date_created', sa.DateTime(), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=True),
     sa.Column('date_modified', sa.DateTime(), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=True),
@@ -53,7 +53,7 @@ def upgrade():
     sa.Column('ip_address', sa.String(length=45), nullable=True),
     sa.Column('user_agent', sa.Text(), nullable=True),
     sa.Column('expires_at', sa.DateTime(), nullable=False),
-    sa.Column('is_active', sa.Boolean(), nullable=False),
+    sa.Column('is_active', sa.Boolean(), server_default='1', nullable=False),
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('date_created', sa.DateTime(), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=True),
     sa.Column('date_modified', sa.DateTime(), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=True),

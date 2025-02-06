@@ -3,11 +3,12 @@
 import Image from "next/image";
 import HeroImg from "@/images/hero-image-01.jpg";
 import * as Icons from "@/components/icons/index";
-import Faq from "@/components/ui/Faq";
+import Faq from "@/components/ui/pure/Faq";
 import { useTheme } from "@/hooks/useTheme";
-import MarketTicker from "@/components/ui/MarketTicker";
-import Loader from "@/components/ui/Loader";
-import Link from "next/link";
+import MarketTicker from "@/components/ui/pure/MarketTicker";
+import Loader from "@/components/ui/pure/Loader";
+import { useNotification } from "@/hooks/useNotification";
+import { ColorizedButton, SecondaryButton } from "@/components/ui/pure/Buttons";
 
 const iconMap = {
   "robot-wink": Icons.RobotWinkIcon,
@@ -79,6 +80,11 @@ const mindsBehind = [
 
 export default function Home() {
   const { theme } = useTheme();
+  const { showNotification } = useNotification();
+
+  const handleClick = () => {
+    showNotification("Falta agregar interacción a este botón.", "info");
+  };
 
   return (
     <main className="container mx-auto px-4 max-md:pt-4 pt-14 pb-8 max-md:pb-24">
@@ -97,15 +103,10 @@ export default function Home() {
           </p>
 
           <div className="flex max-md:justify-center gap-4 my-4">
-            <Link
-              href="/market"
-              className="primary-button text-white tracking-wide dark:bg-primary-color hover:dark:bg-primary-color/60 bg-secondary-color hover:bg-secondary-color/80 transition-all p-2 rounded-md"
-            >
-              Comenzar a Operar
-            </Link>
-            <button className="p-2 rounded-md tracking-wide border-difuminate-text-dark hover:border-difuminate-text-light dark:border-light-gray border hover:dark:text-difuminate-text-dark transition-all">
+            <ColorizedButton href="/market">Comenzar a Operar</ColorizedButton>
+            <SecondaryButton onClick={handleClick} type="button">
               Saber más
-            </button>
+            </SecondaryButton>
           </div>
 
           <div className="pt-4">
@@ -117,7 +118,7 @@ export default function Home() {
               través del globo y ejecuta operaciones con precisión.
             </p>
 
-            <div className="lg:max-w-[80%] border-difuminate-text-dark dark:border-light-gray border p-2 rounded-md overflow-x-hidden mt-4">
+            <div className="lg:max-w-[80%] border-dark-gray/25 dark:border-light-gray border p-2 rounded-md overflow-x-hidden mt-4">
               <MarketTicker />
             </div>
           </div>
@@ -151,7 +152,7 @@ export default function Home() {
             return (
               <article
                 key={index}
-                className="border-difuminate-text-dark dark:border-light-gray border rounded-md p-4 w-full relative overflow-hidden"
+                className="border-dark-gray/25 dark:border-light-gray border rounded-md p-4 w-full relative overflow-hidden"
               >
                 <Icon className="size-12 text-secondary-color dark:text-primary-color" />
                 <h3 className="text-md font-semibold font-sans mb-2 mt-4">
@@ -169,7 +170,7 @@ export default function Home() {
       </section>
 
       <section>
-        <div className="bg-gradient-light-section dark:bg-gradient-dark-section p-4 rounded-lg">
+        <div className="bg-light-gray/15 dark:bg-dark-gray p-4 rounded-xl">
           <h1 className="text-lg font-bold font-sans text-center">
             Conoce a las Mentes Detrás de Nuestro Bot de Trading
           </h1>

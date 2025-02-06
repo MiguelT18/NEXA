@@ -21,7 +21,7 @@ class UserSessions(BaseMixin, db.Model):
     ip_address = db.Column(db.String(45), nullable=True)  # IPv4 o IPv6
     user_agent = db.Column(db.Text, nullable=True)  # Información del dispositivo/navegador
     expires_at = db.Column(db.DateTime, nullable=False)  # Fecha y hora de expiración
-    is_active = db.Column(db.Boolean, server_default='true', nullable=False)  # Indica si la sesión está activa
+    is_active = db.Column(db.Boolean, server_default='1', nullable=False)  # Indica si la sesión está activa
 
     # Relación con la tabla de usuarios
     user = db.relationship("User", backref=db.backref("sessions", lazy=True))
