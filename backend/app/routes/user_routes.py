@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, session
 from app.services.email_service import send_welcome_email, send_user_credentials_email, send_new_password_email
 from app.utils.response_utils import create_response
 from app.schemas.user_schema import UserSchema
-from app.services.user_service import get_user_by_email, create_user, get_user_by_username, get_user, delete_user_by_status, update_profile, list_users, remove_user_photo, change_user_password, reset_user_password
+from app.services.user_service import get_user_by_email, create_user, get_user_by_username, get_user, delete_user_by_status, update_profile, list_users, remove_user_photo, change_user_password, reset_user_password, update_user_data
 from app.utils.security import generate_token, token_required
 from app.utils.user_utils import generate_random_password, generate_username
 from app.services.sessions_service import create_session
@@ -164,7 +164,7 @@ def update_user_profile():
     if not user_id:
         return create_response(message="No se proporcionó user_id", status=400)
 
-    data = request.json
+    data = request.form  # Cambia a request.form para manejar datos de formulario
     name = data.get('name')
     last_name = data.get('last_name')
     username = data.get('username')
@@ -173,14 +173,20 @@ def update_user_profile():
     city = data.get('city')
     address = data.get('address')
     birthdate = data.get('birthdate')
-    photo = data.get('photo')  # Se espera que la foto se suba como BLOB
+
+    # Manejar la foto
+    photo = request.files.get('photo')  # Obtener el archivo de la foto
+    if photo:
+        photo_data = photo.read()  # Leer el contenido del archivo como BLOB
+    else:
+        photo_data = None  # O manejar el caso donde no se sube una foto
 
     # Llamar al servicio de actualización del perfil
     result = update_profile(
         user_id=int(user_id),
         username=username,
         email=email,
-        photo=photo,  # La foto se maneja como BLOB
+        photo=photo_data,  # La foto se maneja como BLOB
         name=name,
         last_name=last_name,
         phone_number=phone_number,
@@ -321,3 +327,46 @@ def reset_password():
         send_new_password_email(email, user_data['person']['name'], new_password)  # Enviar el correo con la nueva contraseña
 
     return create_response(message="Contraseña restablecida exitosamente. Se ha enviado un correo con la nueva contraseña.", status=200)
+
+@user_bp.route('/update_user_data', methods=['PUT'])
+def update_user_data_route():
+    """
+    Ruta para actualizar los datos de un usuario.
+    El ID del usuario se obtiene del encabezado de la solicitud.
+
+    Utiliza 'request.headers.get' para obtener el 'user_id' desde el encabezado.
+    Los datos del usuario se obtienen del cuerpo de la solicitud en formato de formulario.
+    Utiliza 'create_response' de 'response_utils' para estandarizar las respuestas.
+
+    :return: Respuesta JSON con un mensaje de éxito o error y el código de estado correspondiente.
+    """
+    user_id = request.headers.get('user_id')
+    if not user_id:
+        return create_response(message="No se proporcionó user_id", status=400)
+
+    # Obtener datos en formato de formulario
+    username = request.form.get('username')
+    email = request.form.get('email')
+    photo = request.files.get('photo')  # Obtener el archivo de la foto
+    name = request.form.get('name')
+    last_name = request.form.get('last_name')
+    role = request.form.get('role')
+
+    # Leer el contenido del archivo como BLOB
+    photo_data = photo.read() if photo else None  # Manejar el caso donde no se sube una foto
+
+    # Llamar al servicio de actualización de datos del usuario
+    result = update_user_data(
+        user_id=int(user_id),
+        username=username,
+        email=email,
+        photo=photo_data,  # La foto se maneja como BLOB
+        name=name,
+        last_name=last_name,
+        role=role
+    )
+
+    if result:
+        return create_response(message="Datos del usuario actualizados exitosamente", status=200)
+    else:
+        return create_response(message="Error al actualizar los datos del usuario", status=400)
