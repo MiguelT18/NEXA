@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  backend:
+    environment:
+      - ENV=development
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - backend/.env
+    volumes:
+      - ./backend:/app
+      - /app/migrations
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - nexa_network
+
+  mysql:
+    image: mysql:8
+    container_name: mysql_nexa
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dbbot
+      MYSQL_USER: nexa_user
+      MYSQL_PASSWORD: nexa_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nexa_network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    command: ["bun", "dev"] # Para modo de desarrollo con Bun
+    networks:
+      - nexa_network
+    depends_on:
+      - mysql
+      - backend
+
+volumes:
+  mysql_data:
+
+networks:
+  nexa_network:
+    name: nexa_network
+    driver: bridge

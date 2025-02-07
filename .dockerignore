@@ -1,0 +1,21 @@
+# General
+.git
+.gitignore
+.dockerignore
+Dockerfile
+docker-compose.yml
+node_modules
+__pycache__
+.env
+*.log
+.vscode
+.idea
+
+# Next.js
+.next
+out
+build
+
+# Python
+*.pyc
+venv

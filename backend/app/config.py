@@ -5,7 +5,7 @@ class Config:
     Configuración de la aplicación Flask, incluida la configuración de correo.
     """
     SECRET_KEY = os.getenv('SECRET_KEY', 'super-secret-key')
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'mysql://root:Univalle@localhost/dbbot')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', "mysql://root:root@mysql/dbbot")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # Habilita el modo de depuración de Flask. Esto es útil para el desarrollo ya que proporciona
     # errores detallados y reinicia automáticamente el servidor cuando se realizan cambios en el código.
