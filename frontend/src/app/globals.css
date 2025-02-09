@@ -4,6 +4,7 @@
 
 body {
   font-family: "Roboto", sans-serif;
+  background: linear-gradient(0deg, rgb(28, 75, 63) 0%, rgba(20, 20, 20, 1) 100%);
 }
 
 .text-gradient-light {
@@ -120,14 +121,5 @@ input[type="number"]::-webkit-inner-spin-button {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }

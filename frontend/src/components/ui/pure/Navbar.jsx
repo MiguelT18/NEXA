@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from "react";
 import { GlobalIcons } from "@/components/icons/index";
 import Link from "next/link";
 import { useTheme } from "@/hooks/useTheme";
@@ -8,19 +8,34 @@ import Image from "next/image";
 import DefaultAvatar from "@/images/avatars/default-avatar.png";
 import { useAuth } from "@/hooks/useAuth";
 import { useNotification } from "@/hooks/useNotification";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
+  const [isHidden, setIsHidden] = useState(false);
+
+  const pathname = usePathname();
+
   const { showNotification } = useNotification();
 
   const { user } = useAuth();
   const { theme, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    if (pathname.match("/dashboard")) {
+      setIsHidden(true);
+    } else {
+      setIsHidden(false);
+    }
+  }, [pathname]);
 
   const handleLogout = () => {
     showNotification("Imposible cerrar sesión en este momento", "error");
   };
 
   return (
-    <nav className="dark:bg-dark-background bg-white block px-4 w-full z-20 max-md:fixed max-md:bottom-0 max-md:border-t md:border-b border-dark-gray/25 dark:border-light-gray">
+    <nav
+      className={`${isHidden ? "hidden" : ""} dark:bg-dark-background bg-white block px-4 w-full z-20 max-md:fixed max-md:bottom-0 max-md:border-t md:border-b border-dark-gray/25 dark:border-light-gray`}
+    >
       {/* Desktop Navbar */}
       <div className="max-md:hidden flex justify-around items-center min-h-[10dvh]">
         <Link

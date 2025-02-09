@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      <body className="antialiased dark:bg-dark-background dark:text-white bg-white text-dark-gray flex flex-col min-h-dvh relative">
+      <body className="flex flex-col min-h-dvh relative">
         <ThemeProvider>
           <NotificationProvider>
             <AuthProvider>

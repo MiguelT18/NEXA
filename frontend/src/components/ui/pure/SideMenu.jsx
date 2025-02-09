@@ -32,7 +32,7 @@ export default function SideMenu({ isMenuOpen, setIsMenuOpen, children }) {
   return (
     <aside
       ref={menuRef}
-      className={`absolute h-full z-10 border-r border-dark-gray/25 dark:border-light-gray bg-white dark:bg-dark-background px-2 max-md:hidden duration-300 ${
+      className={`fixed h-full z-10 border-r border-dark-gray/25 dark:border-light-gray bg-white dark:bg-dark-background px-2 max-md:hidden duration-300 ${
         isMenuOpen ? "w-64" : "w-16"
       }`}
     >

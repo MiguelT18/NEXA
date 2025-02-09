@@ -2,14 +2,29 @@
 
 import { useTheme } from "@/hooks/useTheme"
 import Link from "next/link"
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GlobalIcons } from "@/components/icons/index";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const [isHidden, setIsHidden] = useState(false);
+
+  const pathname = usePathname();
+
   const { theme } = useTheme();
 
+  useEffect(() => {
+    if (pathname.match("/dashboard")) {
+      setIsHidden(true);
+    } else {
+      setIsHidden(false);
+    }
+  }, [pathname]);
+
   return (
-    <footer className="dark:bg-dark-background bg-white w-full min-h-[10dvh] border-t border-dark-gray/25 dark:border-light-gray dark:border-background-light max-md:hidden flex justify-around items-center">
+    <footer
+      className={`${isHidden ? "hidden" : ""} dark:bg-dark-background bg-white w-full min-h-[10dvh] border-t border-dark-gray/25 dark:border-light-gray dark:border-background-light max-md:hidden flex justify-around items-center`}
+    >
       <Link
         href="/"
         className={`font-black font-sans uppercase text-[28px] inline-block ${
