@@ -1,10 +1,10 @@
 import React from "react";
 
-const SunRisingIcon = (props) => (
+const SunRisingIcon = ({ ...props }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <g
       fill="none"
-      stroke="#000"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"
@@ -75,7 +75,7 @@ const SunRisingIcon = (props) => (
       cy="12"
       r="10"
       mask="url(#lineMdMoonFilledAltToSunnyFilledLoopTransition0)"
-      fill="#000"
+      fill="currentColor"
     >
       <animate fill="freeze" attributeName="r" dur="0.4s" values="10;6" />
     </circle>

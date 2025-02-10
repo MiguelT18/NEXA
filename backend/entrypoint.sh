@@ -34,10 +34,7 @@ fi
 if [ -f "/app/run.py" ]; then
   echo "Iniciando la aplicación con run.py..."
   exec python run.py
-elif [ -f "/app/app.py" ]; then
-  echo "Iniciando la aplicación con app.py..."
-  exec python app.py
 else
-  echo "Error: No se encontró ni run.py ni app.py en /app/"
+  echo "Error: No se encontró run.py en /app/"
   exit 1
 fi

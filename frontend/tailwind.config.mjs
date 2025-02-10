@@ -18,8 +18,15 @@ export default {
         "difuminate-text-dark": "#A1A1AA",
         "light-gray": "#27272A",
         "difuminate-text-light": "#64748B",
+
+        "positive-dark-green": "#16A34A",
+        "negative-dark-red": "#B3261E",
+        "positive-light-green": "#0FA958",
+        "negative-light-red": "#E53935",
         // alternative assets
-        "alt-dark-green-border": "rgb(16 185 129 / 0.2)",
+        "alt-dark-primary-color": "rgb(30, 80, 120)",
+        "alt-dark-primary-border": "rgb(31, 99, 141, 0.5)",
+        "alt-dark-blue": "rgb(15, 65, 100)",
 
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -69,8 +76,9 @@ export default {
       },
     },
     fontSize: {
+      xs: "clamp(12px, 2vw, 14px)",
       sm: "clamp(14px, 3vw, 16px)",
-      md: "clamp(20px, 4vw, 22px)",
+      md: "clamp(18px, 4vw, 20px)",
       lg: "clamp(26px, 6vw, 34px)",
     },
     backgroundImage: {

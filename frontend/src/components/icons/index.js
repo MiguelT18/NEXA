@@ -41,8 +41,12 @@ import AutoIcon from "./lib/global/auto";
 import BugIcon from "./lib/global/bug";
 import DashboardIcon from "./lib/global/dashboard";
 import TriangleSolidArrowIcon from "./lib/global/triangleSolidArrow";
+import HomeIcon from "./lib/global/home";
+import TrendingArrowIcon from "./lib/global/trendingArrow";
 
 const GlobalIcons = {
+  TrendingArrowIcon,
+  HomeIcon,
   TriangleSolidArrowIcon,
   DashboardIcon,
   BugIcon,

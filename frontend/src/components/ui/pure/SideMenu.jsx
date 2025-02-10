@@ -32,7 +32,7 @@ export default function SideMenu({ isMenuOpen, setIsMenuOpen, children }) {
   return (
     <aside
       ref={menuRef}
-      className={`fixed h-full z-10 border-r border-dark-gray/25 dark:border-light-gray bg-white dark:bg-dark-background px-2 max-md:hidden duration-300 ${
+      className={`h-full fixed z-10 bg-white dark:bg-alt-dark-primary-color/30 backdrop-blur-md text-white sm px-2 pb-2 max-md:hidden duration-300 ${
         isMenuOpen ? "w-64" : "w-16"
       }`}
     >
@@ -43,13 +43,13 @@ export default function SideMenu({ isMenuOpen, setIsMenuOpen, children }) {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className={`${
             isMenuOpen ? "-rotate-90" : "-rotate-90"
-          } hover:bg-light-gray/5 hover:dark:bg-white/10 p-3 rounded-md my-4`}
+          } hover:bg-light-gray/5 hover:dark:bg-alt-dark-primary-color/30 p-3 rounded-md my-4 outline-none`}
         >
           <GlobalIcons.TriangleArrowIcon className="size-5" />
         </button>
       </div>
 
-      {children}
+      <main className="flex flex-col h-[90dvh]">{children}</main>
     </aside>
   );
 }
