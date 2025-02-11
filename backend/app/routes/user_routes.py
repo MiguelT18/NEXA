@@ -41,8 +41,8 @@ def register():
         user_data = user_schema.load(data)
         
         # Extraer los campos necesarios
-        name = data.get('name')
-        last_name = data.get('last_name')
+        name = user_data.get('name')
+        last_name = user_data.get('last_name')
         email = user_data.get('email')
         
         # Generar un nombre de usuario y una contraseña aleatoria
@@ -55,7 +55,7 @@ def register():
         # Enviar un correo electrónico al usuario con sus credenciales
         send_user_credentials_email(email, name, username, password)
 
-        return jsonify({"message": "Usuario registrado con éxito", "user": user_schema.dump(new_user)}), 201
+        return jsonify({"message": "Usuario registrado con éxito", "user": new_user}), 201
     except Exception as e:
         return jsonify({"message": str(e)}), 400
 
@@ -106,7 +106,7 @@ def profile():
     :return: Un mensaje de éxito y los datos del usuario si se encuentra,
              o un mensaje de error si el usuario no se encuentra.
     """
-    user_id = request.headers.get("user_id")  # Extraer el ID del usuario del encabezado
+    user_id = request.args.get('user_id', type=int)
     user = get_user(user_id)  # Llamar al servicio para obtener el usuario
     if user:
         return jsonify({"user": user}), 200  # Devolver la información del usuario
@@ -138,7 +138,7 @@ def delete_user():
 
     :return: Respuesta JSON con un mensaje de éxito o error y el código de estado correspondiente.
     """
-    user_id = request.headers.get('user_id')
+    user_id = request.args.get('user_id', type=int)
     if not user_id:
         return create_response(message="No se proporcionó user_id", status=400)
 
@@ -160,7 +160,7 @@ def update_user_profile():
 
     :return: Respuesta JSON con un mensaje de éxito o error y el código de estado correspondiente.
     """
-    user_id = request.headers.get('user_id')
+    user_id = request.args.get('user_id', type=int)
     if not user_id:
         return create_response(message="No se proporcionó user_id", status=400)
 
@@ -225,11 +225,13 @@ def get_user_by_id():
 
     :return: Respuesta JSON con los datos del usuario si se encuentra, o un mensaje de error si no se encuentra.
     """
-    user_id = request.headers.get('user_id')
+    user_id = request.args.get('user_id', type=int)
     if not user_id:
         return create_response(message="No se proporcionó user_id", status=400)
+    
+    print(f"user_id recibido: {user_id}")
 
-    user = get_user(int(user_id))  # Llamar al servicio para obtener el usuario
+    user = get_user(user_id=user_id)  # Llamar al servicio para obtener el usuario
     if user:
         return create_response(message="Usuario encontrado", data=user, status=200)
     else:
@@ -246,7 +248,7 @@ def remove_photo():
 
     :return: Respuesta JSON con un mensaje de éxito o error y el código de estado correspondiente.
     """
-    user_id = request.headers.get('user_id')
+    user_id = request.args.get('user_id', type=int)
     if not user_id:
         return create_response(message="No se proporcionó user_id", status=400)
 
@@ -268,7 +270,7 @@ def change_password():
 
     :return: Respuesta JSON con un mensaje de éxito o error y el código de estado correspondiente.
     """
-    user_id = request.headers.get('user_id')
+    user_id = request.args.get('user_id', type=int)
     if not user_id:
         return create_response(message="No se proporcionó user_id", status=400)
 
@@ -340,7 +342,7 @@ def update_user_data_route():
 
     :return: Respuesta JSON con un mensaje de éxito o error y el código de estado correspondiente.
     """
-    user_id = request.headers.get('user_id')
+    user_id = request.args.get('user_id', type=int)
     if not user_id:
         return create_response(message="No se proporcionó user_id", status=400)
 
@@ -357,7 +359,7 @@ def update_user_data_route():
 
     # Llamar al servicio de actualización de datos del usuario
     result = update_user_data(
-        user_id=int(user_id),
+        user_id=user_id,
         username=username,
         email=email,
         photo=photo_data,  # La foto se maneja como BLOB

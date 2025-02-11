@@ -2,7 +2,7 @@ from app.models.user import User
 from app.models.person import Person
 from app.extensions import db
 from datetime import datetime
-from app.utils.user_utils import convert_blob_to_base64, load_default_image  # Importar las funciones
+from app.utils.user_utils import convert_blob_to_base64, load_default_image, normalize_image  # Importar las funciones
 
 def create_user(username, email, password, name, last_name, photo=None, role='cliente'):
     """
@@ -25,7 +25,7 @@ def create_user(username, email, password, name, last_name, photo=None, role='cl
     
     # Cargar la imagen por defecto si no se proporciona una
     if photo is None:
-        photo = load_default_image()  # Asignar la imagen por defecto
+        photo = normalize_image(load_default_image)
 
     # Crear una nueva instancia de User
     user = User(
@@ -33,7 +33,8 @@ def create_user(username, email, password, name, last_name, photo=None, role='cl
         email=email,
         person=person,  # Asumimos que 'person' es una nueva instancia de Person
         photo=photo,  # Usar la imagen proporcionada o la por defecto
-        role=role
+        role=role,
+        password=password
     )
     
     user.set_password(password)  # Generar el hash de la contraseña

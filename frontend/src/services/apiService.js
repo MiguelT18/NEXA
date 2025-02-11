@@ -6,6 +6,15 @@ class apiService {
     };
   }
 
+  /**
+   * Realiza una solicitud HTTP.
+   * @param {string} endpoint - El endpoint de la API.
+   * @param {string} method - El método HTTP (GET, POST, PUT).
+   * @param {Object} data - Los datos a enviar en la solicitud (opcional).
+   * @param {Object} customHeaders - Encabezados personalizados (opcional).
+   * @returns {Promise<Object>} - La respuesta de la API en formato JSON.
+   * @throws {Error} - Lanza un error si la respuesta no es exitosa.
+   */
   async request(endpoint, method = "GET", data = null, customHeaders = {}) {
     const options = {
       method,
@@ -44,11 +53,7 @@ class apiService {
   put(endpoint, data, customHeaders = {}) {
     return this.request(endpoint, "PUT", data, customHeaders);
   }
-
-  delete(endpoint, customHeaders = {}) {
-    return this.request(endpoint, "DELETE", null, customHeaders);
-  }
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default new apiService("http://127.0.0.1:5000");
+export default new apiService("http://127.0.0.1:5000/api/");

@@ -2,6 +2,8 @@ import random
 import string
 import base64
 import os
+import io
+from PIL import Image
 
 def generate_random_password(length=12):
     """
@@ -38,9 +40,36 @@ def convert_blob_to_base64(blob):
 def load_default_image():
     """
     Carga la imagen por defecto desde el sistema de archivos y la convierte a BLOB.
-
     :return: Datos binarios de la imagen.
     """
-    image_path = os.path.join('app', 'static', 'img', 'profile-img.jpg')  # Ruta de la imagen por defecto
+    image_path = os.path.join(os.path.dirname(__file__), '..', 'static', 'img', 'profile-img.jpg')
+    image_path = os.path.abspath(image_path)  # Convierte a ruta absoluta
+
+    print("Ruta de la imagen:", image_path)  # Depuración
+
+    if not os.path.exists(image_path):
+        raise FileNotFoundError(f"La imagen por defecto no se encuentra en: {image_path}")
+
     with open(image_path, 'rb') as img_file:
-        return img_file.read()  # Leer el contenido del archivo como BLOB
+        return img_file.read()
+    
+def normalize_image(image_data, size=(200, 200)):
+    """
+    Redimensiona la imagen al tamaño especificado y la convierte a formato PNG.
+    
+    :param image_data: Datos binarios de la imagen.
+    :param size: Tupla con el tamaño deseado (ancho, alto).
+    :return: Datos binarios de la imagen en formato PNG.
+    """
+    try:
+        image = Image.open(io.BytesIO(image_data))  # Abre la imagen desde binario
+        image = image.convert("RGBA")  # Asegura que tenga transparencia si es necesario
+        image = image.resize(size, Image.ANTIALIAS)  # Redimensiona con alta calidad
+        
+        output = io.BytesIO()
+        image.save(output, format="PNG")  # Guarda como PNG
+        return output.getvalue()  # Retorna los datos binarios en PNG
+    
+    except Exception as e:
+        print(f"Error al procesar la imagen: {str(e)}")
+        return None
