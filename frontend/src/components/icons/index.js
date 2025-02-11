@@ -43,8 +43,14 @@ import DashboardIcon from "./lib/global/dashboard";
 import TriangleSolidArrowIcon from "./lib/global/triangleSolidArrow";
 import HomeIcon from "./lib/global/home";
 import TrendingArrowIcon from "./lib/global/trendingArrow";
+import DepositIcon from "./lib/global/deposit";
+import TransferIcon from "./lib/global/transfer";
+import MoreIcon from "./lib/global/more";
 
 const GlobalIcons = {
+  MoreIcon,
+  TransferIcon,
+  DepositIcon,
   TrendingArrowIcon,
   HomeIcon,
   TriangleSolidArrowIcon,

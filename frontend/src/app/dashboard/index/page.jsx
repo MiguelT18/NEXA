@@ -11,15 +11,12 @@ import {
 import { useTheme } from "@/hooks/useTheme";
 import { GlobalIcons } from "@/components/icons";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useNotification } from "@/hooks/useNotification";
+import Link from "next/link";
 
 export default function Dashboard() {
   const [isBalanceHidden, setIsBalanceHidden] = useState(true);
 
   const { theme } = useTheme();
-
-  const { showNotification } = useNotification();
 
   const handleHideBalance = () => {
     setIsBalanceHidden((prev) => !prev);
@@ -167,63 +164,6 @@ export default function Dashboard() {
 
   return (
     <section className="text-white size-full grid gap-5 max-md:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:grid-rows-2 [&>article]:bg-[#0c111000] [&>article]:border [&>article]:border-alt-dark-primary-border [&>article]:p-4 [&>article]:rounded-lg [&>article]:size-full [&>article]:md:overflow-y-auto [&>article]:dark:bg-alt-dark-primary-color/5">
-      <article className="lg:col-span-2 flex flex-col justify-between">
-        <header>
-          <h2 className="text-md font-sans font-bold">
-            Rendimiento de tus últimos trades
-          </h2>
-          <p className="text-difuminate-text-light dark:text-difuminate-text-dark pb-2">
-            Últimos 365 días
-          </p>
-
-          <div className="text-difuminate-text-light dark:text-difuminate-text-dark flex items-center gap-6">
-            <span className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm bg-[#E53935] dark:bg-[#B3261E]"></div>
-              Negativo
-            </span>
-            <span className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm bg-[#0FA958] dark:bg-[#16A34A]"></div>
-              Positivo
-            </span>
-          </div>
-        </header>
-
-        <ChartContainer config={chartConfig} className="h-[60%]">
-          <LineChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <Line
-              dataKey="positive"
-              type="monotone"
-              stroke="var(--color-positive)"
-              strokeWidth={2}
-              dot={false}
-            />
-            <Line
-              dataKey="negative"
-              type="monotone"
-              stroke="var(--color-negative)"
-              strokeWidth={2}
-              dot={false}
-            />
-          </LineChart>
-        </ChartContainer>
-      </article>
-
       <article className="lg:col-span-1">
         <header className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
@@ -231,15 +171,12 @@ export default function Dashboard() {
               Balance Total
             </h2>
 
-            <button
-              onClick={() =>
-                showNotification("Botón aún no implementado", "error")
-              }
-              type="submit"
+            <Link
+              href="/dashboard/wallet"
               className="size-fit rounded-md p-2 text-alt-dark-blue dark:bg-alt-dark-primary-color/20 hover:dark:bg-alt-dark-blue/40 transition-all cursor-pointer outline-none"
             >
               <GlobalIcons.PlusIcon className="size-6" />
-            </button>
+            </Link>
           </div>
 
           <div className="space-y-2">
@@ -260,7 +197,7 @@ export default function Dashboard() {
               </p>
             </div>
             <span className="block dark:text-positive-dark-green text-positive-light-green">
-              +12.5% esta semana
+              <span className="font-sans font-bold">+12.5%</span> esta semana
             </span>
           </div>
         </header>
@@ -354,99 +291,61 @@ export default function Dashboard() {
         </main>
       </article>
 
-      <article className="lg:col-span-1">
-        <h2 className="text-md font-bold font-sans">Historial de Trades</h2>
+      <article className="lg:col-span-2 flex flex-col justify-between">
+        <header>
+          <h2 className="text-md font-sans font-bold">
+            Rendimiento de tus últimos trades
+          </h2>
+          <p className="text-difuminate-text-light dark:text-difuminate-text-dark pb-2">
+            Últimos 365 días
+          </p>
 
-        <ul className="pt-5 space-y-4">
-          {recentTrades.map((trade, index) => (
-            <li
-              key={index}
-              className="flex flex-col justify-between gap-3 sm:gap-4 border-b border-gray-200 dark:border-gray-700 pb-3"
-            >
-              <div className="flex justify-between items-center">
-                {/* Divisa y tipo de operación */}
-                <div className="flex items-center gap-3 w-full sm:w-auto">
-                  {/* Icono según dirección del trade */}
-                  <span
-                    className={`flex items-center justify-center w-9 h-9 p-2 rounded-md shrink-0 ${
-                      trade.trade === "up" ? "bg-green-500/10" : "bg-red-500/10"
-                    }`}
-                  >
-                    <GlobalIcons.TrendingArrowIcon
-                      className={`size-6 ${
-                        trade.trade === "up"
-                          ? "text-green-500"
-                          : "text-red-500 rotate-180 scale-x-[-1]"
-                      }`}
-                    />
-                  </span>
-
-                  {/* Divisa */}
-                  <div className="flex flex-col">
-                    <span className="block text-black dark:text-white text-sm font-medium truncate">
-                      {trade.currency}
-                    </span>
-                    <span
-                      className={`w-fit px-2 py-1 rounded-md text-xs font-semibold truncate ${
-                        trade.type === "Long"
-                          ? "text-green-500 bg-green-500/10"
-                          : "text-red-500 bg-red-500/10"
-                      }`}
-                    >
-                      {trade.type}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Monto y rango de precios */}
-                <div className="flex flex-col items-start sm:items-end sm:w-auto [&>span]:block [&>span]:w-fit">
-                  <span
-                    className={`text-sm font-bold truncate ${
-                      trade.amount.startsWith("+")
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }`}
-                  >
-                    {trade.amount}
-                  </span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {trade.priceRange}
-                  </span>
-                </div>
-              </div>
-
-              {/* Tiempo transcurrido */}
-              <div className="flex items-center justify-start gap-2 text-xs text-gray-500 dark:text-gray-400 truncate w-full sm:w-auto text-right">
-                <span className="block text-gray-500 dark:text-gray-400">
-                  <GlobalIcons.ClockIcon className="size-5" />
-                </span>
-                {trade.timeAgo}
-              </div>
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex items-center justify-center gap-2 pt-4 [&>button]:w-fit [&>button]:p-2 [&>button]:rounded-md [&>button]:bg-alt-dark-blue/20 transition-all">
-          <button
-            type="button"
-            className="hover:dark:bg-alt-dark-primary-color/40 transition-all outline-none"
-          >
-            <GlobalIcons.ArrowIcon className="size-4 -rotate-90" />
-          </button>
-
-          <div className="space-x-4 [&>span]:inline-block">
-            <span className="text-alt-dark-blue">1</span>
-            <span>2</span>
-            <span>3</span>
+          <div className="text-difuminate-text-light dark:text-difuminate-text-dark flex items-center gap-6">
+            <span className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-sm bg-[#E53935] dark:bg-[#B3261E]"></div>
+              Negativo
+            </span>
+            <span className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-sm bg-[#0FA958] dark:bg-[#16A34A]"></div>
+              Positivo
+            </span>
           </div>
+        </header>
 
-          <button
-            type="button"
-            className="hover:dark:bg-alt-dark-primary-color/40 transition-all outline-none"
+        <ChartContainer config={chartConfig} className="h-[60%]">
+          <LineChart
+            accessibilityLayer
+            data={chartData}
+            margin={{
+              left: 12,
+              right: 12,
+            }}
           >
-            <GlobalIcons.ArrowIcon className="size-4 rotate-90" />
-          </button>
-        </div>
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) => value.slice(0, 3)}
+            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <Line
+              dataKey="positive"
+              type="monotone"
+              stroke="var(--color-positive)"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              dataKey="negative"
+              type="monotone"
+              stroke="var(--color-negative)"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ChartContainer>
       </article>
 
       <article className="lg:col-span-2">
@@ -522,6 +421,101 @@ export default function Dashboard() {
               </ChartContainer>
             </div>
           ))}
+        </div>
+      </article>
+
+      <article className="lg:col-span-1">
+        <h2 className="text-md font-bold font-sans">Historial de Trades</h2>
+
+        <ul className="pt-5 space-y-4">
+          {recentTrades.map((trade, index) => (
+            <li
+              key={index}
+              className="flex flex-col justify-between gap-3 sm:gap-4 border-b border-gray-200 dark:border-gray-700 pb-3"
+            >
+              <div className="flex justify-between items-center">
+                {/* Divisa y tipo de operación */}
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                  {/* Icono según dirección del trade */}
+                  <span
+                    className={`flex items-center justify-center w-9 h-9 p-2 rounded-md shrink-0 ${
+                      trade.trade === "up" ? "bg-green-500/10" : "bg-red-500/10"
+                    }`}
+                  >
+                    <GlobalIcons.TrendingArrowIcon
+                      className={`size-6 ${
+                        trade.trade === "up"
+                          ? "text-green-500"
+                          : "text-red-500 rotate-180 scale-x-[-1]"
+                      }`}
+                    />
+                  </span>
+
+                  {/* Divisa */}
+                  <div className="flex flex-col">
+                    <span className="block text-black dark:text-white text-sm font-medium truncate">
+                      {trade.currency}
+                    </span>
+                    <span
+                      className={`w-fit px-2 py-1 rounded-md text-xs font-semibold truncate ${
+                        trade.type === "Long"
+                          ? "text-green-500 bg-green-500/10"
+                          : "text-red-500 bg-red-500/10"
+                      }`}
+                    >
+                      {trade.type}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Monto y rango de precios */}
+                <div className="flex flex-col items-start sm:items-end sm:w-auto [&>span]:block [&>span]:w-fit">
+                  <span
+                    className={`text-sm font-bold font-sans truncate ${
+                      trade.amount.startsWith("+")
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {trade.amount}
+                  </span>
+                  <span className="font-sans text-xs text-gray-500 dark:text-gray-400 truncate">
+                    {trade.priceRange}
+                  </span>
+                </div>
+              </div>
+
+              {/* Tiempo transcurrido */}
+              <div className="flex items-center justify-start gap-2 text-xs text-gray-500 dark:text-gray-400 truncate w-full sm:w-auto text-right">
+                <span className="block text-gray-500 dark:text-gray-400">
+                  <GlobalIcons.ClockIcon className="size-5" />
+                </span>
+                {trade.timeAgo}
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center justify-center gap-2 pt-4 [&>button]:w-fit [&>button]:p-2 [&>button]:rounded-md [&>button]:bg-alt-dark-blue/20 transition-all">
+          <button
+            type="button"
+            className="hover:dark:bg-alt-dark-primary-color/40 transition-all outline-none"
+          >
+            <GlobalIcons.ArrowIcon className="size-4 -rotate-90" />
+          </button>
+
+          <div className="space-x-4 [&>span]:inline-block">
+            <span className="text-alt-dark-blue">1</span>
+            <span>2</span>
+            <span>3</span>
+          </div>
+
+          <button
+            type="button"
+            className="hover:dark:bg-alt-dark-primary-color/40 transition-all outline-none"
+          >
+            <GlobalIcons.ArrowIcon className="size-4 rotate-90" />
+          </button>
         </div>
       </article>
     </section>

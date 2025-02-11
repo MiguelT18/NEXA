@@ -103,7 +103,7 @@ export default function DashboardPage({ children }) {
               <li
                 key={index}
                 onClick={() => router.push(`${item.href}`)}
-                className={`hover:bg-light-gray/15 hover:dark:bg-alt-dark-primary-color/30 ${pathname === item.href ? "bg-light-gray/15 dark:bg-alt-dark-primary-color/30" : ""}`}
+                className={`hover:bg-light-gray/15 hover:dark:bg-alt-dark-primary-color/50 ${pathname === item.href ? "bg-light-gray/15 dark:bg-alt-dark-primary-color/50" : ""}`}
               >
                 <div>{item.icon}</div>
                 <span
@@ -121,7 +121,7 @@ export default function DashboardPage({ children }) {
             <button
               onClick={toggleTheme}
               type="button"
-              className="hover:bg-light-gray/15 hover:dark:bg-alt-dark-primary-color/30 text-sm text-nowrap p-3 rounded-md transition-all flex items-center gap-2"
+              className="hover:bg-light-gray/15 hover:dark:bg-alt-dark-primary-color/50 text-sm text-nowrap p-3 rounded-md transition-all flex items-center gap-2"
             >
               {theme === "dark" ? (
                 <GlobalIcons.SunRisingIcon className="size-5 block text-white" />
@@ -134,7 +134,7 @@ export default function DashboardPage({ children }) {
             </button>
             <Link
               href="/"
-              className="hover:bg-light-gray/15 hover:dark:bg-alt-dark-primary-color/30 text-sm text-nowrap p-3 rounded-md transition-all flex items-center gap-2"
+              className="hover:bg-light-gray/15 hover:dark:bg-alt-dark-primary-color/50 text-sm text-nowrap p-3 rounded-md transition-all flex items-center gap-2"
             >
               <GlobalIcons.HomeIcon className="size-5 block" />
               <span className="block size-fit mt-0.5 text-sm font-sans">
@@ -143,7 +143,7 @@ export default function DashboardPage({ children }) {
             </Link>
           </div>
 
-          <hr className="my-5 border-alt-dark-primary-color/25" />
+          <hr className="my-5 dark:border-difuminate-text-dark" />
 
           <article className="flex items-center gap-2">
             <Link
