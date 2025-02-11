@@ -275,9 +275,9 @@ export default function Wallet() {
           <button
             type="button"
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            className="p-2 rounded-md bg-alt-dark-blue/20 transition-all hover:bg-alt-dark-blue/30 active:scale-95"
+            className="p-2 rounded-md transition-all hover:bg-alt-dark-blue/30 active:scale-95"
           >
-            <GlobalIcons.MoreIcon className="size-5 rotate-90" />
+            <GlobalIcons.FilterIcon className="size-5" />
           </button>
 
           {/* Menú desplegable con animación */}
@@ -338,7 +338,10 @@ export default function Wallet() {
             <tbody>
               {currentTransactions.length > 0 ? (
                 currentTransactions.map((transaction, index) => (
-                  <tr key={index} className="border-b border-gray-700">
+                  <tr
+                    key={index}
+                    className="border-b border-gray-700 hover:dark:bg-alt-dark-primary-color/10 transition-all cursor-pointer"
+                  >
                     <td className="py-3 px-4 flex items-center gap-2">
                       {/* Icono según tipo de transacción */}
                       <span

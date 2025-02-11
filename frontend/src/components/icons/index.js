@@ -46,8 +46,10 @@ import TrendingArrowIcon from "./lib/global/trendingArrow";
 import DepositIcon from "./lib/global/deposit";
 import TransferIcon from "./lib/global/transfer";
 import MoreIcon from "./lib/global/more";
+import FilterIcon from "./lib/global/filter";
 
 const GlobalIcons = {
+  FilterIcon,
   MoreIcon,
   TransferIcon,
   DepositIcon,
