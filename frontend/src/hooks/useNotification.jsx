@@ -8,6 +8,7 @@ import React, {
   useRef,
   useEffect,
 } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const NotificationContext = createContext();
 
@@ -25,12 +26,11 @@ export default function NotificationProvider({ children }) {
       const duration = 3000;
 
       if (!timeoutRefs.current[currentNotification.id]) {
-        // Verificar si ya existe un timeout
         timeoutRefs.current[currentNotification.id] = setTimeout(() => {
           setNotifications((prev) =>
             prev.filter((n) => n.id !== currentNotification.id)
           );
-          delete timeoutRefs.current[currentNotification.id]; // limpiar el timeout del objeto
+          delete timeoutRefs.current[currentNotification.id];
         }, duration);
       }
     }
@@ -61,26 +61,33 @@ export default function NotificationProvider({ children }) {
   return (
     <NotificationContext.Provider value={{ showNotification }}>
       {children}
-      {notifications.length > 0 && (
-        <div className="fixed flex flex-col gap-2 max-md:w-max max-md:right-1/2 max-md:translate-x-1/2 max-md:top-5 md:bottom-5 md:right-5">
-          {notifications.map((notification, index) => (
-            <div
-              key={index}
+
+      {/* 📌 Contenedor de Notificaciones */}
+      <div className="fixed flex flex-col gap-2 max-md:w-max max-md:right-1/2 max-md:translate-x-1/2 max-md:top-5 md:bottom-5 md:right-5">
+        <AnimatePresence>
+          {notifications.map((notification) => (
+            <motion.div
+              key={notification.id}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ duration: 0.1, ease: "easeOut" }}
               className={`w-fit max-w-[340px] flex justify-between items-center gap-2 backdrop-blur-sm p-2 rounded-lg max-md:flex-row-reverse ${getNotificationStyle(
                 notification.type
               )}`}
             >
               {notification.text}
+
               <span
                 onClick={() => handleCloseNotification(notification.id)}
                 className="block cursor-pointer transition-all hover:dark:bg-light-gray/30 p-2 rounded-md"
               >
                 <GlobalIcons.CloseIcon />
               </span>
-            </div>
+            </motion.div>
           ))}
-        </div>
-      )}
+        </AnimatePresence>
+      </div>
     </NotificationContext.Provider>
   );
 }
