@@ -349,11 +349,10 @@ export default function Dashboard() {
       </article>
 
       <article className="lg:col-span-2">
-        <h2 className="text-md font-bold font-sans">Resumen de Rendimiento</h2>
+        <h2 className="text-lg font-bold font-sans">Resumen de Rendimiento</h2>
         <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark mt-1">
-          Aquí puedes ver un resumen detallado de tu desempeño en el trading,
-          incluyendo la cantidad de trades positivos y negativos, tu rendimiento
-          en los últimos 30 días y tu tasa de éxito general.
+          Tus trades y rendimiento en los últimos 30 días y tu tasa de éxito
+          general.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-5">

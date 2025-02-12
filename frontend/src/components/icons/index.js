@@ -47,8 +47,12 @@ import DepositIcon from "./lib/global/deposit";
 import TransferIcon from "./lib/global/transfer";
 import MoreIcon from "./lib/global/more";
 import FilterIcon from "./lib/global/filter";
+import CameraIcon from "./lib/global/camera";
+import EditIcon from "./lib/global/edit";
 
 const GlobalIcons = {
+  EditIcon,
+  CameraIcon,
   FilterIcon,
   MoreIcon,
   TransferIcon,

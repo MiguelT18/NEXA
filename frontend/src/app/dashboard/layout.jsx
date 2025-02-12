@@ -11,7 +11,7 @@ import { useTheme } from "@/hooks/useTheme";
 const sidebarItems = [
   {
     title: "Dashboard",
-    href: "/dashboard/index",
+    href: "/dashboard",
     icon: <GlobalIcons.DashboardIcon className="size-5" />,
   },
   {
@@ -30,16 +30,6 @@ const sidebarItems = [
     icon: <GlobalIcons.ConfigIcon className="size-5" />,
   },
   {
-    title: "Reportes",
-    href: "/dashboard/reports",
-    icon: <GlobalIcons.FileIcon className="size-5" />,
-  },
-  {
-    title: "Atajos de Teclado ",
-    href: "/dashboard/shortcuts",
-    icon: <GlobalIcons.ShortcutsIcon className="size-5" />,
-  },
-  {
     title: "Ayuda",
     href: "/dashboard/help",
     icon: <GlobalIcons.BugIcon className="size-5" />,
@@ -51,20 +41,6 @@ export default function DashboardPage({ children }) {
     name: "Miguel Terán",
     username: "@miguelt",
     email: "miguel.teranj02@gmail.com",
-  };
-
-  const chartData = [
-    { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  ];
-
-  const chartConfig = {
-    visitors: {
-      label: "Visitors",
-    },
-    safari: {
-      label: "Safari",
-      color: "hsl(var(--chart-2))",
-    },
   };
 
   const pathname = usePathname();
@@ -147,7 +123,7 @@ export default function DashboardPage({ children }) {
 
           <article className="flex items-center gap-2">
             <Link
-              href="/dashboard/index"
+              href="/dashboard"
               className="size-fit p-2 rounded-full bg-alt-dark-primary-border/30"
             >
               <GlobalIcons.UserIcon className="size-6 dark:text-white" />
@@ -178,7 +154,7 @@ export default function DashboardPage({ children }) {
         </div>
 
         <Link
-          href="/dashboard/index"
+          href="/dashboard"
           className="w-fit flex items-center gap-4 max-md:flex-row-reverse"
         >
           <h4 className="font-bold font-sans text-md dark:text-white block">

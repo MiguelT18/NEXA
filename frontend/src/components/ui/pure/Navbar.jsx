@@ -128,7 +128,7 @@ export default function Navbar() {
                   Crear Cuenta
                 </Link>
                 <Link
-                  href="/dashboard/index"
+                  href="/dashboard"
                   className=" inline-block w-full text-start px-4 py-2 text-sm hover:bg-light-gray/15 hover:dark:bg-white/10 transition-all rounded-y-[inherit]"
                 >
                   Dashboard
@@ -144,7 +144,7 @@ export default function Navbar() {
             ) : (
               <div className="w-max absolute right-0 hidden group-hover:block bg-white dark:bg-dark-background border border-difuminate-text-dark dark:border-light-gray text-start rounded-md z-20 group-hover:pointer-events-auto pointer-events-none">
                 <Link
-                  href="/dashboard/index"
+                  href="/dashboard"
                   className="w-full block px-4 py-2 text-sm hover:bg-light-gray/5 hover:dark:bg-white/10 transition-all rounded-t-[inherit]"
                 >
                   Dashboard

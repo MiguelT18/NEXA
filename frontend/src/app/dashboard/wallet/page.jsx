@@ -277,7 +277,7 @@ export default function Wallet() {
             onClick={() => setIsMenuOpen((prev) => !prev)}
             className="p-2 rounded-md transition-all hover:bg-alt-dark-blue/30 active:scale-95"
           >
-            <GlobalIcons.FilterIcon className="size-5" />
+            <GlobalIcons.FilterIcon className="size-6" />
           </button>
 
           {/* Menú desplegable con animación */}
@@ -449,7 +449,7 @@ export default function Wallet() {
         <div className="size-full grid md:grid-cols-2 lg:grid-cols-1 gap-2 [&>button]:bg-alt-dark-primary-color/20 [&>button]:flex [&>button]:items-center [&>button]:justify-center [&>button]:rounded-md [&>button]:gap-4 [&>button]:size-full [&>button]:text-sm [&>button]:font-sans [&>button]:tracking-wide [&>button]:outline-none [&>button]:max-md:p-2">
           <button
             onClick={() =>
-              showNotification("Botón aún no implementado", "error")
+              showNotification("Botón aún no implementado.", "error")
             }
             className="transition-all hover:bg-alt-dark-primary-color/10 active:scale-95"
           >
@@ -458,7 +458,7 @@ export default function Wallet() {
           </button>
           <button
             onClick={() =>
-              showNotification("Botón aún no implementado", "error")
+              showNotification("Botón aún no implementado.", "error")
             }
             className="transition-all hover:bg-alt-dark-primary-color/10 active:scale-95"
           >
@@ -467,7 +467,7 @@ export default function Wallet() {
           </button>
           <button
             onClick={() =>
-              showNotification("Botón aún no implementado", "error")
+              showNotification("Botón aún no implementado.", "error")
             }
             className="transition-all hover:bg-alt-dark-primary-color/10 active:scale-95"
           >
@@ -476,7 +476,7 @@ export default function Wallet() {
           </button>
           <button
             onClick={() =>
-              showNotification("Botón aún no implementado", "error")
+              showNotification("Botón aún no implementado.", "error")
             }
             className="transition-all hover:bg-alt-dark-primary-color/10 active:scale-95"
           >

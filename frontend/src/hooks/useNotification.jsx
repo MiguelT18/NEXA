@@ -8,6 +8,7 @@ import React, {
   useRef,
   useEffect,
 } from "react";
+import Scripts from "@/lib/scripts";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NotificationContext = createContext();
@@ -23,7 +24,7 @@ export default function NotificationProvider({ children }) {
   useEffect(() => {
     if (notifications.length > 0) {
       const currentNotification = notifications[0];
-      const duration = 3000;
+      const duration = 2000;
 
       if (!timeoutRefs.current[currentNotification.id]) {
         timeoutRefs.current[currentNotification.id] = setTimeout(() => {
@@ -48,7 +49,7 @@ export default function NotificationProvider({ children }) {
       case "success":
         return "bg-green-700/65 text-white";
       default:
-        return "dark:bg-white/70 dark:text-black bg-black/70 text-white";
+        return "dark:bg-yellow-500/30 bg-yellow-500/50 text-white";
     }
   };
 
@@ -72,12 +73,16 @@ export default function NotificationProvider({ children }) {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
               transition={{ duration: 0.1, ease: "easeOut" }}
-              className={`w-fit max-w-[340px] flex justify-between items-center gap-2 backdrop-blur-sm p-2 rounded-lg max-md:flex-row-reverse ${getNotificationStyle(
+              className={`w-full max-w-[340px] flex justify-between items-center gap-2 backdrop-blur-sm p-2 rounded-lg max-md:flex-row-reverse ${getNotificationStyle(
                 notification.type
               )}`}
             >
-              {notification.text}
-
+              <div className="flex justify-start items-center">
+                <span className="block mr-1 text-sm font-bold">
+                  {Scripts.capitalizeWords(notification.type)}:
+                </span>
+                {notification.text}
+              </div>
               <span
                 onClick={() => handleCloseNotification(notification.id)}
                 className="block cursor-pointer transition-all hover:dark:bg-light-gray/30 p-2 rounded-md"
