@@ -3,10 +3,11 @@
 import ProtectedRoute from "@/components/layouts/ProtectedRoute";
 import { GlobalIcons } from "@/components/icons/index";
 import SideMenu from "@/components/ui/pure/SideMenu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTheme } from "@/hooks/useTheme";
+import { motion, AnimatePresence } from "framer-motion";
 
 const sidebarItems = [
   {
@@ -36,6 +37,35 @@ const sidebarItems = [
   },
 ];
 
+const menuVariants = {
+  hidden: {
+    opacity: 0,
+    y: -20,
+    display: "none",
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 260,
+      damping: 20,
+    },
+    display: "block",
+  },
+};
+
+const navItems = [
+  {
+    value: "/",
+    label: "Volver al inicio",
+  },
+  {
+    value: "/logout",
+    label: "Cerrar sesión",
+  },
+];
+
 export default function DashboardPage({ children }) {
   const data = {
     name: "Miguel Terán",
@@ -49,6 +79,30 @@ export default function DashboardPage({ children }) {
   const { theme, toggleTheme } = useTheme();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isNavMenuOpen, setIsNavMenuOpen] = useState(false);
+
+  const toggleNavMenu = () => {
+    setIsNavMenuOpen(!isNavMenuOpen);
+  };
+
+  useEffect(() => {
+    const closeMenu = (event) => {
+      // Asegúrate de que el clic no esté dentro del menú
+      if (isNavMenuOpen && !event.target.closest(".menu-container")) {
+        setIsNavMenuOpen(false);
+      }
+    };
+
+    if (isNavMenuOpen) {
+      // Agrega el listener cuando el menú está abierto
+      document.addEventListener("mousedown", closeMenu);
+    }
+
+    return () => {
+      // Remueve el listener cuando el componente se desmonte o el menú se cierre
+      document.removeEventListener("mousedown", closeMenu);
+    };
+  }, [isNavMenuOpen]);
 
   return (
     <ProtectedRoute>
@@ -142,7 +196,7 @@ export default function DashboardPage({ children }) {
         </footer>
       </SideMenu>
 
-      <nav className="container mx-auto min-h-[10dvh] p-4 flex justify-between md:pl-20 max-md:flex-col-reverse max-md:gap-6">
+      <nav className="container mx-auto min-h-[10dvh] p-4 flex justify-between md:pl-20 max-md:flex-col-reverse max-md:gap-6 relative">
         <div className="h-fit w-full my-auto md:max-w-[50%] relative">
           <input
             spellCheck="false"
@@ -153,21 +207,43 @@ export default function DashboardPage({ children }) {
           <GlobalIcons.SearchIcon className="text-difuminate-text-light dark:text-difuminate-text-dark absolute right-4 top-1/2 -translate-y-1/2" />
         </div>
 
-        <Link
-          href="/dashboard"
-          className="w-fit flex items-center gap-4 max-md:flex-row-reverse"
-        >
+        <div className="w-fit flex items-center gap-4 max-md:flex-row-reverse">
           <h4 className="font-bold font-sans text-md dark:text-white block">
             Hola Miguel!
           </h4>
 
-          <div
-            type="button"
-            className="p-2 rounded-full bg-alt-dark-primary-color/25"
-          >
-            <GlobalIcons.UserIcon className="size-fit dark:text-white" />
+          <div onClick={toggleNavMenu} className="relative cursor-pointer">
+            <div className="p-2 rounded-full bg-alt-dark-primary-color/25">
+              <GlobalIcons.UserIcon className="size-fit dark:text-white" />
+            </div>
+
+            <AnimatePresence>
+              {isNavMenuOpen && (
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                  variants={menuVariants}
+                  className="absolute right-0 top-12 dark:bg-primary-color/50 backdrop-blur-sm rounded-md z-10"
+                >
+                  {navItems.map((item, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => {
+                        setIsNavMenuOpen(false); // Cierra el menú al seleccionar un ítem
+                        router.push(`/${item.value}`);
+                      }}
+                      className="hover:bg-light-gray/15 hover:dark:bg-alt-dark-primary-color/50 text-white w-full text-sm text-nowrap p-3 transition-all flex items-center gap-2 rounded-[inherit]"
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </Link>
+        </div>
       </nav>
 
       <main className="xl:container xl:mx-auto w-full md:h-[calc(100dvh-10dvh)] md:pl-20 max-md:p-5 md:pr-5 md:pb-5">
