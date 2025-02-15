@@ -1,81 +1,87 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { SelectGroup, SelectLabel } from "@radix-ui/react-select";
-import { PrimaryButton } from "@/components/ui/pure/Buttons";
+import TradingImg from "@/images/hero-image-01.jpg";
+import CustomSelect from "@/components/ui/global/custom/CustomSelect";
+import PrimaryButton from "@/components/ui/global/custom/Buttons/PrimaryButton";
 import { useNotification } from "@/hooks/useNotification";
 
 export default function Help() {
   const { showNotification } = useNotification();
 
-  return (
-    <>
-      <h1 className="text-lg font-sans font-bold">Reportar un problema</h1>
+  const areas = [
+    {
+      label: "Bug",
+      value: "bug",
+    },
+    {
+      label: "Soporte",
+      value: "support",
+    },
+    {
+      label: "Otro...",
+      value: "other",
+    },
+  ];
 
-      <article className="border border-dark-gray/25 dark:border-light-gray w-full p-4 rounded-lg mt-5">
-        <div>
-          <h2 className="text-md font-bold">Formulario de Reporte</h2>
+  return (
+    <section className="[&>article]:bg-[#0c111000] [&>article]:border [&>article]:border-alt-dark-primary-border [&>article]:rounded-lg [&>article]:size-full [&>article]:md:overflow-y-auto [&>article]:dark:bg-alt-dark-primary-color/5 [&>article]:dark:text-white">
+      <article className="size-full flex">
+        <div className="w-1/2">
+          <Image
+            src={TradingImg}
+            className="object-cover size-full"
+            alt="Gráfico de trading"
+            priority={true}
+          />
+        </div>
+
+        <div className="w-1/2 p-4">
+          <h1 className="text-lg font-bold">Reportar un Problema</h1>
           <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
             Por favor, proporciona los detalles del problema que estás
             experimentando.
           </p>
+
+          <form className="mt-2">
+            <div className="mb-4 flex flex-col gap-2">
+              <div>
+                <span className="mb-1">Área de atención</span>
+                <CustomSelect options={areas} />
+              </div>
+
+              <label htmlFor="subject">
+                Asunto
+                <input
+                  id="subject"
+                  type="text"
+                  className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                />
+              </label>
+
+              <label htmlFor="description">
+                Descripción
+                <textarea
+                  rows={4}
+                  id="description"
+                  type="text"
+                  className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1 resize-none"
+                />
+              </label>
+            </div>
+
+            <PrimaryButton
+              type="button"
+              onClick={() =>
+                showNotification("Error al enviar el reporte.", "error")
+              }
+            >
+              Enviar reporte
+            </PrimaryButton>
+          </form>
         </div>
-
-        <form className="flex flex-col gap-4 mt-5">
-          <div className="space-y-2">
-            <span>Área de interés</span>
-            <Select>
-              <SelectTrigger className="max-w-[300px]">
-                <SelectValue placeholder="Selecciona un área de interés" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Áreas de interés</SelectLabel>
-                  <SelectItem value="bug">Errores</SelectItem>
-                  <SelectItem value="managment">Administración</SelectItem>
-                  <SelectItem value="tecnical">Técnico</SelectItem>
-                  <SelectItem value="support">Soporte</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <label
-            htmlFor="subject"
-            className="flex flex-col [&>input]:rounded-md [&>input]:p-2 [&>input]:mt-1 [&>input]:bg-transparent [&>input]:border [&>input]:dark:border-light-gray [&>input]:border-light-gray/25"
-          >
-            Asunto
-            <input type="text" placeholder="Descripción breve del problema" />
-          </label>
-          <label
-            htmlFor="subject"
-            className="flex flex-col [&>textarea]:rounded-md [&>textarea]:p-2 [&>textarea]:mt-1 [&>textarea]:bg-transparent [&>textarea]:border [&>textarea]:dark:border-light-gray [&>textarea]:border-light-gray/25 [&>textarea]:resize-none"
-          >
-            Descripción
-            <textarea name="" id="subject" cols="30" rows="8"></textarea>
-          </label>
-
-          <PrimaryButton
-            width="fit"
-            onClick={() =>
-              showNotification(
-                "Falta agregar interacción a este botón.",
-                "info"
-              )
-            }
-          >
-            Enviar reporte
-          </PrimaryButton>
-        </form>
       </article>
-    </>
+    </section>
   );
 }
