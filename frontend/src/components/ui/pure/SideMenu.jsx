@@ -8,7 +8,13 @@ export default function SideMenu({ isMenuOpen, setIsMenuOpen, children }) {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "e") {
+      // Solo alternar el menú si 'e' es presionado y el elemento activo no es un campo de entrada
+      const isInputActive =
+        document.activeElement.tagName === "INPUT" ||
+        document.activeElement.tagName === "TEXTAREA" ||
+        document.activeElement.isContentEditable;
+
+      if (event.key === "e" && !isInputActive) {
         event.preventDefault();
         setIsMenuOpen((prev) => !prev);
       }
