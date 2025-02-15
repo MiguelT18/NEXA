@@ -6,6 +6,12 @@ import CustomSelect from "@/components/ui/global/custom/CustomSelect";
 import { useState } from "react";
 import PrimaryButton from "@/components/ui/global/custom/Buttons/PrimaryButton";
 import SecondaryButton from "@/components/ui/global/custom/Buttons/SecondaryButton";
+import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
 const countries = [
   {
@@ -24,6 +30,22 @@ const countries = [
     cities: ["Buenos Aires", "Rosario", "Santa Fe"],
   },
 ];
+
+const chartData = [
+  { month: "Enero", desktop: 186 },
+  { month: "Febrero", desktop: 305 },
+  { month: "Marzo", desktop: 237 },
+  { month: "Abril", desktop: 273 },
+  { month: "Mayo", desktop: 209 },
+  { month: "Junio", desktop: 214 },
+];
+
+const chartConfig = {
+  desktop: {
+    label: "Ventas",
+    color: "hsl(var(--chart-1))",
+  },
+};
 
 export default function UserProfile() {
   const { showNotification } = useNotification();
@@ -250,7 +272,7 @@ export default function UserProfile() {
 
         <div className="space-y-5 mt-4">
           <p className="block p-2 dark:bg-yellow-500/10 rounded-lg border border-yellow-500/50 dark:text-white text-sm">
-            <span className="font-bold block">Atención:</span>
+            <span className="font-bold block">Importante:</span>
             ¡Ten en cuenta que solo podrás restablecer tus cambios si no has
             guardado tus datos de perfil!
           </p>
@@ -281,12 +303,57 @@ export default function UserProfile() {
         <h2 className="text-md font-bold dark:text-white">
           Tu enlace de referidos
         </h2>
+
+        <p className="mt-2 text-sm dark:text-difuminate-text-dark text-difuminate-text-light">
+          Comparte este enlace con tus amigos y familiares para que puedan hacer
+          trading de forma más eficiente y con mayor privacidad.
+        </p>
+        <p
+          onClick={() =>
+            showNotification("Error al copiar al portapapeles.", "error")
+          }
+          className="mt-4 flex items-center justify-between text-sm dark:bg-alt-dark-primary-color/30 hover:dark:bg-alt-dark-primary-color/20 px-4 py-2 rounded-full cursor-pointer dark:text-difuminate-text-dark"
+        >
+          https://tu-enlace-de-referidos.com
+          <span className="block dark:text-white">
+            <GlobalIcons.ClipboardIcon className="size-6" />
+          </span>
+        </p>
       </article>
 
       <article className="md:row-start-4 md:row-span-2">
         <h2 className="text-md font-bold dark:text-white">
-          Conviértete en Afiliado
+          Rendimiento de tus ventas anuales
         </h2>
+
+        <div className="w-full h-full flex items-center justify-between gap-4">
+          <ChartContainer
+            config={chartConfig}
+            className="w-full mx-auto aspect-square max-h-[150px]"
+          >
+            <RadarChart data={chartData}>
+              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+              <PolarAngleAxis dataKey="month" />
+              <PolarGrid />
+              <Radar
+                dataKey="desktop"
+                fill="var(--color-desktop)"
+                fillOpacity={0.6}
+              />
+            </RadarChart>
+          </ChartContainer>
+
+          <div className="w-[80%]">
+            <p className="flex items-center gap-2 dark:text-difuminate-text-dark text-difuminate-text-light">
+              <GlobalIcons.TrendingArrowIcon className="size-8 dark:bg-positive-dark-green/30 p-1 rounded-md text-positive-light-green dark:text-positive-dark-green" />
+              Ventas un 5.2% positivas este mes
+            </p>
+            <p className="text-xs dark:text-difuminate-text-dark text-difuminate-text-light flex items-center gap-2 mt-2">
+              <GlobalIcons.ClockIcon className="size-5 rounded-md dark:text-difuminate-text-dark text-difuminate-text-light" />
+              Junio - Julio 2025
+            </p>
+          </div>
+        </div>
       </article>
     </section>
   );

@@ -78,7 +78,7 @@ export default function NotificationProvider({ children }) {
               )}`}
             >
               <div className="flex justify-start items-center">
-                <span className="block mr-1 text-sm font-bold">
+                <span className="block mr-4 text-sm font-bold">
                   {Scripts.capitalizeWords(notification.type)}:
                 </span>
                 {notification.text}

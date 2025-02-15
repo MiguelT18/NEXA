@@ -49,8 +49,10 @@ import MoreIcon from "./lib/global/more";
 import FilterIcon from "./lib/global/filter";
 import CameraIcon from "./lib/global/camera";
 import EditIcon from "./lib/global/edit";
+import ClipboardIcon from "./lib/global/clipboard";
 
 const GlobalIcons = {
+  ClipboardIcon,
   EditIcon,
   CameraIcon,
   FilterIcon,

@@ -28,7 +28,7 @@ background: linear-gradient(0deg, rgba(20, 20, 20) 0%, rgb(9, 19, 26) 100%);
 }
 
 p {
-  line-height: 180%;
+  line-height: 165%;
 }
 
 input[type="search"]::-webkit-search-cancel-button {
