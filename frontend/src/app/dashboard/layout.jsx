@@ -109,19 +109,23 @@ export default function DashboardPage({ children }) {
       <SideMenu setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen}>
         <header className="flex-grow">
           <div
-            className={`${!isMenuOpen ? "hidden" : "block"} bg-secondary-color/5 backdrop-blur-sm rounded-xl mb-5`}
+            className={`${!isMenuOpen ? "hidden" : "block"} bg-alt-light-blue/50 dark:bg-alt-dark-blue backdrop-blur-sm rounded-xl mb-5`}
           >
             <div className={`h-2 w-full rounded-t-[inherit] bg-gradient-pro`} />
 
             <div className="flex justify-between items-center p-4">
               <div className="space-y-1 text-nowrap [&>h3]:block [&>span]:block">
-                <h3 className="font-bold text-sm">Plan Actual</h3>
-                <span className="text-difuminate-text-dark">Trader Pro</span>
+                <h3 className="font-bold text-sm text-black dark:text-white">
+                  Plan Actual
+                </h3>
+                <span className="text-difuminate-text-light dark:text-difuminate-text-dark">
+                  Trader Pro
+                </span>
               </div>
 
               <Link
                 href="/plans"
-                className="block dark:bg-alt-dark-primary-color/30 p-2 rounded-md transition-all hover:dark:bg-alt-dark-primary-color/50 dark:text-white/50 hover:dark:text-white/80"
+                className="block bg-alt-light-primary-color dark:bg-alt-dark-primary-color/80 p-2 rounded-md transition-all hover:bg-alt-light-primary-color/50 hover:dark:bg-alt-dark-primary-color/50 text-black/50 dark:text-white/50 hover:text-black hover:dark:text-white/80"
               >
                 <GlobalIcons.InfoIcon className="size-full" />
               </Link>
@@ -133,7 +137,7 @@ export default function DashboardPage({ children }) {
               <li
                 key={index}
                 onClick={() => router.push(`${item.href}`)}
-                className={`hover:bg-light-gray/15 hover:dark:bg-alt-dark-primary-color/50 ${pathname === item.href ? "bg-light-gray/15 dark:bg-alt-dark-primary-color/50" : ""}`}
+                className={`text-black dark:text-white hover:bg-alt-light-primary-color/50 hover:dark:bg-alt-dark-primary-color/50 ${pathname === item.href ? "bg-alt-light-primary-color/50 dark:bg-alt-dark-primary-color/50" : ""}`}
               >
                 <div>{item.icon}</div>
                 <span
@@ -151,20 +155,20 @@ export default function DashboardPage({ children }) {
             <button
               onClick={toggleTheme}
               type="button"
-              className="hover:bg-light-gray/15 hover:dark:bg-alt-dark-primary-color/50 text-sm text-nowrap p-3 rounded-md transition-all flex items-center gap-2"
+              className="hover:bg-alt-light-primary-color/50 hover:dark:bg-alt-dark-primary-color/50 text-sm text-nowrap p-3 rounded-md transition-all flex items-center gap-2"
             >
               {theme === "dark" ? (
-                <GlobalIcons.SunRisingIcon className="size-5 block text-white" />
+                <GlobalIcons.SunRisingIcon className="size-5 block text-black dark:text-white" />
               ) : (
-                <GlobalIcons.MoonRisingIcon className="size-5 block text-white" />
+                <GlobalIcons.MoonRisingIcon className="size-5 block text-black dark:text-white" />
               )}
-              <span className="block size-fit mt-0.5 text-sm font-sans">
+              <span className="block size-fit mt-0.5 text-sm font-sans text-black dark:text-white">
                 Cambiar {theme === "dark" ? "Claro" : "Oscuro"}
               </span>
             </button>
             <Link
               href="/"
-              className="hover:bg-light-gray/15 hover:dark:bg-alt-dark-primary-color/50 text-sm text-nowrap p-3 rounded-md transition-all flex items-center gap-2"
+              className="hover:bg-alt-light-primary-color/50 hover:dark:bg-alt-dark-primary-color/50 text-black dark:text-white text-sm text-nowrap p-3 rounded-md transition-all flex items-center gap-2"
             >
               <GlobalIcons.HomeIcon className="size-5 block" />
               <span className="block size-fit mt-0.5 text-sm font-sans">
@@ -178,16 +182,18 @@ export default function DashboardPage({ children }) {
           <article className="flex items-center gap-2">
             <Link
               href="/dashboard"
-              className="size-fit p-2 rounded-full bg-alt-dark-primary-border/30"
+              className="size-fit p-2 rounded-full bg-alt-light-primary-color dark:bg-alt-dark-primary-border/30"
             >
               <GlobalIcons.UserIcon className="size-6 dark:text-white" />
             </Link>
 
             <div>
-              <h2 className="text-sm">Miguel Terán</h2>
+              <h2 className="text-sm text-black dark:text-white">
+                Miguel Terán
+              </h2>
               <span
                 onClick={() => navigator.clipboard.writeText(data.email)}
-                className="text-difuminate-text-dark text-xs"
+                className="text-difuminate-text-light dark:text-difuminate-text-dark text-xs"
               >
                 {data.email}
               </span>
@@ -202,19 +208,19 @@ export default function DashboardPage({ children }) {
             spellCheck="false"
             type="search"
             placeholder="Buscar"
-            className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-full dark:text-white outline-none"
+            className="w-full bg-alt-light-primary-color/20 py-2 px-4 dark:bg-alt-dark-primary-color/20 rounded-full text-black dark:text-white outline-none"
           />
           <GlobalIcons.SearchIcon className="text-difuminate-text-light dark:text-difuminate-text-dark absolute right-4 top-1/2 -translate-y-1/2" />
         </div>
 
         <div className="w-fit flex items-center gap-4 max-md:flex-row-reverse">
-          <h4 className="font-bold font-sans text-md dark:text-white block">
+          <h4 className="font-bold font-sans text-md text-black dark:text-white block">
             Hola Miguel!
           </h4>
 
           <div onClick={toggleNavMenu} className="relative cursor-pointer">
-            <div className="p-2 rounded-full bg-alt-dark-primary-color/25">
-              <GlobalIcons.UserIcon className="size-fit dark:text-white" />
+            <div className="p-2 rounded-full bg-alt-light-primary-color dark:bg-alt-dark-primary-color/25">
+              <GlobalIcons.UserIcon className="size-fit text-white" />
             </div>
 
             <AnimatePresence>
@@ -224,7 +230,7 @@ export default function DashboardPage({ children }) {
                   animate="visible"
                   exit="hidden"
                   variants={menuVariants}
-                  className="absolute md:right-0 top-12 dark:bg-primary-color/50 backdrop-blur-sm rounded-md z-10"
+                  className="absolute md:right-0 top-12 bg-alt-light-primary-color/30 dark:bg-primary-color/50 backdrop-blur-sm rounded-md z-10"
                 >
                   {navItems.map((item, index) => (
                     <button
@@ -234,7 +240,7 @@ export default function DashboardPage({ children }) {
                         setIsNavMenuOpen(false); // Cierra el menú al seleccionar un ítem
                         router.push(`/${item.value}`);
                       }}
-                      className="hover:bg-light-gray/15 hover:dark:bg-alt-dark-primary-color/50 text-white w-full text-sm text-nowrap p-3 transition-all flex items-center gap-2 rounded-[inherit]"
+                      className="hover:bg-alt-light-primary-color/50 hover:dark:bg-alt-dark-primary-color/50 text-black dark:text-white w-full text-sm text-nowrap p-3 transition-all flex items-center gap-2 rounded-[inherit]"
                     >
                       {item.label}
                     </button>

@@ -23,10 +23,14 @@ export default {
         "negative-dark-red": "#B3261E",
         "positive-light-green": "#0FA958",
         "negative-light-red": "#E53935",
-        // alternative assets
+        // alternative dark assets
         "alt-dark-primary-color": "rgb(30, 80, 120)",
         "alt-dark-primary-border": "rgb(31, 99, 141, 0.5)",
         "alt-dark-blue": "rgb(15, 65, 100)",
+        // alternative light assets
+        "alt-light-primary-color": "rgb(160, 190, 215)",
+        "alt-light-primary-border": "rgba(185, 215, 240, 0.5)",
+        "alt-light-blue": "rgb(170, 200, 230)",
 
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -85,6 +89,10 @@ export default {
       "gradient-basic": "linear-gradient(to right, #38bdf8, #60a5fa)",
       "gradient-pro": "linear-gradient(to right, #3b82f6, #9333ea)",
       "gradient-premium": "linear-gradient(to right, #9333ea, #ef4444)",
+      "gradient-dark-bg":
+        "linear-gradient(0deg, rgba(20, 20, 20) 0%, rgb(9, 19, 26) 100%)",
+      "gradient-light-bg":
+        "linear-gradient(0deg, rgba(220, 220, 230, 1) 0%, rgb(230, 235, 240) 100%)",
       "gradient-dark-section":
         "linear-gradient(180deg,rgba(14, 14, 16, 1) 0%, rgba(29, 29, 31, 1) 100% 100%)",
       "gradient-light-section":
