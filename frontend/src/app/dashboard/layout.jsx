@@ -224,7 +224,7 @@ export default function DashboardPage({ children }) {
                   animate="visible"
                   exit="hidden"
                   variants={menuVariants}
-                  className="absolute right-0 top-12 dark:bg-primary-color/50 backdrop-blur-sm rounded-md z-10"
+                  className="absolute md:right-0 top-12 dark:bg-primary-color/50 backdrop-blur-sm rounded-md z-10"
                 >
                   {navItems.map((item, index) => (
                     <button

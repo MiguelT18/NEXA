@@ -38,8 +38,8 @@ export default function Configuration() {
   ];
 
   return (
-    <section className="size-full grid gap-5 lg:grid-cols-4 lg:grid-rows-4 [&>article]:bg-[#0c111000] [&>article]:border [&>article]:border-alt-dark-primary-border [&>article]:p-4 [&>article]:rounded-lg [&>article]:size-full [&>article]:md:overflow-y-auto [&>article]:dark:bg-alt-dark-primary-color/5 [&>article]:dark:text-white">
-      <article className="lg:row-start-1 lg:row-span-2 lg:col-start-1 lg:col-span-2">
+    <section className="size-full grid gap-5 md:grid-cols-4 md:grid-rows-4 [&>article]:bg-[#0c111000] [&>article]:border [&>article]:border-alt-dark-primary-border [&>article]:p-4 [&>article]:rounded-lg [&>article]:size-full [&>article]:md:overflow-y-auto [&>article]:dark:bg-alt-dark-primary-color/5 [&>article]:dark:text-white">
+      <article className="md:row-start-1 md:row-span-2 md:col-start-1 md:col-span-2">
         <h1 className="text-md font-semibold text-white">
           Conexión con MetaTrader5
         </h1>
@@ -54,7 +54,7 @@ export default function Configuration() {
         </p>
 
         <form className="mt-4">
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid lg:grid-cols-2 gap-4">
             <label htmlFor="brokerServer">
               Servidor del Broker
               <input
@@ -88,7 +88,7 @@ export default function Configuration() {
             </div>
           </div>
 
-          <div className="flex justify-between items-center gap-4 mt-4">
+          <div className="flex justify-between items-center max-lg:items-start max-lg:flex-col gap-4 mt-4">
             <div className="flex justify-between gap-2 w-full">
               <PrimaryButton
                 type="button"
@@ -108,7 +108,7 @@ export default function Configuration() {
               </SecondaryButton>
             </div>
 
-            <div className="text-negative-light-red dark:text-negative-dark-red flex w-[40%] items-center gap-2 text-sm">
+            <div className="text-negative-light-red dark:text-negative-dark-red flex lg:w-[40%] items-center gap-2 text-sm">
               <GlobalIcons.InfoIcon className="size-6" />
               <span>No conectado</span>
             </div>
@@ -116,7 +116,7 @@ export default function Configuration() {
         </form>
       </article>
 
-      <article className="lg:row-start-1 lg:row-span-2 lg:col-start-3 lg:col-span-2">
+      <article className="md:row-start-1 md:row-span-2 md:col-start-3 md:col-span-2">
         <h1 className="text-md font-semibold text-white">
           Seguridad de la Cuenta
         </h1>
@@ -185,7 +185,7 @@ export default function Configuration() {
         </form>
       </article>
 
-      <article className="lg:row-start-3 lg:row-span-2">
+      <article className="md:row-start-3 md:row-span-2 lg:col-span-1 md:col-span-2 md:col-start-1">
         <h1 className="text-md font-semibold text-white">Notificaciones</h1>
         <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
           Configura tus preferencias de notificaciones
@@ -220,7 +220,7 @@ export default function Configuration() {
         </div>
       </article>
 
-      <article className="lg:row-start-3 lg:row-span-2 lg:col-start-2 lg:col-span-3">
+      <article className="md:row-start-3 md:row-span-2 md:col-start-3 md:col-span-2 lg:col-span-3">
         <h1 className="text-md font-semibold text-white">
           Configuración de Nexa IA
         </h1>
@@ -228,7 +228,7 @@ export default function Configuration() {
           Personaliza cómo la IA operará en tu cuenta.
         </p>
 
-        <div className="grid grid-cols-3 gap-5 mt-4">
+        <div className="flex flex-col gap-5 mt-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-4">
               <div className="space-y-1">
@@ -257,7 +257,7 @@ export default function Configuration() {
               Configura límites para proteger tu cuenta.
             </p>
 
-            <form className="flex flex-col gap-2">
+            <form className="flex flex-col gap-2 mt-2">
               <label htmlFor="maxDailyLoss">
                 Pérdida Máxima Diaria ($)
                 <input
