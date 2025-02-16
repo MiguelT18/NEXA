@@ -38,9 +38,9 @@ export default function Configuration() {
   ];
 
   return (
-    <section className="size-full grid gap-5 md:grid-cols-4 md:grid-rows-4 [&>article]:bg-[#0c111000] [&>article]:border [&>article]:border-alt-dark-primary-border [&>article]:p-4 [&>article]:rounded-lg [&>article]:size-full [&>article]:md:overflow-y-auto [&>article]:dark:bg-alt-dark-primary-color/5 [&>article]:dark:text-white">
+    <section className="size-full grid gap-5 md:grid-cols-4 md:grid-rows-4 [&>article]:bg-[#0c111000] [&>article]:border [&>article]:border-alt-dark-primary-border [&>article]:p-4 [&>article]:rounded-lg [&>article]:size-full [&>article]:md:overflow-y-auto [&>article]:dark:bg-alt-dark-primary-color/5 [&>article]:text-black [&>article]:dark:text-white">
       <article className="md:row-start-1 md:row-span-2 md:col-start-1 md:col-span-2">
-        <h1 className="text-md font-semibold text-white">
+        <h1 className="text-md font-semibold text-black dark:text-white">
           Conexión con MetaTrader5
         </h1>
         <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark mb-2">
@@ -60,7 +60,7 @@ export default function Configuration() {
               <input
                 type="text"
                 id="brokerServer"
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </label>
 
@@ -69,7 +69,7 @@ export default function Configuration() {
               <input
                 type="text"
                 id="mt5AccountId"
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </label>
 
@@ -78,7 +78,7 @@ export default function Configuration() {
               <input
                 type="password"
                 id="brokerPassword"
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </label>
 
@@ -117,7 +117,7 @@ export default function Configuration() {
       </article>
 
       <article className="md:row-start-1 md:row-span-2 md:col-start-3 md:col-span-2">
-        <h1 className="text-md font-semibold text-white">
+        <h1 className="text-md font-semibold text-black dark:text-white">
           Seguridad de la Cuenta
         </h1>
         <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
@@ -153,7 +153,7 @@ export default function Configuration() {
               <input
                 type="password"
                 id="currentPassword"
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </label>
             <label htmlFor="currentPassword">
@@ -161,7 +161,7 @@ export default function Configuration() {
               <input
                 type="password"
                 id="currentPassword"
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </label>
             <label htmlFor="currentPassword">
@@ -169,7 +169,7 @@ export default function Configuration() {
               <input
                 type="password"
                 id="currentPassword"
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </label>
           </div>
@@ -186,7 +186,9 @@ export default function Configuration() {
       </article>
 
       <article className="md:row-start-3 md:row-span-2 lg:col-span-1 md:col-span-2 md:col-start-1">
-        <h1 className="text-md font-semibold text-white">Notificaciones</h1>
+        <h1 className="text-md font-semibold text-black dark:text-white">
+          Notificaciones
+        </h1>
         <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
           Configura tus preferencias de notificaciones
         </p>
@@ -221,7 +223,7 @@ export default function Configuration() {
       </article>
 
       <article className="md:row-start-3 md:row-span-2 md:col-start-3 md:col-span-2 lg:col-span-3">
-        <h1 className="text-md font-semibold text-white">
+        <h1 className="text-md font-semibold text-black dark:text-white">
           Configuración de Nexa IA
         </h1>
         <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
@@ -263,7 +265,7 @@ export default function Configuration() {
                 <input
                   type="text"
                   id="maxDailyLoss"
-                  className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                  className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
                 />
               </label>
 
@@ -272,7 +274,7 @@ export default function Configuration() {
                 <input
                   type="text"
                   id="maxOpenPositions"
-                  className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                  className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
                 />
               </label>
             </form>
@@ -293,7 +295,7 @@ export default function Configuration() {
               <input
                 type="date"
                 defaultValue="1990-01-01"
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 mt-1 disabled:cursor-not-allowed"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </div>
 
@@ -304,7 +306,7 @@ export default function Configuration() {
               <input
                 type="date"
                 defaultValue="1990-01-01"
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 mt-1 disabled:cursor-not-allowed"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </div>
           </div>
