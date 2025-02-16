@@ -156,19 +156,19 @@ export default function Configuration() {
                 className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </label>
-            <label htmlFor="currentPassword">
+            <label htmlFor="newPassword">
               Nueva contraseña
               <input
                 type="password"
-                id="currentPassword"
+                id="newPassword"
                 className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </label>
-            <label htmlFor="currentPassword">
+            <label htmlFor="confirmPassword">
               Confirmar nueva contraseña
               <input
                 type="password"
-                id="currentPassword"
+                id="confirmPassword"
                 className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </label>

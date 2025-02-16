@@ -56,7 +56,7 @@ export default function Help() {
                 <input
                   id="subject"
                   type="text"
-                  className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                  className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
                 />
               </label>
 
@@ -66,7 +66,7 @@ export default function Help() {
                   rows={4}
                   id="description"
                   type="text"
-                  className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1 resize-none"
+                  className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
                 />
               </label>
             </div>
