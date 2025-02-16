@@ -182,7 +182,7 @@ export default function DashboardPage({ children }) {
           <article className="flex items-center gap-2">
             <Link
               href="/dashboard"
-              className="size-fit p-2 rounded-full bg-alt-light-primary-color dark:bg-alt-dark-primary-border/30"
+              className="size-fit p-2 rounded-full bg-primary-color dark:bg-alt-dark-primary-border/30"
             >
               <GlobalIcons.UserIcon className="size-6 dark:text-white" />
             </Link>
@@ -219,7 +219,7 @@ export default function DashboardPage({ children }) {
           </h4>
 
           <div onClick={toggleNavMenu} className="relative cursor-pointer">
-            <div className="p-2 rounded-full bg-alt-light-primary-color dark:bg-alt-dark-primary-color/25">
+            <div className="p-2 rounded-full bg-primary-color dark:bg-alt-dark-primary-color/25">
               <GlobalIcons.UserIcon className="size-fit text-white" />
             </div>
 
@@ -230,7 +230,7 @@ export default function DashboardPage({ children }) {
                   animate="visible"
                   exit="hidden"
                   variants={menuVariants}
-                  className="absolute md:right-0 top-12 bg-alt-light-primary-color/30 dark:bg-primary-color/50 backdrop-blur-sm rounded-md z-10"
+                  className="absolute md:right-0 top-12 bg-primary-color/80 dark:bg-primary-color/50 backdrop-blur-sm z-10 shadow-md shadow-black/50"
                 >
                   {navItems.map((item, index) => (
                     <button
@@ -240,7 +240,7 @@ export default function DashboardPage({ children }) {
                         setIsNavMenuOpen(false); // Cierra el menú al seleccionar un ítem
                         router.push(`/${item.value}`);
                       }}
-                      className="hover:bg-alt-light-primary-color/50 hover:dark:bg-alt-dark-primary-color/50 text-black dark:text-white w-full text-sm text-nowrap p-3 transition-all flex items-center gap-2 rounded-[inherit]"
+                      className="hover:bg-primary-color hover:dark:bg-alt-dark-primary-color/50 text-white w-full text-sm text-nowrap p-3 transition-all flex items-center gap-2"
                     >
                       {item.label}
                     </button>

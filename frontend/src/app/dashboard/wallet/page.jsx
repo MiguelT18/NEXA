@@ -123,7 +123,7 @@ export default function Wallet() {
   );
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:grid-rows-8 gap-5 size-full [&>article]:bg-[#0c111000] [&>article]:border [&>article]:border-alt-dark-primary-border [&>article]:p-4 [&>article]:rounded-lg [&>article]:size-full [&>article]:md:overflow-y-auto [&>article]:dark:bg-alt-dark-primary-color/5 [&>article]:dark:text-white">
+    <section className="dark:text-white text-black grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:grid-rows-8 gap-5 size-full [&>article]:bg-[#0c111000] [&>article]:border [&>article]:border-alt-dark-primary-border [&>article]:p-4 [&>article]:rounded-lg [&>article]:size-full [&>article]:md:overflow-y-auto [&>article]:dark:bg-alt-dark-primary-color/5 [&>article]:dark:text-white">
       <article className="dark:bg-alt-dark-primary-color/20 p-5 rounded-lg border border-alt-dark-primary-border size-full relative md:row-span-3">
         {/* Encabezado */}
         <header className="flex justify-between items-center">
@@ -133,7 +133,7 @@ export default function Wallet() {
           <button
             onClick={handleHideBalance}
             type="button"
-            className="block size-fit rounded-md p-2 text-alt-dark-blue dark:bg-alt-dark-primary-color/20 hover:dark:bg-alt-dark-blue/40 transition-all cursor-pointer outline-none"
+            className="size-fit rounded-md p-2 text-alt-dark-blue dark:bg-alt-dark-primary-color/20 hover:bg-alt-light-primary-color/50 hover:dark:bg-alt-dark-blue/40 transition-all cursor-pointer outline-none"
           >
             {isBalanceHidden ? (
               <GlobalIcons.CloseEyeIcon className="size-5" />
@@ -145,7 +145,7 @@ export default function Wallet() {
 
         {/* Balance Principal */}
         <div className="mt-2">
-          <p className="text-lg font-bold font-sans text-white">
+          <p className="text-lg font-bold font-sans text-black dark:text-white">
             {isBalanceHidden ? "•••••••" : "$45,231.89 USD"}
           </p>
           <span className="text-positive-light-green dark:text-positive-dark-green text-sm">
@@ -158,13 +158,13 @@ export default function Wallet() {
         <div className="mt-2 flex justify-between text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
           <div>
             <p>En Trading</p>
-            <span className="text-white font-semibold font-sans text-md">
+            <span className="text-black dark:text-white font-semibold font-sans text-md">
               {isBalanceHidden ? "••••" : "$12,450.00"}
             </span>
           </div>
           <div>
             <p>Disponible</p>
-            <span className="text-white font-semibold font-sans text-md">
+            <span className="text-black dark:text-white font-semibold font-sans text-md">
               {isBalanceHidden ? "••••" : "$32,781.89"}
             </span>
           </div>
@@ -208,7 +208,7 @@ export default function Wallet() {
               <span className="block text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                 Mayor Depósito
               </span>
-              <span className="block text-sm font-sans font-bold text-white">
+              <span className="block text-sm font-sans font-bold text-black dark:text-white">
                 $5,000.00
               </span>
             </div>
@@ -224,7 +224,7 @@ export default function Wallet() {
               <span className="block text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                 Mayor Retiro
               </span>
-              <span className="block text-sm font-sans font-bold text-white">
+              <span className="block text-sm font-sans font-bold text-black dark:text-white">
                 $2,450.00
               </span>
             </div>
@@ -240,7 +240,7 @@ export default function Wallet() {
               <span className="block text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                 Mayor Ganancia
               </span>
-              <span className="block text-sm font-sans font-bold text-white">
+              <span className="block text-sm font-sans font-bold text-black dark:text-white">
                 $3,200.00
               </span>
             </div>
@@ -256,7 +256,7 @@ export default function Wallet() {
               <span className="block text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                 Mayor Pérdida
               </span>
-              <span className="block text-sm font-sans font-bold text-white">
+              <span className="block text-sm font-sans font-bold text-black dark:text-white">
                 $1,750.00
               </span>
             </div>
@@ -267,7 +267,7 @@ export default function Wallet() {
       <article className="md:row-start-6 md:col-span-2 md:row-span-3 lg:row-start-4 lg:col-span-4 lg:row-span-5 p-4 rounded-lg border border-alt-dark-primary-border dark:bg-alt-dark-primary-color/10">
         {/* Encabezado */}
         <header className="flex justify-between items-center pb-4 relative">
-          <h2 className="text-lg font-bold text-white">
+          <h2 className="text-lg font-bold text-black dark:text-white">
             Historial de Transacciones
           </h2>
 
@@ -275,7 +275,7 @@ export default function Wallet() {
           <button
             type="button"
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            className="p-2 rounded-md transition-all hover:bg-alt-dark-blue/30 active:scale-95"
+            className="p-2 rounded-md transition-all hover:bg-alt-light-primary-color/50 hover:dark:bg-alt-dark-blue/30 active:scale-95"
           >
             <GlobalIcons.FilterIcon className="size-6" />
           </button>
@@ -289,7 +289,7 @@ export default function Wallet() {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0, opacity: 0 }}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
-                className="absolute right-0 top-12 w-40 bg-alt-dark-primary-color/10 backdrop-blur-md border border-alt-dark-primary-border rounded-lg shadow-lg z-50"
+                className="absolute right-0 top-12 w-40  bg-primary-color/50 dark:bg-alt-dark-primary-color/10 backdrop-blur-md shadow-md shadow-black/50 z-50"
               >
                 {["Todas", "Depósito", "Retiro", "Transferencia"].map(
                   (filter) => (
@@ -300,8 +300,10 @@ export default function Wallet() {
                         setCurrentPage(1); // Reiniciar a la primera página al cambiar el filtro
                         setIsMenuOpen(false); // Cerrar el menú después de seleccionar
                       }}
-                      className={`block w-full text-left px-3 py-2 text-sm text-white hover:bg-alt-dark-blue/30 rounded-md ${
-                        selectedFilter === filter ? "bg-alt-dark-blue/50" : ""
+                      className={`block w-full text-left px-3 py-2 text-sm text-white hover:bg-primary-color/80 hover:dark:bg-alt-dark-blue/30 ${
+                        selectedFilter === filter
+                          ? "bg-primary-color text-white dark:bg-alt-dark-blue/50"
+                          : ""
                       }`}
                     >
                       {filter}
@@ -318,19 +320,19 @@ export default function Wallet() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-gray-600">
-                <th className="py-2 px-4 text-sm text-difuminate-text-dark">
+                <th className="py-2 px-4 text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                   Tipo
                 </th>
-                <th className="py-2 px-4 text-sm text-difuminate-text-dark">
+                <th className="py-2 px-4 text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                   Descripción
                 </th>
-                <th className="py-2 px-4 text-sm text-difuminate-text-dark">
+                <th className="py-2 px-4 text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                   Fecha
                 </th>
-                <th className="py-2 px-4 text-sm text-difuminate-text-dark">
+                <th className="py-2 px-4 text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                   Monto
                 </th>
-                <th className="py-2 px-4 text-sm text-difuminate-text-dark">
+                <th className="py-2 px-4 text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                   Estado
                 </th>
               </tr>
@@ -340,7 +342,7 @@ export default function Wallet() {
                 currentTransactions.map((transaction, index) => (
                   <tr
                     key={index}
-                    className="border-b border-gray-700 hover:dark:bg-alt-dark-primary-color/10 transition-all cursor-pointer"
+                    className="border-b border-gray-700 hover:bg-alt-light-primary-color/30 hover:dark:bg-alt-dark-primary-color/10 transition-all cursor-pointer"
                   >
                     <td className="py-3 px-4 flex items-center gap-2">
                       {/* Icono según tipo de transacción */}
@@ -361,15 +363,15 @@ export default function Wallet() {
                           <GlobalIcons.ArrowIcon className="size-5 text-blue-500" />
                         )}
                       </span>
-                      <span className="text-white text-sm">
+                      <span className="text-black dark:text-white text-sm">
                         {transaction.type}
                       </span>
                     </td>
 
-                    <td className="py-3 px-4 text-sm text-gray-400">
+                    <td className="py-3 px-4 text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                       {transaction.description}
                     </td>
-                    <td className="py-3 px-4 text-sm text-gray-400">
+                    <td className="py-3 px-4 text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                       {transaction.date}
                     </td>
                     <td
@@ -396,7 +398,10 @@ export default function Wallet() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" className="py-4 text-center text-gray-500">
+                  <td
+                    colSpan="5"
+                    className="py-4 text-center text-difuminate-text-light dark:text-difuminate-text-dark"
+                  >
                     No hay transacciones disponibles.
                   </td>
                 </tr>
@@ -411,7 +416,7 @@ export default function Wallet() {
             type="button"
             disabled={currentPage === 1}
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            className="p-2 rounded-md bg-alt-dark-blue/20 transition-all hover:bg-alt-dark-blue/30 active:scale-95 disabled:opacity-50"
+            className="p-2 rounded-md transition-all bg-primary-color hover:bg-primary-color/80 text-white hover:disabled:bg-primary-color hover:dark:bg-alt-dark-blue/30 dark:hover:bg-alt-dark-primary-color/80 active:scale-95 disabled:opacity-50"
           >
             <GlobalIcons.ArrowIcon className="size-4 -rotate-90" />
           </button>
@@ -423,7 +428,7 @@ export default function Wallet() {
                 onClick={() => setCurrentPage(i + 1)}
                 className={`px-3 py-1 rounded-md ${
                   currentPage === i + 1
-                    ? "bg-alt-dark-blue text-white"
+                    ? "bg-alt-light-primary-color/50 dark:bg-alt-dark-blue text-black dark:text-white"
                     : "text-alt-dark-blue"
                 }`}
               >
@@ -438,7 +443,7 @@ export default function Wallet() {
             onClick={() =>
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
-            className="p-2 rounded-md bg-alt-dark-blue/20 transition-all hover:bg-alt-dark-blue/30 active:scale-95 disabled:opacity-50"
+            className="p-2 rounded-md transition-all bg-primary-color hover:bg-primary-color/80 text-white hover:disabled:bg-primary-color hover:dark:bg-alt-dark-blue/30 dark:hover:bg-alt-dark-primary-color/80 active:scale-95 disabled:opacity-50"
           >
             <GlobalIcons.ArrowIcon className="size-4 rotate-90" />
           </button>
@@ -446,12 +451,12 @@ export default function Wallet() {
       </article>
 
       <article className="max-md:row-start-1 md:row-span-2 md:row-start-4 md:col-start-1 md:col-span-2 lg:col-start-3 lg:row-start-1 lg:row-span-3">
-        <div className="size-full grid md:grid-cols-2 lg:grid-cols-1 gap-2 [&>button]:bg-alt-dark-primary-color/20 [&>button]:flex [&>button]:items-center [&>button]:justify-center [&>button]:rounded-md [&>button]:gap-4 [&>button]:size-full [&>button]:text-sm [&>button]:font-sans [&>button]:tracking-wide [&>button]:outline-none [&>button]:max-md:p-2">
+        <div className="size-full grid md:grid-cols-2 lg:grid-cols-1 gap-2 [&>button]:bg-primary-color/90 [&>button]:text-white [&>button]:dark:bg-alt-dark-primary-color/20 [&>button]:flex [&>button]:items-center [&>button]:justify-center [&>button]:rounded-md [&>button]:gap-4 [&>button]:size-full [&>button]:text-sm [&>button]:font-sans [&>button]:tracking-wide [&>button]:outline-none [&>button]:max-md:p-2">
           <button
             onClick={() =>
               showNotification("Botón aún no implementado.", "error")
             }
-            className="transition-all hover:bg-alt-dark-primary-color/10 active:scale-95"
+            className="transition-all hover:bg-primary-color hover:dark:bg-alt-dark-primary-color/10 active:scale-95"
           >
             <GlobalIcons.DepositIcon className="size-6" />
             Depositar
@@ -460,7 +465,7 @@ export default function Wallet() {
             onClick={() =>
               showNotification("Botón aún no implementado.", "error")
             }
-            className="transition-all hover:bg-alt-dark-primary-color/10 active:scale-95"
+            className="transition-all hover:bg-primary-color hover:dark:bg-alt-dark-primary-color/10 active:scale-95"
           >
             <GlobalIcons.HandCoinIcon className="size-6" />
             Retirar
@@ -469,7 +474,7 @@ export default function Wallet() {
             onClick={() =>
               showNotification("Botón aún no implementado.", "error")
             }
-            className="transition-all hover:bg-alt-dark-primary-color/10 active:scale-95"
+            className="transition-all hover:bg-primary-color hover:dark:bg-alt-dark-primary-color/10 active:scale-95"
           >
             <GlobalIcons.TransferIcon className="size-6" />
             Transferir
@@ -478,7 +483,7 @@ export default function Wallet() {
             onClick={() =>
               showNotification("Botón aún no implementado.", "error")
             }
-            className="transition-all hover:bg-alt-dark-primary-color/10 active:scale-95"
+            className="transition-all hover:bg-primary-color hover:dark:bg-alt-dark-primary-color/10 active:scale-95"
           >
             <GlobalIcons.MoreIcon className="size-6" />
             Más...
