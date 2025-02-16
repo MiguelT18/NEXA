@@ -28,11 +28,13 @@ export default function MarketTicker() {
   }, [prices]);
 
   return (
-    <div className="flex animate-scroll gap-8 whitespace-nowrap w-full">
+    <div className="w-full flex animate-scroll gap-8 whitespace-nowrap">
       <div className="flex gap-8">
         {prices.map((market, index) => (
           <div key={index} className="flex items-center gap-2">
-            <span className="text-sm">{market.name}</span>
+            <span className="text-sm text-black dark:text-white">
+              {market.name}
+            </span>
             <span
               className={`${market.trending ? "text-green-500" : "text-red-500"} text-sm`}
             >
@@ -49,7 +51,9 @@ export default function MarketTicker() {
       <div className="flex gap-8">
         {prices.map((market, index) => (
           <div key={index} className="flex items-center gap-2">
-            <span className="text-sm">{market.name}</span>
+            <span className="text-sm text-black dark:text-white">
+              {market.name}
+            </span>
             <span
               className={market.trending ? "text-green-500" : "text-red-500"}
             >

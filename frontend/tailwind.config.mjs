@@ -81,7 +81,7 @@ export default {
     },
     fontSize: {
       xs: "clamp(12px, 2vw, 14px)",
-      sm: "clamp(14px, 3vw, 16px)",
+      sm: "clamp(16px, 3vw, 18px)",
       md: "clamp(18px, 4vw, 20px)",
       lg: "clamp(26px, 6vw, 34px)",
       xl: "clamp(32px, 8vw, 58px)",

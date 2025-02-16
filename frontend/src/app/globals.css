@@ -9,7 +9,7 @@ body {
 .text-gradient-light {
   background: linear-gradient(90deg,
         rgb(0, 0, 0) 0%,
-        rgb(77, 77, 77) 100%);
+        rgb(68, 68, 68) 100%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -23,7 +23,15 @@ body {
 }
 
 p {
-  line-height: 165%;
+line-height: 160%;
+}
+
+h1,
+h2,
+h4,
+h5,
+h6 {
+  line-height: 120%;
 }
 
 input[type="search"]::-webkit-search-cancel-button {

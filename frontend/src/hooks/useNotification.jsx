@@ -45,9 +45,9 @@ export default function NotificationProvider({ children }) {
   const getNotificationStyle = (type) => {
     switch (type) {
       case "error":
-        return "bg-red-700/65 text-white";
+        return "bg-negative-light-red/80 dark:bg-negative-dark-red/60 text-white";
       case "success":
-        return "bg-green-700/65 text-white";
+        return "bg-positive-light-green/80 dark:bg-positive-dark-green/60 text-white";
       default:
         return "dark:bg-yellow-500/30 bg-yellow-600/80 text-white";
     }
@@ -77,18 +77,18 @@ export default function NotificationProvider({ children }) {
                 notification.type
               )}`}
             >
-              <div className="flex justify-start items-center">
-                <span className="block mr-4 text-sm font-bold">
-                  {Scripts.capitalizeWords(notification.type)}:
+              <div className="w-full text-pretty flex justify-start items-center">
+                <span
+                  onClick={() => handleCloseNotification(notification.id)}
+                  className="block cursor-pointer transition-all hover:dark:bg-light-gray/30 p-2 rounded-md"
+                >
+                  <GlobalIcons.CloseIcon />
                 </span>
-                {notification.text}
+                <span className="block ml-1">
+                  {/* <strong>{Scripts.capitalizeWords(notification.type)}:</strong>{" "} */}
+                  {notification.text}
+                </span>
               </div>
-              <span
-                onClick={() => handleCloseNotification(notification.id)}
-                className="block cursor-pointer transition-all hover:dark:bg-light-gray/30 p-2 rounded-md"
-              >
-                <GlobalIcons.CloseIcon />
-              </span>
             </motion.div>
           ))}
         </AnimatePresence>

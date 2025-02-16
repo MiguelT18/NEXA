@@ -1,14 +1,13 @@
 "use client";
 
-import Image from "next/image";
-import HeroImg from "@/images/hero-image-01.jpg";
 import { GlobalIcons } from "@/components/icons";
 import Faq from "@/components/ui/pure/Faq";
 import { useTheme } from "@/hooks/useTheme";
 import MarketTicker from "@/components/ui/pure/MarketTicker";
 import Loader from "@/components/ui/pure/Loader";
 import { useNotification } from "@/hooks/useNotification";
-import { ColorizedButton, SecondaryButton } from "@/components/ui/pure/Buttons";
+import PrimaryButton from "@/components/ui/global/custom/Buttons/PrimaryButton";
+import SecondaryButton from "@/components/ui/global/custom/Buttons/SecondaryButton";
 
 const iconMap = {
   "robot-wink": GlobalIcons.RobotWinkIcon,
@@ -87,20 +86,35 @@ export default function Home() {
   };
 
   return (
-    <main className="container mx-auto px-4 max-md:pt-4 pt-14 pb-8 max-md:pb-24">
+    <main className="container mx-auto px-4 max-md:pt-4 pt-14 pb-8 max-md:pb-24 relative">
+      <div className="absolute size-[700px] aspect-square bg-gradient-premium dark:bg-gradient-basic opacity-10 blur-3xl -top-96 -left-96 z-0 rounded-full" />
+      <div className="absolute size-[700px] aspect-square bg-gradient-pro dark:bg-gradient-pro opacity-10 blur-3xl top-[20%] -right-[40%] z-0 rounded-full" />
+
       <section className="flex items-center max-md:flex-col gap-4 lg:gap-10 max-md:mb-8 mb-20">
-        <div className="max-md:text-center w-full md:w-[90%] md:mx-auto">
+        <div className="max-md:text-center min-h-[70dvh] w-full md:max-w-[85%] md:mx-auto grid place-content-center pb-32">
           <h1
-            className={`font-black font-sans text-center text-xl mb-2 ${
+            className={`font-black font-sans text-center text-xl mb-14 ${
               theme === "light" ? "text-gradient-light" : "text-gradient-dark"
             }`}
           >
             Comercia Globalmente con Análisis Impulsado por IA
           </h1>
-          <p className="dark:text-difuminate-text-dark text-difuminate-text-light text-sm text-center">
-            Experimenta el futuro del trading en mercados sintéticos con nuestra
-            avanzada plataforma de bots de IA.
+          <p className="mx-auto dark:text-difuminate-text-dark text-difuminate-text-light text-sm text-center text-balance">
+            Nuestra plataforma impulsada por{" "}
+            <strong>IA (Inteligencia Artifical)</strong> proporciona capacidades
+            avanzadas de trading con análisis de{" "}
+            <strong>mercados sintéticos en tiempo real</strong> y estrategias de
+            ejecución automatizadas en <strong>todo el mundo.</strong>
           </p>
+
+          <div className="mt-14 mb-6 mx-auto h-max max-w-[50%] max-lg:max-w-[80%] border-alt-dark-primary-border border p-2 rounded-md overflow-x-hidden">
+            <MarketTicker />
+          </div>
+
+          <div className="lg:w-[50%] w-full mx-auto flex justify-center gap-4">
+            <PrimaryButton>¡Operar ya!</PrimaryButton>
+            <SecondaryButton>Conocer más...</SecondaryButton>
+          </div>
         </div>
       </section>
 

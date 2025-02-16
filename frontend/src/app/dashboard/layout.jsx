@@ -61,7 +61,7 @@ const navItems = [
     label: "Volver al inicio",
   },
   {
-    value: "/logout",
+    value: "#",
     label: "Cerrar sesión",
   },
 ];
@@ -230,20 +230,24 @@ export default function DashboardPage({ children }) {
                   animate="visible"
                   exit="hidden"
                   variants={menuVariants}
+                  onAnimationComplete={(definition) => {
+                    if (definition === "hidden") {
+                      setIsNavMenuOpen(false);
+                    }
+                  }}
                   className="absolute md:right-0 top-12 bg-primary-color/80 dark:bg-primary-color/50 backdrop-blur-sm z-10 shadow-md shadow-black/50"
                 >
                   {navItems.map((item, index) => (
-                    <button
+                    <Link
+                      href={`${item.value}`}
                       key={index}
-                      type="button"
                       onClick={() => {
-                        setIsNavMenuOpen(false); // Cierra el menú al seleccionar un ítem
-                        router.push(`/${item.value}`);
+                        setIsNavMenuOpen(false);
                       }}
-                      className="hover:bg-primary-color hover:dark:bg-alt-dark-primary-color/50 text-white w-full text-sm text-nowrap p-3 transition-all flex items-center gap-2"
+                      className="hover:bg-primary-color hover:dark:bg-alt-dark-primary-color/50 text-white size-full text-sm text-nowrap p-2 transition-all flex items-center gap-2"
                     >
                       {item.label}
-                    </button>
+                    </Link>
                   ))}
                 </motion.div>
               )}
