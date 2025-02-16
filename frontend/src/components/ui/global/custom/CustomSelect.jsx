@@ -43,7 +43,7 @@ export default function CustomSelect({
     }
   };
 
-  const selectClasses = `w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none relative mt-1 flex justify-between items-center ${disabled ? "cursor-not-allowed dark:text-white/50" : "cursor-pointer"}`;
+  const selectClasses = `w-full py-2 px-4 bg-alt-light-primary-color/20 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none relative mt-1 flex justify-between items-center ${disabled ? "cursor-not-allowed bg-alt-light-primary-color/10 text-black/50 dark:text-white/50" : "cursor-pointer"}`;
 
   return (
     <div
@@ -65,12 +65,12 @@ export default function CustomSelect({
             animate={{ opacity: 1, translateY: 0 }}
             exit={{ opacity: 0, translateY: -20 }}
             transition={{ duration: 0.2 }}
-            className="w-full absolute left-0 top-10 bg-white dark:bg-alt-dark-primary-color/20 shadow-lg mt-1 z-10"
+            className="w-full absolute left-0 top-10 bg-primary-color/30 dark:bg-alt-dark-primary-color/20 shadow-lg mt-1 z-10"
           >
             {options.map((option) => (
               <div
                 key={option.value}
-                className={`w-full p-2 transition-all hover:bg-gray-100 dark:hover:bg-alt-dark-primary-color/50 backdrop-blur-md cursor-pointer ${option.value === selectedOption.value ? "bg-alt-dark-primary-color/80 text-white" : "bg-transparent"}`}
+                className={`w-full p-2 transition-all hover:bg-primary-color/80 text-white dark:hover:bg-alt-dark-primary-color/90 backdrop-blur-md cursor-pointer ${option.value === selectedOption.value ? "bg-alt-dark-primary-color/80 text-white" : ""}`}
                 onClick={(e) => handleSelectOption(option, e)}
               >
                 {option.label}

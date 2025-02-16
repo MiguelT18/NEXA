@@ -49,7 +49,7 @@ export default function NotificationProvider({ children }) {
       case "success":
         return "bg-green-700/65 text-white";
       default:
-        return "dark:bg-yellow-500/30 bg-yellow-500/50 text-white";
+        return "dark:bg-yellow-500/30 bg-yellow-600/80 text-white";
     }
   };
 

@@ -12,6 +12,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useTheme } from "@/hooks/useTheme";
 
 const countries = [
   {
@@ -48,6 +49,7 @@ const chartConfig = {
 };
 
 export default function UserProfile() {
+  const { theme } = useTheme();
   const { showNotification } = useNotification();
   const [selectedCountry, setSelectedCountry] = useState(countries[0] || null);
   const [cities, setCities] = useState(countries[0]?.cities || []);
@@ -61,7 +63,7 @@ export default function UserProfile() {
   };
 
   return (
-    <section className="size-full grid gap-5 grid-cols-1 md:grid-cols-2 md:grid-rows-4 [&>article]:bg-[#0c111000] [&>article]:border [&>article]:border-alt-dark-primary-border [&>article]:p-4 [&>article]:rounded-lg [&>article]:size-full [&>article]:md:overflow-y-auto [&>article]:dark:bg-alt-dark-primary-color/5 [&>article]:dark:text-white">
+    <section className="size-full grid gap-5 grid-cols-1 md:grid-cols-2 md:grid-rows-4 [&>article]:bg-[#0c111000] [&>article]:border [&>article]:border-alt-dark-primary-border [&>article]:p-4 [&>article]:rounded-lg [&>article]:size-full [&>article]:md:overflow-y-auto [&>article]:dark:bg-alt-dark-primary-color/5 [&>article]:dark:text-white [&>article]:text-black">
       <article className="md:row-start-1 md:row-span-3">
         {/* 📌 Imagen de Perfil con Overlay en Hover */}
         <div
@@ -71,8 +73,8 @@ export default function UserProfile() {
           }
         >
           {/* 📌 Imagen de perfil */}
-          <div className="w-24 h-24 rounded-full bg-gray-700 flex items-center justify-center overflow-hidden">
-            <GlobalIcons.UserIcon className="size-12 text-gray-500" />
+          <div className="w-24 h-24 rounded-full bg-primary-color dark:bg-alt-dark-primary-border/30 flex items-center justify-center overflow-hidden">
+            <GlobalIcons.UserIcon className="size-12 text-white" />
           </div>
 
           {/* 🔥 Overlay con ícono de edición (Aparece en hover) */}
@@ -88,7 +90,9 @@ export default function UserProfile() {
 
         {/* 📌 Información del Usuario */}
         <div className="text-center mb-4">
-          <h2 className="text-lg font-semibold text-white">Miguel Terán</h2>
+          <h2 className="text-lg font-semibold text-black dark:text-white">
+            Miguel Terán
+          </h2>
           <p className="text-md text-difuminate-text-light dark:text-difuminate-text-dark">
             @miguel.teran
           </p>
@@ -98,39 +102,49 @@ export default function UserProfile() {
         <div className="grid grid-cols-2 gap-4 text-sm text-difuminate-text-light dark:text-difuminate-text-dark border-t border-gray-600 pt-4">
           <div className="truncate">
             <p className="text-sm">Email</p>
-            <span className="text-sm font-medium text-white">
+            <span className="text-sm font-medium text-black dark:text-white">
               miguel.teran@example.com
             </span>
           </div>
           <div>
             <p className="text-sm">Teléfono</p>
-            <span className="text-sm font-medium text-white">1234567890</span>
+            <span className="text-sm font-medium text-black dark:text-white">
+              1234567890
+            </span>
           </div>
           <div>
             <p className="text-sm">Dirección</p>
-            <span className="text-sm font-medium text-white">
+            <span className="text-sm font-medium text-black dark:text-white">
               Calle Principal 123
             </span>
           </div>
           <div>
             <p className="text-sm">País</p>
-            <span className="text-sm font-medium text-white">Bolivia</span>
+            <span className="text-sm font-medium text-black dark:text-white">
+              Bolivia
+            </span>
           </div>
           <div>
             <p className="text-sm">Ciudad</p>
-            <span className="text-sm font-medium text-white">Tarija</span>
+            <span className="text-sm font-medium text-black dark:text-white">
+              Tarija
+            </span>
           </div>
           <div>
             <p className="text-sm">Fecha de Nacimiento</p>
-            <span className="text-sm font-medium text-white">04/02/2001</span>
+            <span className="text-sm font-medium text-black dark:text-white">
+              04/02/2001
+            </span>
           </div>
         </div>
 
         {/* 📌 Plan Actual */}
         <div className="border-t border-gray-600 pt-4 mt-4">
-          <p className="text-sm font-bold text-white">Plan Actual</p>
+          <p className="text-sm font-bold text-black dark:text-white">
+            Plan Actual
+          </p>
           <div className="flex justify-between items-center mt-2">
-            <span className="text-sm bg-gradient-pro px-4 py-1 rounded-full">
+            <span className="text-white text-sm bg-gradient-pro px-4 py-1 rounded-full">
               Trader Pro
             </span>
             <span className="px-2 py-1 text-xs font-medium bg-green-500/10 text-green-500 rounded-md">
@@ -148,7 +162,9 @@ export default function UserProfile() {
           {/* 📌 Encabezado */}
           <header className="flex justify-between items-center mb-4">
             <div>
-              <h1 className="text-md font-bold text-white">Editar Perfil</h1>
+              <h1 className="text-md font-bold text-black dark:text-white">
+                Editar Perfil
+              </h1>
               <p className="text-sm text-difuminate-text-light dark:text-difuminate-text-dark">
                 Actualiza tu información personal
               </p>
@@ -156,7 +172,7 @@ export default function UserProfile() {
             <button
               onClick={toggleEdit}
               type="button"
-              className={`p-2 rounded-md transition-all ${isEditing ? "bg-negative-light-red hover:bg-negative-light-red/80 dark:bg-negative-dark-red hover:dark:bg-negative-dark-red/80" : "hover:bg-alt-dark-blue/30 active:scale-95"}`}
+              className={`p-2 rounded-md transition-all ${isEditing ? "bg-negative-light-red hover:bg-negative-light-red/80 dark:bg-negative-dark-red hover:dark:bg-negative-dark-red/80" : "hover:bg-primary-color/80 hover:dark:bg-alt-dark-blue bg-primary-color active:scale-95"}`}
             >
               <GlobalIcons.EditIcon className="size-6 text-white" />
             </button>
@@ -173,7 +189,7 @@ export default function UserProfile() {
                 type="text"
                 defaultValue="Miguel Terán"
                 disabled={!isEditing}
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </div>
 
@@ -186,7 +202,7 @@ export default function UserProfile() {
                 type="text"
                 defaultValue="miguel.teran"
                 disabled={!isEditing}
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </div>
 
@@ -199,7 +215,7 @@ export default function UserProfile() {
                 type="email"
                 defaultValue="miguel.teran@example.com"
                 disabled={!isEditing}
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </div>
 
@@ -212,7 +228,7 @@ export default function UserProfile() {
                 type="tel"
                 defaultValue="+1234567890"
                 disabled={!isEditing}
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </div>
 
@@ -225,7 +241,7 @@ export default function UserProfile() {
                 type="text"
                 defaultValue="Calle Principal 123"
                 disabled={!isEditing}
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 mt-1 disabled:cursor-not-allowed"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </div>
 
@@ -264,7 +280,7 @@ export default function UserProfile() {
                 type="date"
                 defaultValue="1990-01-01"
                 disabled={!isEditing}
-                className="w-full bg-transparent py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:dark:text-white/50 mt-1 disabled:cursor-not-allowed"
+                className="w-full bg-alt-light-primary-color/20 disabled:bg-alt-light-primary-color/10 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-md dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 disabled:cursor-not-allowed mt-1"
               />
             </div>
           </form>
@@ -312,7 +328,7 @@ export default function UserProfile() {
           onClick={() =>
             showNotification("Error al copiar al portapapeles.", "error")
           }
-          className="mt-4 flex items-center justify-between text-sm dark:bg-alt-dark-primary-color/30 hover:dark:bg-alt-dark-primary-color/20 px-4 py-2 rounded-full cursor-pointer dark:text-difuminate-text-dark"
+          className="w-full bg-alt-light-primary-color/20 py-2 px-4 dark:bg-alt-dark-primary-color/10 rounded-full dark:text-white outline-none disabled:text-black/50 disabled:dark:text-white/50 cursor-not-allowed flex justify-between items-center gap-2 mt-4"
         >
           https://tu-enlace-de-referidos.com
           <span className="block dark:text-white">
@@ -334,7 +350,7 @@ export default function UserProfile() {
             <RadarChart data={chartData}>
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
               <PolarAngleAxis dataKey="month" />
-              <PolarGrid />
+              <PolarGrid stroke={theme === "dark" ? "#2d2d33" : "#bcbcc3"} />
               <Radar
                 dataKey="desktop"
                 fill="var(--color-desktop)"
@@ -345,7 +361,7 @@ export default function UserProfile() {
 
           <div className="w-[80%]">
             <p className="flex items-center gap-2 dark:text-difuminate-text-dark text-difuminate-text-light">
-              <GlobalIcons.TrendingArrowIcon className="size-8 dark:bg-positive-dark-green/30 p-1 rounded-md text-positive-light-green dark:text-positive-dark-green" />
+              <GlobalIcons.TrendingArrowIcon className="size-8 bg-positive-light-green/30 dark:bg-positive-dark-green/30 p-1 rounded-md text-positive-light-green dark:text-positive-dark-green" />
               Ventas un 5.2% positivas este mes
             </p>
             <p className="text-xs dark:text-difuminate-text-dark text-difuminate-text-light flex items-center gap-2 mt-2">
