@@ -84,6 +84,7 @@ export default {
       sm: "clamp(14px, 3vw, 16px)",
       md: "clamp(18px, 4vw, 20px)",
       lg: "clamp(26px, 6vw, 34px)",
+      xl: "clamp(32px, 8vw, 58px)",
     },
     backgroundImage: {
       "gradient-basic": "linear-gradient(to right, #38bdf8, #60a5fa)",

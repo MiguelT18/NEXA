@@ -7,21 +7,17 @@ body {
 }
 
 .text-gradient-light {
-  background: linear-gradient(
-    30deg,
-    rgb(12, 87, 39) 0%,
-      rgb(121, 210, 171) 100%
-  );
+  background: linear-gradient(90deg,
+        rgb(0, 0, 0) 0%,
+        rgb(77, 77, 77) 100%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-dark {
-  background: linear-gradient(
-    30deg,
-    rgba(32, 98, 142, 1) 10%,
-    rgba(255, 255, 255, 1) 100%
-  );
+  background: linear-gradient(90deg,
+        rgb(255, 255, 255) 0%,
+        rgb(131, 131, 131) 100%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }

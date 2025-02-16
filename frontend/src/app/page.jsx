@@ -89,50 +89,18 @@ export default function Home() {
   return (
     <main className="container mx-auto px-4 max-md:pt-4 pt-14 pb-8 max-md:pb-24">
       <section className="flex items-center max-md:flex-col gap-4 lg:gap-10 max-md:mb-8 mb-20">
-        <div className="max-md:text-center w-full md:w-1/2">
+        <div className="max-md:text-center w-full md:w-[90%] md:mx-auto">
           <h1
-            className={`font-bold font-sans text-lg mb-2 ${
+            className={`font-black font-sans text-center text-xl mb-2 ${
               theme === "light" ? "text-gradient-light" : "text-gradient-dark"
             }`}
           >
             Comercia Globalmente con Análisis Impulsado por IA
           </h1>
-          <p className="dark:text-difuminate-text-dark text-difuminate-text-light text-sm">
+          <p className="dark:text-difuminate-text-dark text-difuminate-text-light text-sm text-center">
             Experimenta el futuro del trading en mercados sintéticos con nuestra
             avanzada plataforma de bots de IA.
           </p>
-
-          <div className="flex max-md:justify-center gap-4 my-4">
-            <ColorizedButton href="/market">Comenzar a Operar</ColorizedButton>
-            <SecondaryButton onClick={handleClick} type="button">
-              Saber más
-            </SecondaryButton>
-          </div>
-
-          <div className="pt-4">
-            <h2 className="text-md font-bold font-sans mb-2">
-              Visión General del Mercado Global
-            </h2>
-            <p className="dark:text-difuminate-text-dark text-difuminate-text-light text-sm">
-              Sigue los movimientos del mercado sintético en tiempo real a
-              través del globo y ejecuta operaciones con precisión.
-            </p>
-
-            <div className="lg:max-w-[80%] border-dark-gray/25 dark:border-light-gray border p-2 rounded-md overflow-x-hidden mt-4">
-              <MarketTicker />
-            </div>
-          </div>
-        </div>
-
-        <div className="w-full md:1/2">
-          <Image
-            src={HeroImg}
-            alt="Hero Image"
-            width={"auto"}
-            height={"auto"}
-            priority
-            className="w-full h-auto object-cover md:object-contain rounded-3xl"
-          />
         </div>
       </section>
 
